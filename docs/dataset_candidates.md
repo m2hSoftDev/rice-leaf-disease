@@ -1,8 +1,10 @@
 # Rice Leaf Disease Dataset Candidates & Analysis (T-015a)
 
-> **Status:** UNVERIFIED (Awaiting User Review & Approval - No datasets downloaded)  
+> **Status:** COMPLETED & APPROVED (Decisions D-14, D-15, D-16 adopted)  
 > **Date:** 2026-11-02 / 2026-11-03  
-> **Task:** T-015a - Search Kaggle and Mendeley for rice leaf disease datasets.
+> **Task:** T-015a - Search Kaggle and Mendeley for rice leaf disease datasets.  
+> **Final Decision:** Hasan et al. (CC BY 4.0) chosen as single source for v1 (D-15); 4 classes per D-14.
+
 
 ---
 
@@ -83,20 +85,25 @@
 ---
 
 ### Candidate 3: Rice Leaf Diseases Dataset
-- **Hosting Platform:** Kaggle (`vbookshelf/rice-leaf-diseases`) & UCI Machine Learning Repository
+- **Hosting Platform:** Kaggle (`vbookshelf/rice-leaf-diseases`) & UCI Machine Learning Repository (ID 486)
 - **URL (Kaggle):** [https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases](https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases)
-- **URL (UCI):** [https://archive.ics.uci.edu/dataset/547/rice+leaf+diseases](https://archive.ics.uci.edu/dataset/547/rice+leaf+diseases)
-- **Authors:** S. Ramesh & D. Vydeki (2020)
+- **URL (UCI):** [https://archive.ics.uci.edu/dataset/486/rice+leaf+diseases](https://archive.ics.uci.edu/dataset/486/rice+leaf+diseases) (DOI: 10.24432/C5R013)
+- **Authors:** Original dataset creators: Jitesh Shah, Harshadkumar Prajapati, Vipul Dabhi (2017); cited and evaluated by S. Ramesh & D. Vydeki (2020).
 - **Exact Source Folder / Category Names:**
   - `Bacterial leaf blight` (40 images)
   - `Brown spot` (40 images)
   - `Leaf smut` (40 images)
 - **Total Images:** Exactly 120 images (40 per class).
 - **Target Match:** 3 of 5 classes (`Bacterial leaf blight`, `Brown spot`, `Leaf smut`). Missing: `Leaf Blast`, `Healthy`.
-- **Exact Quoted License:**
-  > *"License: CC0: Public Domain"* (Kaggle) / *"Creative Commons Attribution 4.0 International"* (UCI).
-- **License Flags:** Public Domain / CC BY 4.0. No SA or NC clauses. Fully permissive.
-- **Field-Level Splitting:** Images collected from a single rice field in Shertha, Gujarat, India. No sub-plot metadata.
+- **Exact Quoted License from Sources:**
+  - **UCI Machine Learning Repository (Primary Source, ID 486):**
+    > *"This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license. This allows for the sharing and adaptation of the datasets for any purpose, provided that the appropriate credit is given."*
+  - **Kaggle Mirror (`vbookshelf/rice-leaf-diseases`):**
+    > `"license":{"@type":"CreativeWork","name":"Unknown","url":""}` (displayed in Kaggle dataset metadata as `"License: Unknown"`).
+- **Selected Download Source & License Resolution:**
+  - If downloaded, the dataset must be fetched from the **UCI Machine Learning Repository** (primary authoritative source, `https://archive.ics.uci.edu/static/public/486/rice+leaf+diseases.zip`) under **CC BY 4.0**. The Kaggle mirror is rejected due to its ambiguous `"Unknown"` license tag.
+  - *Status remains UNVERIFIED pending user direction.*
+- **Field-Level Splitting:** Captured in a single field in Shertha, Gujarat, India with a white cardboard background in sunlight. No plot/session IDs.
 
 ---
 
@@ -138,47 +145,104 @@
 
 ---
 
-## 3. Candidate Comparison Matrix
+## 3. Candidate Comparison Matrix & Final Decision
 
-| Candidate | Host | Exact Classes Matching Project | Verified Matching Images | Non-Target / Missing Classes | Quoted License | License Risk Flags | Field-Level Split Possible? |
+| Candidate | Host | Exact Classes Matching Project | Verified Matching Images | Non-Target / Missing Classes | Quoted License | License Risk Flags | Final Status in v1 |
 |---|---|---|---|---|---|---|---|
-| **1. Hasan et al.** | Mendeley | `Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy Rice Leaf` | ~840 originals (UNVERIFIED exact per-class) | Missing: `Leaf Smut`<br>Extra: `Leaf Scald`, `Narrow Brown Leaf Spot`, `Rice Hispa`, `Sheath Blight` (~861) | CC BY 4.0 | None (Permissive) | ❌ No per-image farm ID |
-| **2. Sethy et al.** | Mendeley | `Bacterial blight`, `Brown spot`, `Blast` | 4,624 | Missing: `Leaf Smut`, `Healthy`<br>Extra: `Tungro` (1,308) | CC BY 4.0 | None (Permissive) | ❌ No |
-| **3. Ramesh & Vydeki** | UCI/Kaggle | `Bacterial leaf blight`, `Brown spot`, `Leaf smut` | 120 (40 each) | Missing: `Leaf Blast`, `Healthy` | CC0 / CC BY 4.0 | None (Public Domain) | ❌ Single field |
-| **4. Saputra** | Kaggle | `Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy` | ~1,750 (est.) | Missing: `Leaf Smut` | **Unknown** | ⚠️ Unknown license | ❌ No |
-| **5. Anshul M** | Kaggle | `Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy Rice Leaf` | ~2,550 (est.) | Missing: `Leaf Smut` | **Unknown** | ⚠️ Unknown license | ❌ No |
+| **1. Hasan et al.** | Mendeley | `Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy Rice Leaf` | 909 target originals (1,701 total) | Missing: `Leaf Smut`<br>Extra: `Leaf Scald`, `Narrow Brown Leaf Spot`, `Rice Hispa`, `Sheath Blight` (792) | CC BY 4.0 | None (Permissive) | ✅ **SELECTED FOR v1 (D-15)** |
+| **2. Sethy et al.** | Mendeley | `Bacterial blight`, `Brown spot`, `Blast` | 4,624 | Missing: `Leaf Smut`, `Healthy` (0 images)<br>Extra: `Tungro` (1,308) | CC BY 4.0 | None (Permissive) | ❌ **NOT USED IN v1 (D-15)**<br>(May serve as future external cross-check only) |
+| **3. Prajapati / Ramesh** | UCI (ID 486) | `Bacterial leaf blight`, `Brown spot`, `Leaf smut` | 120 (40 each) | Missing: `Leaf Blast`, `Healthy` | CC BY 4.0 (UCI) / Unknown (Kaggle) | Clean via UCI | ❌ **NOT USED IN v1 (D-15)**<br>(Leaf Smut deferred to v2 per D-14) |
+| **4. Saputra** | Kaggle | `Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy` | ~1,750 (est.) | Missing: `Leaf Smut` | **Unknown** | ⚠️ Unknown license | 🚫 **EXCLUDED (D-16: Unknown License)** |
+| **5. Anshul M** | Kaggle | `Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy Rice Leaf` | ~2,550 (est.) | Missing: `Leaf Smut` | **Unknown** | ⚠️ Unknown license | 🚫 **EXCLUDED (D-16: Unknown License)** |
 
 ---
 
-## 4. `leaf_smut` Options Analysis
+## 4. In-Depth Analysis: Sethy et al. as a Second Source & Confound Risks
 
-Because `leaf_smut` is only present in Candidate 3 (Ramesh & Vydeki / UCI) with 40 images, three strategic options exist:
+### 4.1 Class Coverage & Absence of Healthy
+- **Classes Present:** `Bacterial blight` (1,584), `Blast` (1,440), `Brown spot` (1,600), `Tungro` (1,308). Total = 5,932.
+- **Crucial Limitation:** **Sethy et al. completely lacks the `Healthy` class (0 images).**
 
-### Option A: Drop `leaf_smut` (Proceed with 4 Classes)
-- **Concept:** Narrow scope to 4 classes: `bacterial_leaf_blight`, `brown_spot`, `leaf_blast`, `healthy`.
-- **Pros:**
-  - Solves data availability completely: Candidate 1 (Hasan et al., Bangladesh, CC BY 4.0) provides $\ge 200$ genuine original field images for each of these 4 classes.
-  - Exceeds the $\ge 100$ image rule without artificial minority-class upsampling.
-  - Highest statistical validity for evaluation benchmarks.
-- **Cons / Trade-offs:**
-  - Requires updating locked decision D-07 (5 classes) via a formal DECISION entry.
-  - The model will not recognize Leaf Smut (*Entyloma oryzae*).
+### 4.2 Field and Session Identifiability
+- Images in `Rice Leaf Disease Images.7z` are grouped strictly by disease name folders.
+- No tabular metadata, EXIF log, farm ID, plot ID, or collection session timestamps are provided.
+- Therefore, images are **NOT from identifiable fields or sessions**.
 
-### Option B: Keep 5 Classes and Amend the 100-Image Rule for `leaf_smut` via DECISION
-- **Concept:** Combine Candidate 1 (4 classes, $\ge 200$ images each) with Candidate 3 (Leaf Smut, 40 images). Amend the Section 6 requirement specifically for `leaf_smut` via a locked decision.
-- **Pros:**
-  - Maintains 5-class target and locked decision D-07.
-  - Does not block M1 or data pipelines.
-- **Cons / Trade-offs:**
-  - Severe class imbalance: 28 training images for Leaf Smut vs $\ge 150$ for others. Requires class weighting or heavy data augmentation.
-  - Tiny test set (only 6 held-out test images for Leaf Smut), resulting in high variance in test metrics.
+### 4.3 Source Confound Risk if Combined with Hasan
+Combining Sethy et al. with Hasan et al. introduces severe methodological confounds:
+1. **Asymmetric Class-Source Confound (The Healthy Trap):**
+   - Because Sethy has 0 healthy images, 100% of `Healthy` samples would originate from Hasan et al. (Bangladesh smartphones).
+   - In contrast, the diseased classes (`Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`) would be overwhelmingly dominated by Sethy (~1,500 images per class vs. ~210 in Hasan).
+   - A CNN trained on such pooled data risks learning source/sensor signatures (e.g. background foliage, camera ISP color rendition, lighting) as the decision boundary for "Healthy" vs. "Diseased", rather than botanical pathology.
+2. **Domain & Environmental Discrepancy:**
+   - Hasan et al.: Captured in Sirajganj and Pabna, Bangladesh on hand-held mobile devices in farm environments.
+   - Sethy et al.: Captured in Odisha, India under distinct camera hardware, angles, and regional cultivars.
+3. **Conclusion:** Sethy **cannot be naively combined with Hasan** in a pooled public training set without creating an acute source confound. Excluded from v1 per D-15.
 
-### Option C: Search Alternative Specialized Sources or Rely on Field Campaign
-- **Concept:** Search specialized archives (e.g., BRRI / IRRI databases) or rely on Bangladesh field collection (M1 / Gate 1b) to collect the remaining 60+ Leaf Smut images.
-- **Pros:**
-  - Maintains 5 classes and adheres to the $\ge 100$ image quality threshold.
-- **Cons / Trade-offs:**
-  - Potential delay: If Leaf Smut is not actively symptomatic in current seasonal field visits, Milestone M1 could stall.
-  - Gate 1a cannot be finalized until the external source is secured.
+### 4.4 Mandatory Requirements if Sethy is Used
+If Sethy is incorporated in the future (e.g., as a secondary evaluation benchmark or cross-domain test):
+1. **Manifest Source Tracking:** The split manifest (`train_split.csv`, `val_split.csv`, `test_split.csv`) must include a mandatory `source_dataset` column (`hasan` or `sethy`).
+2. **Joint Stratification:** Splitting must be stratified jointly on `(label, source_dataset)`.
+3. **Domain Shift Evaluation:** Evaluation notebooks (`04_evaluate.ipynb`) must report within-source and cross-source macro F1 separately (evaluating model on Hasan test set and Sethy test set independently) to measure domain transfer degradation.
+4. **Volume Balancing:** If used for training, Sethy disease classes must be heavily subsampled to prevent overwhelming the Bangladesh samples.
 
-*(Note: Decision pending user direction. No decision has been locked.)*
+---
+
+## 5. Adopted Decision (D-14)
+
+> **Status:** APPROVED (Adopted 2026-11-03)
+
+### Title: Amend D-07 to four classes (drop Leaf Smut for v1)
+- **Approved Amendment:** Locked decision D-07 is amended from 5 classes to 4 classes:
+  1. `bacterial_leaf_blight` (Bacterial Leaf Blight / ব্যাকটেরিয়াল পাতা ঝলসানো)
+  2. `brown_spot` (Brown Spot / বাদামি দাগ রোগ)
+  3. `leaf_blast` (Leaf Blast / পাতা ব্লাস্ট)
+  4. `healthy` (Healthy / সুস্থ পাতা)
+- **Reason:**
+  1. Section 6 of PROJECT_SCOPE.md requires each class to have at least 100 images before training to ensure statistical validity and prevent catastrophic class imbalance.
+  2. Public datasets that provide genuine Leaf Smut are limited to Candidate 3 (Prajapati et al. / UCI ID 486), which contains only 40 images total. Partitioning 40 images yields ~28 train, 6 val, and 6 test images, making held-out evaluation metrics statistically unreliable and high-variance.
+  3. Candidate 1 (Hasan et al., CC BY 4.0, Bangladesh) provides $\ge 150$ original RGB photographs for each of the 4 target classes (180 Bacterial Leaf Blight, 267 Brown Spot, 305 Leaf Blast, 157 Healthy Rice Leaf), natively satisfying the $\ge 100$ image threshold with consistent regional provenance (Bangladesh).
+- **Evidence from `docs/dataset_candidates.md`:**
+  - Hasan et al. provides 909 original images across Bacterial Blight, Brown Spot, Blast, and Healthy under a clean CC BY 4.0 license.
+  - Sethy et al. lacks Healthy and contains no Leaf Smut.
+  - Saputra and Anshul M datasets carry `"Unknown"` licenses and lack Leaf Smut.
+  - Retaining Leaf Smut via Option B forces a 7:1 class imbalance and violates the 100-image rule.
+- **What Remains Open:**
+  - `leaf_smut` (*Entyloma oryzae*) is deferred to future work (v2).
+  - Option C remains open: During field photo collection in Bangladesh (Milestone M1 / Gate 1b), if Leaf Smut is actively observed and confirmed by agricultural experts with $\ge 100$ quality images, or if institutional archives (e.g. BRRI) provide a compliant dataset, a subsequent DECISION can expand the model back to 5 classes.
+
+
+---
+
+## 6. Verification Checklist for Hasan Archive (`10.17632/hx6f852hw4.2`)
+
+To be executed immediately upon user approval of download (prior to starting T-003 or any split):
+
+- [ ] **1. Archive Integrity and Structure**
+  - Download `Rice Leaf Bacterial and Fungal Disease Dataset` archive from Mendeley Data DOI `10.17632/hx6f852hw4.2`.
+  - Record downloaded archive file name, total size in bytes, and SHA-256 checksum in `data/metadata/licenses.md`.
+  - Extract archive into temporary staging directory `data/raw/public/hasan_staging/`.
+- [ ] **2. Per-Class Folder Counts (Original Images)**
+  - Count and log the exact number of files in each of the 8 category folders:
+    - `Bacterial Leaf Blight`
+    - `Brown Spot`
+    - `Leaf Blast`
+    - `Leaf Scald`
+    - `Narrow Brown Leaf Spot`
+    - `Rice Hispa`
+    - `Sheath Blight`
+    - `Healthy Rice Leaf`
+  - Confirm that the sum across all original folders equals exactly 1,701 images (or document any discrepancy).
+  - Verify that each of the target classes (`Bacterial Leaf Blight`, `Brown Spot`, `Leaf Blast`, `Healthy Rice Leaf`) has $\ge 100$ original images (expected $\sim 210$ each).
+- [ ] **3. Isolation of Augmented Images**
+  - Verify the storage structure of the 5,188 augmented images: confirm whether they reside in a distinct folder (e.g. `Augmented/` or `data_augmented/`) or use distinct filename prefixes (e.g., `aug_`).
+  - Quarantine/separate all 5,188 augmented images into `data/raw/public/hasan_augmented/` to guarantee they are completely excluded from original splits and cannot leak into validation or test sets.
+- [ ] **4. Metadata File Inspection**
+  - Search the archive for any manifest, table, or documentation files (`*.csv`, `*.xlsx`, `*.txt`, `*.md`).
+  - Check whether any per-image farm ID, plot ID, GPS coordinates, or capture session metadata exists.
+  - If no session ID exists, confirm that patient/plot-level deduplication via perceptual hash (T-014) is mandatory before splitting.
+- [ ] **5. Exact License Text Verification**
+  - Inspect any included `LICENSE`, `terms.txt`, or documentation in the archive.
+  - Verify that the license text confirms Creative Commons Attribution 4.0 International (CC BY 4.0) without Non-Commercial (NC) or Share-Alike (SA) clauses.
+  - Record the verified text in `data/metadata/licenses.md`.
+

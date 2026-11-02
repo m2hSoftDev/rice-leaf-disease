@@ -67,10 +67,11 @@ Priority: M = Must (MVP), S = Should, C = Could.
 | 0 | bacterial_leaf_blight | Bacterial Leaf Blight | ব্যাকটেরিয়াল পাতা ঝলসানো | Avoid excess nitrogen; drainage; consult expert |
 | 1 | brown_spot | Brown Spot | বাদামি দাগ রোগ | Balanced fertilizer; seed treatment; consult expert |
 | 2 | leaf_blast | Leaf Blast | পাতা ব্লাস্ট | Monitor humidity; resistant varieties; consult expert |
-| 3 | leaf_smut | Leaf Smut | পাতার স্মাট | Field sanitation; consult expert |
-| 4 | healthy | Healthy | সুস্থ পাতা | No action needed; keep monitoring |
+| 3 | healthy | Healthy | সুস্থ পাতা | No action needed; keep monitoring |
+| [deferred] | leaf_smut | Leaf Smut | পাতার স্মাট | Deferred to v2 (D-14) |
 
-Note: Class list is locked to what the chosen dataset supports. Confirm each folder has at least 100 images before training. Advisory text must be reviewed by an agricultural expert before release (see Section 15). Low-confidence behavior follows D-11: if top confidence < 60%, hide the advisory section and show no treatment advice.
+Note: Amended by D-14 to 4 classes for v1 (dropping leaf_smut). Class list is locked to Hasan et al. dataset (D-15). Confirm each folder has at least 100 images before training. Advisory text must be reviewed by an agricultural expert before release (see Section 15). Low-confidence behavior follows D-11: if top confidence < 60%, hide the advisory section and show no treatment advice.
+
 
 ---
 
@@ -384,13 +385,15 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 | Risk | Impact | Mitigation |
 |---|---|---|
 | Too few field images | High | Start collecting in Week 1; min 60/class; M2/M3 proceed with public data in parallel (Gate 1a); Gate 1b requires field data before M4 (D-12) |
-| Public dataset license forbids commercial use | High | Check in T-010; keep commercial plans separate |
+| Insufficient Leaf Smut data in public archives | High | Mitigated by D-14: Leaf Smut deferred to v2, focusing v1 on 4 classes with >= 100 images each from Hasan et al. (D-15) |
+| Public dataset license forbids commercial use / unknown licenses | High | Check in T-010; Candidate 1 (Hasan et al.) verified CC BY 4.0 (D-15); unknown license candidates excluded (D-16) |
 | Expert unavailable for labeling | High | Agree on labeling protocol early with Upazila Agriculture Office |
 | Data leakage (same field in train and test) | High | Split rules in 7.3; automated check in split.py |
 | Model too large for app | Medium | Quantization; MobileNetV2 alpha 0.75 as fallback |
 | Low-end phone too slow | Medium | Isolate; reduce input size only if retrained and re-evaluated |
 | Bangla rendering issues | Medium | Test on 2 real devices; use embedded font |
 | Advisory text is wrong or harmful | High | Expert review before release; visible disclaimer |
+
 
 ---
 
@@ -411,13 +414,21 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 - D-04: TensorFlow/Keras for training, TFLite for deployment.
 - D-05: MobileNetV2 is the main model.
 - D-06: Field photos are never used for training in the main experiment.
-- D-07: Five classes in Section 6.
+- D-07: Five classes in Section 6 (Amended to four classes for v1 by D-14).
 - D-08: State management is Riverpod.
 - D-09: Local storage for scan history is sqflite.
 - D-10: On-device Grad-CAM is out of scope for v1. Grad-CAM runs only in the Python evaluation notebook for test_field errors. The app shows no heatmaps in v1. Precomputed demo heatmaps are not allowed.
 - D-11: Low-confidence behavior (top confidence < 60%): show an "Uncertain" banner with the confidence score and the text "Please consult an agricultural expert." Hide the advisory section. The top class name may appear in the banner as a weak guess, but no treatment advice is shown for it.
 - D-12: Milestones M2 and M3 use public data only and may run in parallel with field collection. Replace Gate 1 with Gate 1a (public splits and dataset cards, end of M1) and Gate 1b (field photos collected and expert-labeled, required before M4).
 - D-13: The primary cross-platform entry point is `python -m scripts.reproduce_all`. Do not create a bash script. Add a PowerShell wrapper only if requested.
+- D-14: Amend D-07 to four classes for v1 (bacterial_leaf_blight, brown_spot, leaf_blast, healthy). Leaf Smut is deferred to v2 (APPROVED, 2026-11-03). Verified original counts before deduplication: Bacterial Leaf Blight 180, Brown Spot 267, Leaf Blast 305, Healthy 157. Note: Healthy (157) is the smallest class; the 100-image rule must be re-checked after T-014 deduplication.
+
+- D-15: v1 trains and evaluates on the Hasan et al. (CC BY 4.0) dataset only. Sethy et al. and Ramesh & Vydeki are not used in training or test splits for v1. Sethy may be used later as an external cross-check only, and only after a new DECISION (APPROVED, 2026-11-03).
+- D-16: Saputra and Anshul M are excluded because their licenses are Unknown (APPROVED, 2026-11-03).
+- D-17: Exclude both instances of the cross-class duplicate group_035 (Bacterial_leaf_Blight (33).jpg and Leaf_blast (289).jpg) from v1. Reason: the same image carries two conflicting labels (APPROVED, 2026-11-03).
+- D-18: Near-duplicate groups (pHash Hamming distance <= 5, computed across all target classes) are kept in full. They are not deleted. Each group is assigned to one split only, so near-copies cannot leak between train and test (APPROVED, 2026-11-03).
+
+
 
 ---
 

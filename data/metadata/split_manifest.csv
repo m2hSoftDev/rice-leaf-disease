@@ -1,0 +1,908 @@
+filename,class,group_id,split,source_dataset
+Bacterial_leaf_Blight  (100).jpg,Bacterial Leaf Blight,group_031,train,hasan
+Bacterial_leaf_Blight  (99).jpg,Bacterial Leaf Blight,group_031,train,hasan
+Bacterial_leaf_Blight  (132).jpg,Bacterial Leaf Blight,group_032,test,hasan
+Bacterial_leaf_Blight  (133).jpg,Bacterial Leaf Blight,group_032,test,hasan
+Bacterial_leaf_Blight  (152).jpg,Bacterial Leaf Blight,group_033,train,hasan
+Bacterial_leaf_Blight  (29).jpg,Bacterial Leaf Blight,group_033,train,hasan
+Bacterial_leaf_Blight  (155).jpg,Bacterial Leaf Blight,group_034,train,hasan
+Bacterial_leaf_Blight  (156).jpg,Bacterial Leaf Blight,group_034,train,hasan
+Bacterial_leaf_Blight  (54).jpg,Bacterial Leaf Blight,group_036,train,hasan
+Bacterial_leaf_Blight  (55).jpg,Bacterial Leaf Blight,group_036,train,hasan
+Bacterial_leaf_Blight  (61).jpg,Bacterial Leaf Blight,group_037,test,hasan
+Bacterial_leaf_Blight  (62).jpg,Bacterial Leaf Blight,group_037,test,hasan
+Bacterial_leaf_Blight  (71).jpg,Bacterial Leaf Blight,group_038,test,hasan
+Bacterial_leaf_Blight  (72).jpg,Bacterial Leaf Blight,group_038,test,hasan
+Bacterial_leaf_Blight  (87).jpg,Bacterial Leaf Blight,group_039,val,hasan
+Bacterial_leaf_Blight  (88).jpg,Bacterial Leaf Blight,group_039,val,hasan
+Bacterial_leaf_Blight  (91).jpg,Bacterial Leaf Blight,group_040,test,hasan
+Bacterial_leaf_Blight  (92).jpg,Bacterial Leaf Blight,group_040,test,hasan
+Bacterial_leaf_Blight  (93).jpg,Bacterial Leaf Blight,group_041,train,hasan
+Bacterial_leaf_Blight  (94).jpg,Bacterial Leaf Blight,group_041,train,hasan
+Bacterial_leaf_Blight  (1).jpg,Bacterial Leaf Blight,singleton_0000,val,hasan
+Bacterial_leaf_Blight  (10).jpg,Bacterial Leaf Blight,singleton_0001,test,hasan
+Bacterial_leaf_Blight  (101).jpg,Bacterial Leaf Blight,singleton_0002,val,hasan
+Bacterial_leaf_Blight  (102).jpg,Bacterial Leaf Blight,singleton_0003,train,hasan
+Bacterial_leaf_Blight  (103).jpg,Bacterial Leaf Blight,singleton_0004,train,hasan
+Bacterial_leaf_Blight  (104).jpg,Bacterial Leaf Blight,singleton_0005,val,hasan
+Bacterial_leaf_Blight  (105).jpg,Bacterial Leaf Blight,singleton_0006,train,hasan
+Bacterial_leaf_Blight  (106).jpg,Bacterial Leaf Blight,singleton_0007,train,hasan
+Bacterial_leaf_Blight  (107).jpg,Bacterial Leaf Blight,singleton_0008,train,hasan
+Bacterial_leaf_Blight  (108).jpg,Bacterial Leaf Blight,singleton_0009,train,hasan
+Bacterial_leaf_Blight  (109).jpg,Bacterial Leaf Blight,singleton_0010,val,hasan
+Bacterial_leaf_Blight  (11).jpg,Bacterial Leaf Blight,singleton_0011,train,hasan
+Bacterial_leaf_Blight  (110).jpg,Bacterial Leaf Blight,singleton_0012,val,hasan
+Bacterial_leaf_Blight  (111).jpg,Bacterial Leaf Blight,singleton_0013,train,hasan
+Bacterial_leaf_Blight  (112).jpg,Bacterial Leaf Blight,singleton_0014,train,hasan
+Bacterial_leaf_Blight  (113).jpg,Bacterial Leaf Blight,singleton_0015,train,hasan
+Bacterial_leaf_Blight  (114).jpg,Bacterial Leaf Blight,singleton_0016,train,hasan
+Bacterial_leaf_Blight  (115).jpg,Bacterial Leaf Blight,singleton_0017,train,hasan
+Bacterial_leaf_Blight  (116).jpg,Bacterial Leaf Blight,singleton_0018,train,hasan
+Bacterial_leaf_Blight  (117).jpg,Bacterial Leaf Blight,singleton_0019,train,hasan
+Bacterial_leaf_Blight  (118).jpg,Bacterial Leaf Blight,singleton_0020,train,hasan
+Bacterial_leaf_Blight  (119).jpg,Bacterial Leaf Blight,singleton_0021,train,hasan
+Bacterial_leaf_Blight  (12).jpg,Bacterial Leaf Blight,singleton_0022,train,hasan
+Bacterial_leaf_Blight  (120).jpg,Bacterial Leaf Blight,singleton_0023,train,hasan
+Bacterial_leaf_Blight  (121).jpg,Bacterial Leaf Blight,singleton_0024,train,hasan
+Bacterial_leaf_Blight  (122).jpg,Bacterial Leaf Blight,singleton_0025,val,hasan
+Bacterial_leaf_Blight  (123).jpg,Bacterial Leaf Blight,singleton_0026,train,hasan
+Bacterial_leaf_Blight  (124).jpg,Bacterial Leaf Blight,singleton_0027,test,hasan
+Bacterial_leaf_Blight  (125).jpg,Bacterial Leaf Blight,singleton_0028,train,hasan
+Bacterial_leaf_Blight  (126).jpg,Bacterial Leaf Blight,singleton_0029,train,hasan
+Bacterial_leaf_Blight  (127).jpg,Bacterial Leaf Blight,singleton_0030,val,hasan
+Bacterial_leaf_Blight  (128).jpg,Bacterial Leaf Blight,singleton_0031,train,hasan
+Bacterial_leaf_Blight  (129).jpg,Bacterial Leaf Blight,singleton_0032,train,hasan
+Bacterial_leaf_Blight  (13).jpg,Bacterial Leaf Blight,singleton_0033,train,hasan
+Bacterial_leaf_Blight  (130).jpg,Bacterial Leaf Blight,singleton_0034,train,hasan
+Bacterial_leaf_Blight  (131).jpg,Bacterial Leaf Blight,singleton_0035,train,hasan
+Bacterial_leaf_Blight  (134).jpg,Bacterial Leaf Blight,singleton_0036,test,hasan
+Bacterial_leaf_Blight  (135).jpg,Bacterial Leaf Blight,singleton_0037,train,hasan
+Bacterial_leaf_Blight  (136).jpg,Bacterial Leaf Blight,singleton_0038,test,hasan
+Bacterial_leaf_Blight  (137).jpg,Bacterial Leaf Blight,singleton_0039,train,hasan
+Bacterial_leaf_Blight  (138).jpg,Bacterial Leaf Blight,singleton_0040,train,hasan
+Bacterial_leaf_Blight  (139).jpg,Bacterial Leaf Blight,singleton_0041,train,hasan
+Bacterial_leaf_Blight  (14).jpg,Bacterial Leaf Blight,singleton_0042,train,hasan
+Bacterial_leaf_Blight  (140).jpg,Bacterial Leaf Blight,singleton_0043,train,hasan
+Bacterial_leaf_Blight  (141).jpg,Bacterial Leaf Blight,singleton_0044,train,hasan
+Bacterial_leaf_Blight  (142).jpg,Bacterial Leaf Blight,singleton_0045,test,hasan
+Bacterial_leaf_Blight  (143).jpg,Bacterial Leaf Blight,singleton_0046,train,hasan
+Bacterial_leaf_Blight  (144).jpg,Bacterial Leaf Blight,singleton_0047,test,hasan
+Bacterial_leaf_Blight  (145).jpg,Bacterial Leaf Blight,singleton_0048,train,hasan
+Bacterial_leaf_Blight  (146).jpg,Bacterial Leaf Blight,singleton_0049,val,hasan
+Bacterial_leaf_Blight  (147).jpg,Bacterial Leaf Blight,singleton_0050,train,hasan
+Bacterial_leaf_Blight  (148).jpg,Bacterial Leaf Blight,singleton_0051,train,hasan
+Bacterial_leaf_Blight  (149).jpg,Bacterial Leaf Blight,singleton_0052,train,hasan
+Bacterial_leaf_Blight  (15).jpg,Bacterial Leaf Blight,singleton_0053,train,hasan
+Bacterial_leaf_Blight  (150).jpg,Bacterial Leaf Blight,singleton_0054,train,hasan
+Bacterial_leaf_Blight  (151).jpg,Bacterial Leaf Blight,singleton_0055,train,hasan
+Bacterial_leaf_Blight  (153).jpg,Bacterial Leaf Blight,singleton_0056,train,hasan
+Bacterial_leaf_Blight  (154).jpg,Bacterial Leaf Blight,singleton_0057,train,hasan
+Bacterial_leaf_Blight  (157).jpg,Bacterial Leaf Blight,singleton_0058,test,hasan
+Bacterial_leaf_Blight  (158).jpg,Bacterial Leaf Blight,singleton_0059,train,hasan
+Bacterial_leaf_Blight  (159).jpg,Bacterial Leaf Blight,singleton_0060,val,hasan
+Bacterial_leaf_Blight  (16).jpg,Bacterial Leaf Blight,singleton_0061,train,hasan
+Bacterial_leaf_Blight  (160).jpg,Bacterial Leaf Blight,singleton_0062,train,hasan
+Bacterial_leaf_Blight  (161).jpg,Bacterial Leaf Blight,singleton_0063,val,hasan
+Bacterial_leaf_Blight  (162).jpg,Bacterial Leaf Blight,singleton_0064,train,hasan
+Bacterial_leaf_Blight  (163).jpg,Bacterial Leaf Blight,singleton_0065,train,hasan
+Bacterial_leaf_Blight  (164).jpg,Bacterial Leaf Blight,singleton_0066,train,hasan
+Bacterial_leaf_Blight  (165).jpg,Bacterial Leaf Blight,singleton_0067,train,hasan
+Bacterial_leaf_Blight  (166).jpg,Bacterial Leaf Blight,singleton_0068,train,hasan
+Bacterial_leaf_Blight  (167).jpg,Bacterial Leaf Blight,singleton_0069,test,hasan
+Bacterial_leaf_Blight  (168).jpg,Bacterial Leaf Blight,singleton_0070,train,hasan
+Bacterial_leaf_Blight  (169).jpg,Bacterial Leaf Blight,singleton_0071,train,hasan
+Bacterial_leaf_Blight  (17).jpg,Bacterial Leaf Blight,singleton_0072,train,hasan
+Bacterial_leaf_Blight  (170).jpg,Bacterial Leaf Blight,singleton_0073,train,hasan
+Bacterial_leaf_Blight  (171).jpg,Bacterial Leaf Blight,singleton_0074,val,hasan
+Bacterial_leaf_Blight  (172).jpg,Bacterial Leaf Blight,singleton_0075,train,hasan
+Bacterial_leaf_Blight  (173).jpg,Bacterial Leaf Blight,singleton_0076,val,hasan
+Bacterial_leaf_Blight  (174).jpg,Bacterial Leaf Blight,singleton_0077,test,hasan
+Bacterial_leaf_Blight  (175).jpg,Bacterial Leaf Blight,singleton_0078,val,hasan
+Bacterial_leaf_Blight  (176).jpg,Bacterial Leaf Blight,singleton_0079,train,hasan
+Bacterial_leaf_Blight  (177).jpg,Bacterial Leaf Blight,singleton_0080,val,hasan
+Bacterial_leaf_Blight  (178).jpg,Bacterial Leaf Blight,singleton_0081,test,hasan
+Bacterial_leaf_Blight  (179).jpg,Bacterial Leaf Blight,singleton_0082,train,hasan
+Bacterial_leaf_Blight  (18).jpg,Bacterial Leaf Blight,singleton_0083,val,hasan
+Bacterial_leaf_Blight  (180).jpg,Bacterial Leaf Blight,singleton_0084,train,hasan
+Bacterial_leaf_Blight  (19).jpg,Bacterial Leaf Blight,singleton_0085,train,hasan
+Bacterial_leaf_Blight  (2).jpg,Bacterial Leaf Blight,singleton_0086,train,hasan
+Bacterial_leaf_Blight  (20).jpg,Bacterial Leaf Blight,singleton_0087,val,hasan
+Bacterial_leaf_Blight  (21).jpg,Bacterial Leaf Blight,singleton_0088,test,hasan
+Bacterial_leaf_Blight  (22).jpg,Bacterial Leaf Blight,singleton_0089,train,hasan
+Bacterial_leaf_Blight  (23).jpg,Bacterial Leaf Blight,singleton_0090,train,hasan
+Bacterial_leaf_Blight  (24).jpg,Bacterial Leaf Blight,singleton_0091,train,hasan
+Bacterial_leaf_Blight  (25).jpg,Bacterial Leaf Blight,singleton_0092,train,hasan
+Bacterial_leaf_Blight  (26).jpg,Bacterial Leaf Blight,singleton_0093,train,hasan
+Bacterial_leaf_Blight  (27).jpg,Bacterial Leaf Blight,singleton_0094,train,hasan
+Bacterial_leaf_Blight  (28).jpg,Bacterial Leaf Blight,singleton_0095,test,hasan
+Bacterial_leaf_Blight  (3).jpg,Bacterial Leaf Blight,singleton_0096,val,hasan
+Bacterial_leaf_Blight  (30).jpg,Bacterial Leaf Blight,singleton_0097,val,hasan
+Bacterial_leaf_Blight  (31).jpg,Bacterial Leaf Blight,singleton_0098,train,hasan
+Bacterial_leaf_Blight  (32).jpg,Bacterial Leaf Blight,singleton_0099,train,hasan
+Bacterial_leaf_Blight  (34).jpg,Bacterial Leaf Blight,singleton_0100,train,hasan
+Bacterial_leaf_Blight  (35).jpg,Bacterial Leaf Blight,singleton_0101,train,hasan
+Bacterial_leaf_Blight  (36).jpg,Bacterial Leaf Blight,singleton_0102,test,hasan
+Bacterial_leaf_Blight  (37).jpg,Bacterial Leaf Blight,singleton_0103,val,hasan
+Bacterial_leaf_Blight  (38).jpg,Bacterial Leaf Blight,singleton_0104,val,hasan
+Bacterial_leaf_Blight  (39).jpg,Bacterial Leaf Blight,singleton_0105,train,hasan
+Bacterial_leaf_Blight  (4).jpg,Bacterial Leaf Blight,singleton_0106,train,hasan
+Bacterial_leaf_Blight  (40).jpg,Bacterial Leaf Blight,singleton_0107,train,hasan
+Bacterial_leaf_Blight  (41).jpg,Bacterial Leaf Blight,singleton_0108,train,hasan
+Bacterial_leaf_Blight  (42).jpg,Bacterial Leaf Blight,singleton_0109,train,hasan
+Bacterial_leaf_Blight  (43).jpg,Bacterial Leaf Blight,singleton_0110,train,hasan
+Bacterial_leaf_Blight  (44).jpg,Bacterial Leaf Blight,singleton_0111,train,hasan
+Bacterial_leaf_Blight  (45).jpg,Bacterial Leaf Blight,singleton_0112,val,hasan
+Bacterial_leaf_Blight  (46).jpg,Bacterial Leaf Blight,singleton_0113,train,hasan
+Bacterial_leaf_Blight  (47).jpg,Bacterial Leaf Blight,singleton_0114,train,hasan
+Bacterial_leaf_Blight  (48).jpg,Bacterial Leaf Blight,singleton_0115,val,hasan
+Bacterial_leaf_Blight  (49).jpg,Bacterial Leaf Blight,singleton_0116,train,hasan
+Bacterial_leaf_Blight  (5).jpg,Bacterial Leaf Blight,singleton_0117,train,hasan
+Bacterial_leaf_Blight  (50).jpg,Bacterial Leaf Blight,singleton_0118,train,hasan
+Bacterial_leaf_Blight  (51).jpg,Bacterial Leaf Blight,singleton_0119,train,hasan
+Bacterial_leaf_Blight  (52).jpg,Bacterial Leaf Blight,singleton_0120,train,hasan
+Bacterial_leaf_Blight  (53).jpg,Bacterial Leaf Blight,singleton_0121,train,hasan
+Bacterial_leaf_Blight  (56).jpg,Bacterial Leaf Blight,singleton_0122,train,hasan
+Bacterial_leaf_Blight  (57).jpg,Bacterial Leaf Blight,singleton_0123,train,hasan
+Bacterial_leaf_Blight  (58).jpg,Bacterial Leaf Blight,singleton_0124,train,hasan
+Bacterial_leaf_Blight  (59).jpg,Bacterial Leaf Blight,singleton_0125,train,hasan
+Bacterial_leaf_Blight  (6).jpg,Bacterial Leaf Blight,singleton_0126,train,hasan
+Bacterial_leaf_Blight  (60).jpg,Bacterial Leaf Blight,singleton_0127,train,hasan
+Bacterial_leaf_Blight  (63).jpg,Bacterial Leaf Blight,singleton_0128,train,hasan
+Bacterial_leaf_Blight  (64).jpg,Bacterial Leaf Blight,singleton_0129,test,hasan
+Bacterial_leaf_Blight  (65).jpg,Bacterial Leaf Blight,singleton_0130,train,hasan
+Bacterial_leaf_Blight  (66).jpg,Bacterial Leaf Blight,singleton_0131,train,hasan
+Bacterial_leaf_Blight  (67).jpg,Bacterial Leaf Blight,singleton_0132,train,hasan
+Bacterial_leaf_Blight  (68).jpg,Bacterial Leaf Blight,singleton_0133,val,hasan
+Bacterial_leaf_Blight  (69).jpg,Bacterial Leaf Blight,singleton_0134,train,hasan
+Bacterial_leaf_Blight  (7).jpg,Bacterial Leaf Blight,singleton_0135,train,hasan
+Bacterial_leaf_Blight  (70).jpg,Bacterial Leaf Blight,singleton_0136,train,hasan
+Bacterial_leaf_Blight  (73).jpg,Bacterial Leaf Blight,singleton_0137,train,hasan
+Bacterial_leaf_Blight  (74).jpg,Bacterial Leaf Blight,singleton_0138,train,hasan
+Bacterial_leaf_Blight  (75).jpg,Bacterial Leaf Blight,singleton_0139,val,hasan
+Bacterial_leaf_Blight  (76).jpg,Bacterial Leaf Blight,singleton_0140,train,hasan
+Bacterial_leaf_Blight  (77).jpg,Bacterial Leaf Blight,singleton_0141,train,hasan
+Bacterial_leaf_Blight  (78).jpg,Bacterial Leaf Blight,singleton_0142,train,hasan
+Bacterial_leaf_Blight  (79).jpg,Bacterial Leaf Blight,singleton_0143,test,hasan
+Bacterial_leaf_Blight  (8).jpg,Bacterial Leaf Blight,singleton_0144,test,hasan
+Bacterial_leaf_Blight  (80).jpg,Bacterial Leaf Blight,singleton_0145,train,hasan
+Bacterial_leaf_Blight  (81).jpg,Bacterial Leaf Blight,singleton_0146,train,hasan
+Bacterial_leaf_Blight  (82).jpg,Bacterial Leaf Blight,singleton_0147,train,hasan
+Bacterial_leaf_Blight  (83).jpg,Bacterial Leaf Blight,singleton_0148,train,hasan
+Bacterial_leaf_Blight  (84).jpg,Bacterial Leaf Blight,singleton_0149,train,hasan
+Bacterial_leaf_Blight  (85).jpg,Bacterial Leaf Blight,singleton_0150,test,hasan
+Bacterial_leaf_Blight  (86).jpg,Bacterial Leaf Blight,singleton_0151,train,hasan
+Bacterial_leaf_Blight  (89).jpg,Bacterial Leaf Blight,singleton_0152,test,hasan
+Bacterial_leaf_Blight  (9).jpg,Bacterial Leaf Blight,singleton_0153,val,hasan
+Bacterial_leaf_Blight  (90).jpg,Bacterial Leaf Blight,singleton_0154,train,hasan
+Bacterial_leaf_Blight  (95).jpg,Bacterial Leaf Blight,singleton_0155,train,hasan
+Bacterial_leaf_Blight  (96).jpg,Bacterial Leaf Blight,singleton_0156,test,hasan
+Bacterial_leaf_Blight  (97).jpg,Bacterial Leaf Blight,singleton_0157,train,hasan
+Bacterial_leaf_Blight  (98).jpg,Bacterial Leaf Blight,singleton_0158,train,hasan
+Brown_spot  (86).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (87).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (88).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (89).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (90).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (91).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (92).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (93).jpg,Brown Spot,group_001,test,hasan
+Brown_spot  (80).jpg,Brown Spot,group_002,train,hasan
+Brown_spot  (81).jpg,Brown Spot,group_002,train,hasan
+Brown_spot  (82).jpg,Brown Spot,group_002,train,hasan
+Brown_spot  (83).jpg,Brown Spot,group_002,train,hasan
+Brown_spot  (84).jpg,Brown Spot,group_002,train,hasan
+Brown_spot  (85).jpg,Brown Spot,group_002,train,hasan
+Brown_spot  (111).jpg,Brown Spot,group_006,train,hasan
+Brown_spot  (112).jpg,Brown Spot,group_006,train,hasan
+Brown_spot  (113).jpg,Brown Spot,group_006,train,hasan
+Brown_spot  (114).jpg,Brown Spot,group_006,train,hasan
+Brown_spot  (115).jpg,Brown Spot,group_006,train,hasan
+Brown_spot  (118).jpg,Brown Spot,group_007,train,hasan
+Brown_spot  (119).jpg,Brown Spot,group_007,train,hasan
+Brown_spot  (120).jpg,Brown Spot,group_007,train,hasan
+Brown_spot  (121).jpg,Brown Spot,group_007,train,hasan
+Brown_spot  (122).jpg,Brown Spot,group_007,train,hasan
+Brown_spot  (52).jpg,Brown Spot,group_008,val,hasan
+Brown_spot  (53).jpg,Brown Spot,group_008,val,hasan
+Brown_spot  (54).jpg,Brown Spot,group_008,val,hasan
+Brown_spot  (55).jpg,Brown Spot,group_008,val,hasan
+Brown_spot  (56).jpg,Brown Spot,group_008,val,hasan
+Brown_spot  (75).jpg,Brown Spot,group_009,test,hasan
+Brown_spot  (76).jpg,Brown Spot,group_009,test,hasan
+Brown_spot  (77).jpg,Brown Spot,group_009,test,hasan
+Brown_spot  (78).jpg,Brown Spot,group_009,test,hasan
+Brown_spot  (79).jpg,Brown Spot,group_009,test,hasan
+Brown_spot  (100).jpg,Brown Spot,group_010,train,hasan
+Brown_spot  (101).jpg,Brown Spot,group_010,train,hasan
+Brown_spot  (102).jpg,Brown Spot,group_010,train,hasan
+Brown_spot  (103).jpg,Brown Spot,group_010,train,hasan
+Brown_spot  (104).jpg,Brown Spot,group_011,train,hasan
+Brown_spot  (105).jpg,Brown Spot,group_011,train,hasan
+Brown_spot  (106).jpg,Brown Spot,group_011,train,hasan
+Brown_spot  (107).jpg,Brown Spot,group_011,train,hasan
+Brown_spot  (43).jpg,Brown Spot,group_012,val,hasan
+Brown_spot  (44).jpg,Brown Spot,group_012,val,hasan
+Brown_spot  (45).jpg,Brown Spot,group_012,val,hasan
+Brown_spot  (47).jpg,Brown Spot,group_012,val,hasan
+Brown_spot  (94).jpg,Brown Spot,group_013,train,hasan
+Brown_spot  (95).jpg,Brown Spot,group_013,train,hasan
+Brown_spot  (96).jpg,Brown Spot,group_013,train,hasan
+Brown_spot  (98).jpg,Brown Spot,group_013,train,hasan
+Brown_spot  (1).jpg,Brown Spot,group_018,train,hasan
+Brown_spot  (187).jpg,Brown Spot,group_018,train,hasan
+Brown_spot  (2).jpg,Brown Spot,group_018,train,hasan
+Brown_spot  (24).jpg,Brown Spot,group_019,train,hasan
+Brown_spot  (25).jpg,Brown Spot,group_019,train,hasan
+Brown_spot  (26).jpg,Brown Spot,group_019,train,hasan
+Brown_spot  (27).jpg,Brown Spot,group_020,val,hasan
+Brown_spot  (28).jpg,Brown Spot,group_020,val,hasan
+Brown_spot  (29).jpg,Brown Spot,group_020,val,hasan
+Brown_spot  (40).jpg,Brown Spot,group_021,train,hasan
+Brown_spot  (41).jpg,Brown Spot,group_021,train,hasan
+Brown_spot  (42).jpg,Brown Spot,group_021,train,hasan
+Brown_spot  (49).jpg,Brown Spot,group_022,train,hasan
+Brown_spot  (50).jpg,Brown Spot,group_022,train,hasan
+Brown_spot  (51).jpg,Brown Spot,group_022,train,hasan
+Brown_spot  (5).jpg,Brown Spot,group_023,test,hasan
+Brown_spot  (6).jpg,Brown Spot,group_023,test,hasan
+Brown_spot  (7).jpg,Brown Spot,group_023,test,hasan
+Brown_spot  (60).jpg,Brown Spot,group_024,val,hasan
+Brown_spot  (61).jpg,Brown Spot,group_024,val,hasan
+Brown_spot  (63).jpg,Brown Spot,group_024,val,hasan
+Brown_spot  (108).jpg,Brown Spot,group_042,test,hasan
+Brown_spot  (109).jpg,Brown Spot,group_042,test,hasan
+Brown_spot  (116).jpg,Brown Spot,group_043,train,hasan
+Brown_spot  (117).jpg,Brown Spot,group_043,train,hasan
+Brown_spot  (136).jpg,Brown Spot,group_044,train,hasan
+Brown_spot  (137).jpg,Brown Spot,group_044,train,hasan
+Brown_spot  (156).jpg,Brown Spot,group_045,val,hasan
+Brown_spot  (229).jpg,Brown Spot,group_045,val,hasan
+Brown_spot  (164).jpg,Brown Spot,group_046,train,hasan
+Brown_spot  (165).jpg,Brown Spot,group_046,train,hasan
+Brown_spot  (167).jpg,Brown Spot,group_047,train,hasan
+Brown_spot  (238).jpg,Brown Spot,group_047,train,hasan
+Brown_spot  (168).jpg,Brown Spot,group_048,train,hasan
+Brown_spot  (169).jpg,Brown Spot,group_048,train,hasan
+Brown_spot  (170).jpg,Brown Spot,group_049,test,hasan
+Brown_spot  (171).jpg,Brown Spot,group_049,test,hasan
+Brown_spot  (172).jpg,Brown Spot,group_050,train,hasan
+Brown_spot  (173).jpg,Brown Spot,group_050,train,hasan
+Brown_spot  (174).jpg,Brown Spot,group_051,train,hasan
+Brown_spot  (175).jpg,Brown Spot,group_051,train,hasan
+Brown_spot  (176).jpg,Brown Spot,group_052,train,hasan
+Brown_spot  (177).jpg,Brown Spot,group_052,train,hasan
+Brown_spot  (186).jpg,Brown Spot,group_053,test,hasan
+Brown_spot  (240).jpg,Brown Spot,group_053,test,hasan
+Brown_spot  (22).jpg,Brown Spot,group_054,train,hasan
+Brown_spot  (23).jpg,Brown Spot,group_054,train,hasan
+Brown_spot  (243).jpg,Brown Spot,group_055,test,hasan
+Brown_spot  (244).jpg,Brown Spot,group_055,test,hasan
+Brown_spot  (3).jpg,Brown Spot,group_056,val,hasan
+Brown_spot  (4).jpg,Brown Spot,group_056,val,hasan
+Brown_spot  (34).jpg,Brown Spot,group_057,train,hasan
+Brown_spot  (35).jpg,Brown Spot,group_057,train,hasan
+Brown_spot  (36).jpg,Brown Spot,group_058,train,hasan
+Brown_spot  (37).jpg,Brown Spot,group_058,train,hasan
+Brown_spot  (38).jpg,Brown Spot,group_059,train,hasan
+Brown_spot  (39).jpg,Brown Spot,group_059,train,hasan
+Brown_spot  (46).jpg,Brown Spot,group_060,train,hasan
+Brown_spot  (48).jpg,Brown Spot,group_060,train,hasan
+Brown_spot  (58).jpg,Brown Spot,group_061,train,hasan
+Brown_spot  (59).jpg,Brown Spot,group_061,train,hasan
+Brown_spot  (64).jpg,Brown Spot,group_062,train,hasan
+Brown_spot  (65).jpg,Brown Spot,group_062,train,hasan
+Brown_spot  (66).jpg,Brown Spot,group_063,train,hasan
+Brown_spot  (68).jpg,Brown Spot,group_063,train,hasan
+Brown_spot  (72).jpg,Brown Spot,group_064,train,hasan
+Brown_spot  (73).jpg,Brown Spot,group_064,train,hasan
+Brown_spot  (8).jpg,Brown Spot,group_065,train,hasan
+Brown_spot  (9).jpg,Brown Spot,group_065,train,hasan
+Brown_spot  (10).jpg,Brown Spot,singleton_0159,train,hasan
+Brown_spot  (11).jpg,Brown Spot,singleton_0160,test,hasan
+Brown_spot  (110).jpg,Brown Spot,singleton_0161,train,hasan
+Brown_spot  (12).jpg,Brown Spot,singleton_0162,train,hasan
+Brown_spot  (123).jpg,Brown Spot,singleton_0163,train,hasan
+Brown_spot  (124).jpg,Brown Spot,singleton_0164,train,hasan
+Brown_spot  (125).jpg,Brown Spot,singleton_0165,train,hasan
+Brown_spot  (126).jpg,Brown Spot,singleton_0166,train,hasan
+Brown_spot  (127).jpg,Brown Spot,singleton_0167,train,hasan
+Brown_spot  (128).jpg,Brown Spot,singleton_0168,train,hasan
+Brown_spot  (129).jpg,Brown Spot,singleton_0169,val,hasan
+Brown_spot  (13).jpg,Brown Spot,singleton_0170,train,hasan
+Brown_spot  (130).jpg,Brown Spot,singleton_0171,train,hasan
+Brown_spot  (131).jpg,Brown Spot,singleton_0172,train,hasan
+Brown_spot  (132).jpg,Brown Spot,singleton_0173,val,hasan
+Brown_spot  (133).jpg,Brown Spot,singleton_0174,val,hasan
+Brown_spot  (134).jpg,Brown Spot,singleton_0175,train,hasan
+Brown_spot  (135).jpg,Brown Spot,singleton_0176,test,hasan
+Brown_spot  (138).jpg,Brown Spot,singleton_0177,train,hasan
+Brown_spot  (139).jpg,Brown Spot,singleton_0178,train,hasan
+Brown_spot  (14).jpg,Brown Spot,singleton_0179,val,hasan
+Brown_spot  (140).jpg,Brown Spot,singleton_0180,train,hasan
+Brown_spot  (141).jpg,Brown Spot,singleton_0181,val,hasan
+Brown_spot  (142).jpg,Brown Spot,singleton_0182,train,hasan
+Brown_spot  (143).jpg,Brown Spot,singleton_0183,train,hasan
+Brown_spot  (144).jpg,Brown Spot,singleton_0184,train,hasan
+Brown_spot  (145).jpg,Brown Spot,singleton_0185,val,hasan
+Brown_spot  (146).jpg,Brown Spot,singleton_0186,train,hasan
+Brown_spot  (147).jpg,Brown Spot,singleton_0187,train,hasan
+Brown_spot  (148).jpg,Brown Spot,singleton_0188,train,hasan
+Brown_spot  (149).jpg,Brown Spot,singleton_0189,test,hasan
+Brown_spot  (15).jpg,Brown Spot,singleton_0190,train,hasan
+Brown_spot  (150).jpg,Brown Spot,singleton_0191,train,hasan
+Brown_spot  (151).jpg,Brown Spot,singleton_0192,train,hasan
+Brown_spot  (152).jpg,Brown Spot,singleton_0193,train,hasan
+Brown_spot  (153).jpg,Brown Spot,singleton_0194,train,hasan
+Brown_spot  (154).jpg,Brown Spot,singleton_0195,train,hasan
+Brown_spot  (155).jpg,Brown Spot,singleton_0196,test,hasan
+Brown_spot  (157).jpg,Brown Spot,singleton_0197,train,hasan
+Brown_spot  (158).jpg,Brown Spot,singleton_0198,train,hasan
+Brown_spot  (159).jpg,Brown Spot,singleton_0199,train,hasan
+Brown_spot  (16).jpg,Brown Spot,singleton_0200,test,hasan
+Brown_spot  (160).jpg,Brown Spot,singleton_0201,train,hasan
+Brown_spot  (161).jpg,Brown Spot,singleton_0202,train,hasan
+Brown_spot  (162).jpg,Brown Spot,singleton_0203,train,hasan
+Brown_spot  (163).jpg,Brown Spot,singleton_0204,val,hasan
+Brown_spot  (166).jpg,Brown Spot,singleton_0205,train,hasan
+Brown_spot  (17).jpg,Brown Spot,singleton_0206,train,hasan
+Brown_spot  (178).jpg,Brown Spot,singleton_0207,train,hasan
+Brown_spot  (179).jpg,Brown Spot,singleton_0208,train,hasan
+Brown_spot  (18).jpg,Brown Spot,singleton_0209,train,hasan
+Brown_spot  (180).jpg,Brown Spot,singleton_0210,val,hasan
+Brown_spot  (181).jpg,Brown Spot,singleton_0211,val,hasan
+Brown_spot  (182).jpg,Brown Spot,singleton_0212,train,hasan
+Brown_spot  (183).jpg,Brown Spot,singleton_0213,val,hasan
+Brown_spot  (184).jpg,Brown Spot,singleton_0214,train,hasan
+Brown_spot  (185).jpg,Brown Spot,singleton_0215,train,hasan
+Brown_spot  (188).jpg,Brown Spot,singleton_0216,train,hasan
+Brown_spot  (189).jpg,Brown Spot,singleton_0217,train,hasan
+Brown_spot  (19).jpg,Brown Spot,singleton_0218,train,hasan
+Brown_spot  (190).jpg,Brown Spot,singleton_0219,train,hasan
+Brown_spot  (191).jpg,Brown Spot,singleton_0220,test,hasan
+Brown_spot  (192).jpg,Brown Spot,singleton_0221,train,hasan
+Brown_spot  (193).jpg,Brown Spot,singleton_0222,train,hasan
+Brown_spot  (194).jpg,Brown Spot,singleton_0223,train,hasan
+Brown_spot  (195).jpg,Brown Spot,singleton_0224,train,hasan
+Brown_spot  (196).jpg,Brown Spot,singleton_0225,train,hasan
+Brown_spot  (197).jpg,Brown Spot,singleton_0226,val,hasan
+Brown_spot  (198).jpg,Brown Spot,singleton_0227,train,hasan
+Brown_spot  (199).jpg,Brown Spot,singleton_0228,test,hasan
+Brown_spot  (20).jpg,Brown Spot,singleton_0229,train,hasan
+Brown_spot  (200).jpg,Brown Spot,singleton_0230,train,hasan
+Brown_spot  (201).jpg,Brown Spot,singleton_0231,train,hasan
+Brown_spot  (202).jpg,Brown Spot,singleton_0232,train,hasan
+Brown_spot  (203).jpg,Brown Spot,singleton_0233,train,hasan
+Brown_spot  (204).jpg,Brown Spot,singleton_0234,train,hasan
+Brown_spot  (205).jpg,Brown Spot,singleton_0235,train,hasan
+Brown_spot  (206).jpg,Brown Spot,singleton_0236,train,hasan
+Brown_spot  (207).jpg,Brown Spot,singleton_0237,train,hasan
+Brown_spot  (208).jpg,Brown Spot,singleton_0238,train,hasan
+Brown_spot  (209).jpg,Brown Spot,singleton_0239,val,hasan
+Brown_spot  (21).jpg,Brown Spot,singleton_0240,val,hasan
+Brown_spot  (210).jpg,Brown Spot,singleton_0241,train,hasan
+Brown_spot  (211).jpg,Brown Spot,singleton_0242,val,hasan
+Brown_spot  (212).jpg,Brown Spot,singleton_0243,train,hasan
+Brown_spot  (213).jpg,Brown Spot,singleton_0244,train,hasan
+Brown_spot  (214).jpg,Brown Spot,singleton_0245,train,hasan
+Brown_spot  (215).jpg,Brown Spot,singleton_0246,train,hasan
+Brown_spot  (216).jpg,Brown Spot,singleton_0247,test,hasan
+Brown_spot  (217).jpg,Brown Spot,singleton_0248,train,hasan
+Brown_spot  (218).jpg,Brown Spot,singleton_0249,val,hasan
+Brown_spot  (219).jpg,Brown Spot,singleton_0250,val,hasan
+Brown_spot  (220).jpg,Brown Spot,singleton_0251,train,hasan
+Brown_spot  (221).jpg,Brown Spot,singleton_0252,train,hasan
+Brown_spot  (222).jpg,Brown Spot,singleton_0253,train,hasan
+Brown_spot  (223).jpg,Brown Spot,singleton_0254,val,hasan
+Brown_spot  (224).jpg,Brown Spot,singleton_0255,train,hasan
+Brown_spot  (225).jpg,Brown Spot,singleton_0256,train,hasan
+Brown_spot  (226).jpg,Brown Spot,singleton_0257,train,hasan
+Brown_spot  (227).jpg,Brown Spot,singleton_0258,train,hasan
+Brown_spot  (228).jpg,Brown Spot,singleton_0259,val,hasan
+Brown_spot  (230).jpg,Brown Spot,singleton_0260,train,hasan
+Brown_spot  (231).jpg,Brown Spot,singleton_0261,train,hasan
+Brown_spot  (232).jpg,Brown Spot,singleton_0262,train,hasan
+Brown_spot  (233).jpg,Brown Spot,singleton_0263,test,hasan
+Brown_spot  (234).jpg,Brown Spot,singleton_0264,train,hasan
+Brown_spot  (235).jpg,Brown Spot,singleton_0265,train,hasan
+Brown_spot  (236).jpg,Brown Spot,singleton_0266,train,hasan
+Brown_spot  (237).jpg,Brown Spot,singleton_0267,train,hasan
+Brown_spot  (239).jpg,Brown Spot,singleton_0268,train,hasan
+Brown_spot  (241).jpg,Brown Spot,singleton_0269,train,hasan
+Brown_spot  (242).jpg,Brown Spot,singleton_0270,test,hasan
+Brown_spot  (245).jpg,Brown Spot,singleton_0271,train,hasan
+Brown_spot  (246).jpg,Brown Spot,singleton_0272,train,hasan
+Brown_spot  (247).jpg,Brown Spot,singleton_0273,test,hasan
+Brown_spot  (248).jpg,Brown Spot,singleton_0274,train,hasan
+Brown_spot  (249).jpg,Brown Spot,singleton_0275,train,hasan
+Brown_spot  (250).jpg,Brown Spot,singleton_0276,train,hasan
+Brown_spot  (251).jpg,Brown Spot,singleton_0277,test,hasan
+Brown_spot  (252).jpg,Brown Spot,singleton_0278,train,hasan
+Brown_spot  (253).jpg,Brown Spot,singleton_0279,train,hasan
+Brown_spot  (254).jpg,Brown Spot,singleton_0280,test,hasan
+Brown_spot  (255).jpg,Brown Spot,singleton_0281,train,hasan
+Brown_spot  (256).jpg,Brown Spot,singleton_0282,train,hasan
+Brown_spot  (257).jpg,Brown Spot,singleton_0283,test,hasan
+Brown_spot  (258).jpg,Brown Spot,singleton_0284,test,hasan
+Brown_spot  (259).jpg,Brown Spot,singleton_0285,train,hasan
+Brown_spot  (260).jpg,Brown Spot,singleton_0286,test,hasan
+Brown_spot  (261).jpg,Brown Spot,singleton_0287,train,hasan
+Brown_spot  (262).jpg,Brown Spot,singleton_0288,test,hasan
+Brown_spot  (263).jpg,Brown Spot,singleton_0289,val,hasan
+Brown_spot  (264).jpg,Brown Spot,singleton_0290,train,hasan
+Brown_spot  (265).jpg,Brown Spot,singleton_0291,train,hasan
+Brown_spot  (266).jpg,Brown Spot,singleton_0292,train,hasan
+Brown_spot  (267).jpg,Brown Spot,singleton_0293,train,hasan
+Brown_spot  (30).jpg,Brown Spot,singleton_0294,train,hasan
+Brown_spot  (31).jpg,Brown Spot,singleton_0295,test,hasan
+Brown_spot  (32).jpg,Brown Spot,singleton_0296,train,hasan
+Brown_spot  (33).jpg,Brown Spot,singleton_0297,train,hasan
+Brown_spot  (57).jpg,Brown Spot,singleton_0298,train,hasan
+Brown_spot  (62).jpg,Brown Spot,singleton_0299,train,hasan
+Brown_spot  (67).jpg,Brown Spot,singleton_0300,train,hasan
+Brown_spot  (69).jpg,Brown Spot,singleton_0301,train,hasan
+Brown_spot  (70).jpg,Brown Spot,singleton_0302,train,hasan
+Brown_spot  (71).jpg,Brown Spot,singleton_0303,train,hasan
+Brown_spot  (74).jpg,Brown Spot,singleton_0304,train,hasan
+Brown_spot  (97).jpg,Brown Spot,singleton_0305,test,hasan
+Brown_spot  (99).jpg,Brown Spot,singleton_0306,train,hasan
+Healthy_rice_leaf  (18).jpg,Healthy Rice Leaf,group_003,test,hasan
+Healthy_rice_leaf  (19).jpg,Healthy Rice Leaf,group_003,test,hasan
+Healthy_rice_leaf  (44).jpg,Healthy Rice Leaf,group_003,test,hasan
+Healthy_rice_leaf  (75).jpg,Healthy Rice Leaf,group_003,test,hasan
+Healthy_rice_leaf  (76).jpg,Healthy Rice Leaf,group_003,test,hasan
+Healthy_rice_leaf  (77).jpg,Healthy Rice Leaf,group_003,test,hasan
+Healthy_rice_leaf  (79).jpg,Healthy Rice Leaf,group_025,test,hasan
+Healthy_rice_leaf  (80).jpg,Healthy Rice Leaf,group_025,test,hasan
+Healthy_rice_leaf  (81).jpg,Healthy Rice Leaf,group_025,test,hasan
+Healthy_rice_leaf  (3).jpg,Healthy Rice Leaf,group_066,test,hasan
+Healthy_rice_leaf  (4).jpg,Healthy Rice Leaf,group_066,test,hasan
+Healthy_rice_leaf  (37).jpg,Healthy Rice Leaf,group_067,train,hasan
+Healthy_rice_leaf  (39).jpg,Healthy Rice Leaf,group_067,train,hasan
+Healthy_rice_leaf  (41).jpg,Healthy Rice Leaf,group_068,val,hasan
+Healthy_rice_leaf  (42).jpg,Healthy Rice Leaf,group_068,val,hasan
+Healthy_rice_leaf  (72).jpg,Healthy Rice Leaf,group_069,train,hasan
+Healthy_rice_leaf  (73).jpg,Healthy Rice Leaf,group_069,train,hasan
+Healthy_rice_leaf  (1).jpg,Healthy Rice Leaf,singleton_0490,val,hasan
+Healthy_rice_leaf  (10).jpg,Healthy Rice Leaf,singleton_0491,train,hasan
+Healthy_rice_leaf  (100).jpg,Healthy Rice Leaf,singleton_0492,train,hasan
+Healthy_rice_leaf  (101).jpg,Healthy Rice Leaf,singleton_0493,train,hasan
+Healthy_rice_leaf  (102).jpg,Healthy Rice Leaf,singleton_0494,train,hasan
+Healthy_rice_leaf  (103).jpg,Healthy Rice Leaf,singleton_0495,train,hasan
+Healthy_rice_leaf  (104).jpg,Healthy Rice Leaf,singleton_0496,train,hasan
+Healthy_rice_leaf  (105).jpg,Healthy Rice Leaf,singleton_0497,train,hasan
+Healthy_rice_leaf  (106).jpg,Healthy Rice Leaf,singleton_0498,val,hasan
+Healthy_rice_leaf  (107).jpg,Healthy Rice Leaf,singleton_0499,train,hasan
+Healthy_rice_leaf  (108).jpg,Healthy Rice Leaf,singleton_0500,test,hasan
+Healthy_rice_leaf  (109).jpg,Healthy Rice Leaf,singleton_0501,train,hasan
+Healthy_rice_leaf  (11).jpg,Healthy Rice Leaf,singleton_0502,train,hasan
+Healthy_rice_leaf  (110).jpg,Healthy Rice Leaf,singleton_0503,train,hasan
+Healthy_rice_leaf  (111).jpg,Healthy Rice Leaf,singleton_0504,test,hasan
+Healthy_rice_leaf  (112).jpg,Healthy Rice Leaf,singleton_0505,train,hasan
+Healthy_rice_leaf  (113).jpg,Healthy Rice Leaf,singleton_0506,train,hasan
+Healthy_rice_leaf  (114).jpg,Healthy Rice Leaf,singleton_0507,train,hasan
+Healthy_rice_leaf  (115).jpg,Healthy Rice Leaf,singleton_0508,train,hasan
+Healthy_rice_leaf  (116).jpg,Healthy Rice Leaf,singleton_0509,train,hasan
+Healthy_rice_leaf  (117).jpg,Healthy Rice Leaf,singleton_0510,train,hasan
+Healthy_rice_leaf  (118).jpg,Healthy Rice Leaf,singleton_0511,test,hasan
+Healthy_rice_leaf  (119).jpg,Healthy Rice Leaf,singleton_0512,train,hasan
+Healthy_rice_leaf  (12).jpg,Healthy Rice Leaf,singleton_0513,train,hasan
+Healthy_rice_leaf  (120).jpg,Healthy Rice Leaf,singleton_0514,train,hasan
+Healthy_rice_leaf  (121).jpg,Healthy Rice Leaf,singleton_0515,train,hasan
+Healthy_rice_leaf  (122).jpg,Healthy Rice Leaf,singleton_0516,val,hasan
+Healthy_rice_leaf  (123).jpg,Healthy Rice Leaf,singleton_0517,train,hasan
+Healthy_rice_leaf  (124).jpg,Healthy Rice Leaf,singleton_0518,test,hasan
+Healthy_rice_leaf  (125).jpg,Healthy Rice Leaf,singleton_0519,val,hasan
+Healthy_rice_leaf  (126).jpg,Healthy Rice Leaf,singleton_0520,train,hasan
+Healthy_rice_leaf  (127).jpg,Healthy Rice Leaf,singleton_0521,train,hasan
+Healthy_rice_leaf  (128).jpg,Healthy Rice Leaf,singleton_0522,train,hasan
+Healthy_rice_leaf  (129).jpg,Healthy Rice Leaf,singleton_0523,val,hasan
+Healthy_rice_leaf  (13).jpg,Healthy Rice Leaf,singleton_0524,test,hasan
+Healthy_rice_leaf  (130).jpg,Healthy Rice Leaf,singleton_0525,train,hasan
+Healthy_rice_leaf  (131).jpg,Healthy Rice Leaf,singleton_0526,val,hasan
+Healthy_rice_leaf  (132).jpg,Healthy Rice Leaf,singleton_0527,train,hasan
+Healthy_rice_leaf  (133).jpg,Healthy Rice Leaf,singleton_0528,train,hasan
+Healthy_rice_leaf  (134).jpg,Healthy Rice Leaf,singleton_0529,train,hasan
+Healthy_rice_leaf  (135).jpg,Healthy Rice Leaf,singleton_0530,train,hasan
+Healthy_rice_leaf  (136).jpg,Healthy Rice Leaf,singleton_0531,train,hasan
+Healthy_rice_leaf  (137).jpg,Healthy Rice Leaf,singleton_0532,train,hasan
+Healthy_rice_leaf  (138).jpg,Healthy Rice Leaf,singleton_0533,train,hasan
+Healthy_rice_leaf  (139).jpg,Healthy Rice Leaf,singleton_0534,train,hasan
+Healthy_rice_leaf  (14).jpg,Healthy Rice Leaf,singleton_0535,train,hasan
+Healthy_rice_leaf  (140).jpg,Healthy Rice Leaf,singleton_0536,test,hasan
+Healthy_rice_leaf  (141).jpg,Healthy Rice Leaf,singleton_0537,val,hasan
+Healthy_rice_leaf  (142).jpg,Healthy Rice Leaf,singleton_0538,train,hasan
+Healthy_rice_leaf  (143).jpg,Healthy Rice Leaf,singleton_0539,test,hasan
+Healthy_rice_leaf  (144).jpg,Healthy Rice Leaf,singleton_0540,train,hasan
+Healthy_rice_leaf  (145).jpg,Healthy Rice Leaf,singleton_0541,train,hasan
+Healthy_rice_leaf  (146).jpg,Healthy Rice Leaf,singleton_0542,train,hasan
+Healthy_rice_leaf  (147).jpg,Healthy Rice Leaf,singleton_0543,train,hasan
+Healthy_rice_leaf  (148).jpg,Healthy Rice Leaf,singleton_0544,train,hasan
+Healthy_rice_leaf  (149).jpg,Healthy Rice Leaf,singleton_0545,train,hasan
+Healthy_rice_leaf  (15).jpg,Healthy Rice Leaf,singleton_0546,test,hasan
+Healthy_rice_leaf  (150).jpg,Healthy Rice Leaf,singleton_0547,train,hasan
+Healthy_rice_leaf  (151).jpg,Healthy Rice Leaf,singleton_0548,train,hasan
+Healthy_rice_leaf  (152).jpg,Healthy Rice Leaf,singleton_0549,train,hasan
+Healthy_rice_leaf  (153).jpg,Healthy Rice Leaf,singleton_0550,train,hasan
+Healthy_rice_leaf  (154).jpg,Healthy Rice Leaf,singleton_0551,val,hasan
+Healthy_rice_leaf  (155).jpg,Healthy Rice Leaf,singleton_0552,train,hasan
+Healthy_rice_leaf  (156).jpg,Healthy Rice Leaf,singleton_0553,train,hasan
+Healthy_rice_leaf  (157).jpg,Healthy Rice Leaf,singleton_0554,val,hasan
+Healthy_rice_leaf  (16).jpg,Healthy Rice Leaf,singleton_0555,train,hasan
+Healthy_rice_leaf  (17).jpg,Healthy Rice Leaf,singleton_0556,test,hasan
+Healthy_rice_leaf  (2).jpg,Healthy Rice Leaf,singleton_0557,train,hasan
+Healthy_rice_leaf  (20).jpg,Healthy Rice Leaf,singleton_0558,test,hasan
+Healthy_rice_leaf  (21).jpg,Healthy Rice Leaf,singleton_0559,train,hasan
+Healthy_rice_leaf  (22).jpg,Healthy Rice Leaf,singleton_0560,val,hasan
+Healthy_rice_leaf  (23).jpg,Healthy Rice Leaf,singleton_0561,val,hasan
+Healthy_rice_leaf  (24).jpg,Healthy Rice Leaf,singleton_0562,train,hasan
+Healthy_rice_leaf  (25).jpg,Healthy Rice Leaf,singleton_0563,train,hasan
+Healthy_rice_leaf  (26).jpg,Healthy Rice Leaf,singleton_0564,train,hasan
+Healthy_rice_leaf  (27).jpg,Healthy Rice Leaf,singleton_0565,val,hasan
+Healthy_rice_leaf  (28).jpg,Healthy Rice Leaf,singleton_0566,train,hasan
+Healthy_rice_leaf  (29).jpg,Healthy Rice Leaf,singleton_0567,train,hasan
+Healthy_rice_leaf  (30).jpg,Healthy Rice Leaf,singleton_0568,train,hasan
+Healthy_rice_leaf  (31).jpg,Healthy Rice Leaf,singleton_0569,train,hasan
+Healthy_rice_leaf  (32).jpg,Healthy Rice Leaf,singleton_0570,train,hasan
+Healthy_rice_leaf  (33).jpg,Healthy Rice Leaf,singleton_0571,train,hasan
+Healthy_rice_leaf  (34).jpg,Healthy Rice Leaf,singleton_0572,test,hasan
+Healthy_rice_leaf  (35).jpg,Healthy Rice Leaf,singleton_0573,train,hasan
+Healthy_rice_leaf  (36).jpg,Healthy Rice Leaf,singleton_0574,train,hasan
+Healthy_rice_leaf  (38).jpg,Healthy Rice Leaf,singleton_0575,train,hasan
+Healthy_rice_leaf  (40).jpg,Healthy Rice Leaf,singleton_0576,train,hasan
+Healthy_rice_leaf  (43).jpg,Healthy Rice Leaf,singleton_0577,train,hasan
+Healthy_rice_leaf  (45).jpg,Healthy Rice Leaf,singleton_0578,val,hasan
+Healthy_rice_leaf  (46).jpg,Healthy Rice Leaf,singleton_0579,train,hasan
+Healthy_rice_leaf  (47).jpg,Healthy Rice Leaf,singleton_0580,train,hasan
+Healthy_rice_leaf  (48).jpg,Healthy Rice Leaf,singleton_0581,train,hasan
+Healthy_rice_leaf  (49).jpg,Healthy Rice Leaf,singleton_0582,train,hasan
+Healthy_rice_leaf  (5).jpg,Healthy Rice Leaf,singleton_0583,train,hasan
+Healthy_rice_leaf  (50).jpg,Healthy Rice Leaf,singleton_0584,train,hasan
+Healthy_rice_leaf  (51).jpg,Healthy Rice Leaf,singleton_0585,train,hasan
+Healthy_rice_leaf  (52).jpg,Healthy Rice Leaf,singleton_0586,train,hasan
+Healthy_rice_leaf  (53).jpg,Healthy Rice Leaf,singleton_0587,train,hasan
+Healthy_rice_leaf  (54).jpg,Healthy Rice Leaf,singleton_0588,val,hasan
+Healthy_rice_leaf  (55).jpg,Healthy Rice Leaf,singleton_0589,train,hasan
+Healthy_rice_leaf  (56).jpg,Healthy Rice Leaf,singleton_0590,val,hasan
+Healthy_rice_leaf  (57).jpg,Healthy Rice Leaf,singleton_0591,train,hasan
+Healthy_rice_leaf  (58).jpg,Healthy Rice Leaf,singleton_0592,train,hasan
+Healthy_rice_leaf  (59).jpg,Healthy Rice Leaf,singleton_0593,train,hasan
+Healthy_rice_leaf  (6).jpg,Healthy Rice Leaf,singleton_0594,val,hasan
+Healthy_rice_leaf  (60).jpg,Healthy Rice Leaf,singleton_0595,train,hasan
+Healthy_rice_leaf  (61).jpg,Healthy Rice Leaf,singleton_0596,val,hasan
+Healthy_rice_leaf  (62).jpg,Healthy Rice Leaf,singleton_0597,train,hasan
+Healthy_rice_leaf  (63).jpg,Healthy Rice Leaf,singleton_0598,train,hasan
+Healthy_rice_leaf  (64).jpg,Healthy Rice Leaf,singleton_0599,train,hasan
+Healthy_rice_leaf  (65).jpg,Healthy Rice Leaf,singleton_0600,val,hasan
+Healthy_rice_leaf  (66).jpg,Healthy Rice Leaf,singleton_0601,val,hasan
+Healthy_rice_leaf  (67).jpg,Healthy Rice Leaf,singleton_0602,val,hasan
+Healthy_rice_leaf  (68).jpg,Healthy Rice Leaf,singleton_0603,train,hasan
+Healthy_rice_leaf  (69).jpg,Healthy Rice Leaf,singleton_0604,train,hasan
+Healthy_rice_leaf  (7).jpg,Healthy Rice Leaf,singleton_0605,train,hasan
+Healthy_rice_leaf  (70).jpg,Healthy Rice Leaf,singleton_0606,train,hasan
+Healthy_rice_leaf  (71).jpg,Healthy Rice Leaf,singleton_0607,train,hasan
+Healthy_rice_leaf  (74).jpg,Healthy Rice Leaf,singleton_0608,train,hasan
+Healthy_rice_leaf  (78).jpg,Healthy Rice Leaf,singleton_0609,train,hasan
+Healthy_rice_leaf  (8).jpg,Healthy Rice Leaf,singleton_0610,train,hasan
+Healthy_rice_leaf  (82).jpg,Healthy Rice Leaf,singleton_0611,train,hasan
+Healthy_rice_leaf  (83).jpg,Healthy Rice Leaf,singleton_0612,train,hasan
+Healthy_rice_leaf  (84).jpg,Healthy Rice Leaf,singleton_0613,train,hasan
+Healthy_rice_leaf  (85).jpg,Healthy Rice Leaf,singleton_0614,train,hasan
+Healthy_rice_leaf  (86).jpg,Healthy Rice Leaf,singleton_0615,train,hasan
+Healthy_rice_leaf  (87).jpg,Healthy Rice Leaf,singleton_0616,test,hasan
+Healthy_rice_leaf  (88).jpg,Healthy Rice Leaf,singleton_0617,val,hasan
+Healthy_rice_leaf  (89).jpg,Healthy Rice Leaf,singleton_0618,train,hasan
+Healthy_rice_leaf  (9).jpg,Healthy Rice Leaf,singleton_0619,train,hasan
+Healthy_rice_leaf  (90).jpg,Healthy Rice Leaf,singleton_0620,val,hasan
+Healthy_rice_leaf  (91).jpg,Healthy Rice Leaf,singleton_0621,train,hasan
+Healthy_rice_leaf  (92).jpg,Healthy Rice Leaf,singleton_0622,train,hasan
+Healthy_rice_leaf  (93).jpg,Healthy Rice Leaf,singleton_0623,train,hasan
+Healthy_rice_leaf  (94).jpg,Healthy Rice Leaf,singleton_0624,train,hasan
+Healthy_rice_leaf  (95).jpg,Healthy Rice Leaf,singleton_0625,train,hasan
+Healthy_rice_leaf  (96).jpg,Healthy Rice Leaf,singleton_0626,train,hasan
+Healthy_rice_leaf  (97).jpg,Healthy Rice Leaf,singleton_0627,train,hasan
+Healthy_rice_leaf  (98).jpg,Healthy Rice Leaf,singleton_0628,train,hasan
+Healthy_rice_leaf  (99).jpg,Healthy Rice Leaf,singleton_0629,train,hasan
+Leaf_blast  (175).jpg,Leaf Blast,group_004,test,hasan
+Leaf_blast  (176).jpg,Leaf Blast,group_004,test,hasan
+Leaf_blast  (177).jpg,Leaf Blast,group_004,test,hasan
+Leaf_blast  (178).jpg,Leaf Blast,group_004,test,hasan
+Leaf_blast  (179).jpg,Leaf Blast,group_004,test,hasan
+Leaf_blast  (180).jpg,Leaf Blast,group_004,test,hasan
+Leaf_blast  (252).jpg,Leaf Blast,group_005,val,hasan
+Leaf_blast  (41).jpg,Leaf Blast,group_005,val,hasan
+Leaf_blast  (42).jpg,Leaf Blast,group_005,val,hasan
+Leaf_blast  (43).jpg,Leaf Blast,group_005,val,hasan
+Leaf_blast  (44).jpg,Leaf Blast,group_005,val,hasan
+Leaf_blast  (45).jpg,Leaf Blast,group_005,val,hasan
+Leaf_blast  (160).jpg,Leaf Blast,group_014,train,hasan
+Leaf_blast  (284).jpg,Leaf Blast,group_014,train,hasan
+Leaf_blast  (285).jpg,Leaf Blast,group_014,train,hasan
+Leaf_blast  (286).jpg,Leaf Blast,group_014,train,hasan
+Leaf_blast  (244).jpg,Leaf Blast,group_015,train,hasan
+Leaf_blast  (245).jpg,Leaf Blast,group_015,train,hasan
+Leaf_blast  (246).jpg,Leaf Blast,group_015,train,hasan
+Leaf_blast  (247).jpg,Leaf Blast,group_015,train,hasan
+Leaf_blast  (248).jpg,Leaf Blast,group_016,train,hasan
+Leaf_blast  (249).jpg,Leaf Blast,group_016,train,hasan
+Leaf_blast  (250).jpg,Leaf Blast,group_016,train,hasan
+Leaf_blast  (251).jpg,Leaf Blast,group_016,train,hasan
+Leaf_blast  (37).jpg,Leaf Blast,group_017,train,hasan
+Leaf_blast  (38).jpg,Leaf Blast,group_017,train,hasan
+Leaf_blast  (39).jpg,Leaf Blast,group_017,train,hasan
+Leaf_blast  (40).jpg,Leaf Blast,group_017,train,hasan
+Leaf_blast  (113).jpg,Leaf Blast,group_026,train,hasan
+Leaf_blast  (114).jpg,Leaf Blast,group_026,train,hasan
+Leaf_blast  (115).jpg,Leaf Blast,group_026,train,hasan
+Leaf_blast  (182).jpg,Leaf Blast,group_027,train,hasan
+Leaf_blast  (183).jpg,Leaf Blast,group_027,train,hasan
+Leaf_blast  (184).jpg,Leaf Blast,group_027,train,hasan
+Leaf_blast  (185).jpg,Leaf Blast,group_028,train,hasan
+Leaf_blast  (186).jpg,Leaf Blast,group_028,train,hasan
+Leaf_blast  (187).jpg,Leaf Blast,group_028,train,hasan
+Leaf_blast  (235).jpg,Leaf Blast,group_029,train,hasan
+Leaf_blast  (236).jpg,Leaf Blast,group_029,train,hasan
+Leaf_blast  (237).jpg,Leaf Blast,group_029,train,hasan
+Leaf_blast  (274).jpg,Leaf Blast,group_030,train,hasan
+Leaf_blast  (275).jpg,Leaf Blast,group_030,train,hasan
+Leaf_blast  (276).jpg,Leaf Blast,group_030,train,hasan
+Leaf_blast  (100).jpg,Leaf Blast,group_070,test,hasan
+Leaf_blast  (99).jpg,Leaf Blast,group_070,test,hasan
+Leaf_blast  (128).jpg,Leaf Blast,group_071,val,hasan
+Leaf_blast  (129).jpg,Leaf Blast,group_071,val,hasan
+Leaf_blast  (131).jpg,Leaf Blast,group_072,train,hasan
+Leaf_blast  (132).jpg,Leaf Blast,group_072,train,hasan
+Leaf_blast  (136).jpg,Leaf Blast,group_073,train,hasan
+Leaf_blast  (137).jpg,Leaf Blast,group_073,train,hasan
+Leaf_blast  (139).jpg,Leaf Blast,group_074,train,hasan
+Leaf_blast  (140).jpg,Leaf Blast,group_074,train,hasan
+Leaf_blast  (141).jpg,Leaf Blast,group_075,train,hasan
+Leaf_blast  (142).jpg,Leaf Blast,group_075,train,hasan
+Leaf_blast  (143).jpg,Leaf Blast,group_076,train,hasan
+Leaf_blast  (144).jpg,Leaf Blast,group_076,train,hasan
+Leaf_blast  (145).jpg,Leaf Blast,group_077,train,hasan
+Leaf_blast  (146).jpg,Leaf Blast,group_077,train,hasan
+Leaf_blast  (147).jpg,Leaf Blast,group_078,val,hasan
+Leaf_blast  (148).jpg,Leaf Blast,group_078,val,hasan
+Leaf_blast  (149).jpg,Leaf Blast,group_079,train,hasan
+Leaf_blast  (150).jpg,Leaf Blast,group_079,train,hasan
+Leaf_blast  (15).jpg,Leaf Blast,group_080,val,hasan
+Leaf_blast  (16).jpg,Leaf Blast,group_080,val,hasan
+Leaf_blast  (151).jpg,Leaf Blast,group_081,train,hasan
+Leaf_blast  (19).jpg,Leaf Blast,group_081,train,hasan
+Leaf_blast  (152).jpg,Leaf Blast,group_082,test,hasan
+Leaf_blast  (153).jpg,Leaf Blast,group_082,test,hasan
+Leaf_blast  (154).jpg,Leaf Blast,group_083,train,hasan
+Leaf_blast  (155).jpg,Leaf Blast,group_083,train,hasan
+Leaf_blast  (156).jpg,Leaf Blast,group_084,train,hasan
+Leaf_blast  (157).jpg,Leaf Blast,group_084,train,hasan
+Leaf_blast  (158).jpg,Leaf Blast,group_085,train,hasan
+Leaf_blast  (159).jpg,Leaf Blast,group_085,train,hasan
+Leaf_blast  (161).jpg,Leaf Blast,group_086,train,hasan
+Leaf_blast  (162).jpg,Leaf Blast,group_086,train,hasan
+Leaf_blast  (163).jpg,Leaf Blast,group_087,train,hasan
+Leaf_blast  (164).jpg,Leaf Blast,group_087,train,hasan
+Leaf_blast  (165).jpg,Leaf Blast,group_088,train,hasan
+Leaf_blast  (166).jpg,Leaf Blast,group_088,train,hasan
+Leaf_blast  (167).jpg,Leaf Blast,group_089,train,hasan
+Leaf_blast  (168).jpg,Leaf Blast,group_089,train,hasan
+Leaf_blast  (169).jpg,Leaf Blast,group_090,test,hasan
+Leaf_blast  (170).jpg,Leaf Blast,group_090,test,hasan
+Leaf_blast  (17).jpg,Leaf Blast,group_091,train,hasan
+Leaf_blast  (18).jpg,Leaf Blast,group_091,train,hasan
+Leaf_blast  (171).jpg,Leaf Blast,group_092,train,hasan
+Leaf_blast  (172).jpg,Leaf Blast,group_092,train,hasan
+Leaf_blast  (173).jpg,Leaf Blast,group_093,train,hasan
+Leaf_blast  (174).jpg,Leaf Blast,group_093,train,hasan
+Leaf_blast  (181).jpg,Leaf Blast,group_094,train,hasan
+Leaf_blast  (24).jpg,Leaf Blast,group_094,train,hasan
+Leaf_blast  (20).jpg,Leaf Blast,group_095,train,hasan
+Leaf_blast  (21).jpg,Leaf Blast,group_095,train,hasan
+Leaf_blast  (22).jpg,Leaf Blast,group_096,val,hasan
+Leaf_blast  (23).jpg,Leaf Blast,group_096,val,hasan
+Leaf_blast  (227).jpg,Leaf Blast,group_097,train,hasan
+Leaf_blast  (228).jpg,Leaf Blast,group_097,train,hasan
+Leaf_blast  (232).jpg,Leaf Blast,group_098,train,hasan
+Leaf_blast  (233).jpg,Leaf Blast,group_098,train,hasan
+Leaf_blast  (240).jpg,Leaf Blast,group_099,train,hasan
+Leaf_blast  (241).jpg,Leaf Blast,group_099,train,hasan
+Leaf_blast  (277).jpg,Leaf Blast,group_100,train,hasan
+Leaf_blast  (278).jpg,Leaf Blast,group_100,train,hasan
+Leaf_blast  (279).jpg,Leaf Blast,group_101,train,hasan
+Leaf_blast  (280).jpg,Leaf Blast,group_101,train,hasan
+Leaf_blast  (282).jpg,Leaf Blast,group_102,train,hasan
+Leaf_blast  (283).jpg,Leaf Blast,group_102,train,hasan
+Leaf_blast  (287).jpg,Leaf Blast,group_103,val,hasan
+Leaf_blast  (288).jpg,Leaf Blast,group_103,val,hasan
+Leaf_blast  (290).jpg,Leaf Blast,group_104,test,hasan
+Leaf_blast  (291).jpg,Leaf Blast,group_104,test,hasan
+Leaf_blast  (292).jpg,Leaf Blast,group_105,train,hasan
+Leaf_blast  (293).jpg,Leaf Blast,group_105,train,hasan
+Leaf_blast  (31).jpg,Leaf Blast,group_106,train,hasan
+Leaf_blast  (32).jpg,Leaf Blast,group_106,train,hasan
+Leaf_blast  (82).jpg,Leaf Blast,group_107,train,hasan
+Leaf_blast  (83).jpg,Leaf Blast,group_107,train,hasan
+Leaf_blast  (91).jpg,Leaf Blast,group_108,test,hasan
+Leaf_blast  (93).jpg,Leaf Blast,group_108,test,hasan
+Leaf_blast  (1).jpg,Leaf Blast,singleton_0307,test,hasan
+Leaf_blast  (10).jpg,Leaf Blast,singleton_0308,train,hasan
+Leaf_blast  (101).jpg,Leaf Blast,singleton_0309,train,hasan
+Leaf_blast  (102).jpg,Leaf Blast,singleton_0310,test,hasan
+Leaf_blast  (103).jpg,Leaf Blast,singleton_0311,train,hasan
+Leaf_blast  (104).jpg,Leaf Blast,singleton_0312,train,hasan
+Leaf_blast  (105).jpg,Leaf Blast,singleton_0313,train,hasan
+Leaf_blast  (106).jpg,Leaf Blast,singleton_0314,val,hasan
+Leaf_blast  (107).jpg,Leaf Blast,singleton_0315,train,hasan
+Leaf_blast  (108).jpg,Leaf Blast,singleton_0316,train,hasan
+Leaf_blast  (109).jpg,Leaf Blast,singleton_0317,val,hasan
+Leaf_blast  (11).jpg,Leaf Blast,singleton_0318,test,hasan
+Leaf_blast  (110).jpg,Leaf Blast,singleton_0319,val,hasan
+Leaf_blast  (111).jpg,Leaf Blast,singleton_0320,val,hasan
+Leaf_blast  (112).jpg,Leaf Blast,singleton_0321,train,hasan
+Leaf_blast  (116).jpg,Leaf Blast,singleton_0322,train,hasan
+Leaf_blast  (117).jpg,Leaf Blast,singleton_0323,train,hasan
+Leaf_blast  (118).jpg,Leaf Blast,singleton_0324,train,hasan
+Leaf_blast  (119).jpg,Leaf Blast,singleton_0325,train,hasan
+Leaf_blast  (12).jpg,Leaf Blast,singleton_0326,train,hasan
+Leaf_blast  (120).jpg,Leaf Blast,singleton_0327,val,hasan
+Leaf_blast  (121).jpg,Leaf Blast,singleton_0328,train,hasan
+Leaf_blast  (122).jpg,Leaf Blast,singleton_0329,train,hasan
+Leaf_blast  (123).jpg,Leaf Blast,singleton_0330,train,hasan
+Leaf_blast  (124).jpg,Leaf Blast,singleton_0331,train,hasan
+Leaf_blast  (125).jpg,Leaf Blast,singleton_0332,val,hasan
+Leaf_blast  (126).jpg,Leaf Blast,singleton_0333,train,hasan
+Leaf_blast  (127).jpg,Leaf Blast,singleton_0334,train,hasan
+Leaf_blast  (13).jpg,Leaf Blast,singleton_0335,train,hasan
+Leaf_blast  (130).jpg,Leaf Blast,singleton_0336,val,hasan
+Leaf_blast  (133).jpg,Leaf Blast,singleton_0337,train,hasan
+Leaf_blast  (134).jpg,Leaf Blast,singleton_0338,train,hasan
+Leaf_blast  (135).jpg,Leaf Blast,singleton_0339,test,hasan
+Leaf_blast  (138).jpg,Leaf Blast,singleton_0340,val,hasan
+Leaf_blast  (14).jpg,Leaf Blast,singleton_0341,train,hasan
+Leaf_blast  (188).jpg,Leaf Blast,singleton_0342,train,hasan
+Leaf_blast  (189).jpg,Leaf Blast,singleton_0343,train,hasan
+Leaf_blast  (190).jpg,Leaf Blast,singleton_0344,train,hasan
+Leaf_blast  (191).jpg,Leaf Blast,singleton_0345,train,hasan
+Leaf_blast  (192).jpg,Leaf Blast,singleton_0346,train,hasan
+Leaf_blast  (193).jpg,Leaf Blast,singleton_0347,train,hasan
+Leaf_blast  (194).jpg,Leaf Blast,singleton_0348,val,hasan
+Leaf_blast  (195).jpg,Leaf Blast,singleton_0349,train,hasan
+Leaf_blast  (196).jpg,Leaf Blast,singleton_0350,train,hasan
+Leaf_blast  (197).jpg,Leaf Blast,singleton_0351,train,hasan
+Leaf_blast  (198).jpg,Leaf Blast,singleton_0352,train,hasan
+Leaf_blast  (199).jpg,Leaf Blast,singleton_0353,train,hasan
+Leaf_blast  (2).jpg,Leaf Blast,singleton_0354,val,hasan
+Leaf_blast  (200).jpg,Leaf Blast,singleton_0355,train,hasan
+Leaf_blast  (201).jpg,Leaf Blast,singleton_0356,train,hasan
+Leaf_blast  (202).jpg,Leaf Blast,singleton_0357,train,hasan
+Leaf_blast  (203).jpg,Leaf Blast,singleton_0358,train,hasan
+Leaf_blast  (204).jpg,Leaf Blast,singleton_0359,train,hasan
+Leaf_blast  (205).jpg,Leaf Blast,singleton_0360,train,hasan
+Leaf_blast  (206).jpg,Leaf Blast,singleton_0361,test,hasan
+Leaf_blast  (207).jpg,Leaf Blast,singleton_0362,train,hasan
+Leaf_blast  (208).jpg,Leaf Blast,singleton_0363,train,hasan
+Leaf_blast  (209).jpg,Leaf Blast,singleton_0364,val,hasan
+Leaf_blast  (210).jpg,Leaf Blast,singleton_0365,val,hasan
+Leaf_blast  (211).jpg,Leaf Blast,singleton_0366,test,hasan
+Leaf_blast  (212).jpg,Leaf Blast,singleton_0367,val,hasan
+Leaf_blast  (213).jpg,Leaf Blast,singleton_0368,train,hasan
+Leaf_blast  (214).jpg,Leaf Blast,singleton_0369,test,hasan
+Leaf_blast  (215).jpg,Leaf Blast,singleton_0370,train,hasan
+Leaf_blast  (216).jpg,Leaf Blast,singleton_0371,val,hasan
+Leaf_blast  (217).jpg,Leaf Blast,singleton_0372,val,hasan
+Leaf_blast  (218).jpg,Leaf Blast,singleton_0373,test,hasan
+Leaf_blast  (219).jpg,Leaf Blast,singleton_0374,train,hasan
+Leaf_blast  (220).jpg,Leaf Blast,singleton_0375,test,hasan
+Leaf_blast  (221).jpg,Leaf Blast,singleton_0376,val,hasan
+Leaf_blast  (222).jpg,Leaf Blast,singleton_0377,train,hasan
+Leaf_blast  (223).jpg,Leaf Blast,singleton_0378,val,hasan
+Leaf_blast  (224).jpg,Leaf Blast,singleton_0379,train,hasan
+Leaf_blast  (225).jpg,Leaf Blast,singleton_0380,train,hasan
+Leaf_blast  (226).jpg,Leaf Blast,singleton_0381,train,hasan
+Leaf_blast  (229).jpg,Leaf Blast,singleton_0382,train,hasan
+Leaf_blast  (230).jpg,Leaf Blast,singleton_0383,test,hasan
+Leaf_blast  (231).jpg,Leaf Blast,singleton_0384,train,hasan
+Leaf_blast  (234).jpg,Leaf Blast,singleton_0385,train,hasan
+Leaf_blast  (238).jpg,Leaf Blast,singleton_0386,test,hasan
+Leaf_blast  (239).jpg,Leaf Blast,singleton_0387,test,hasan
+Leaf_blast  (242).jpg,Leaf Blast,singleton_0388,test,hasan
+Leaf_blast  (243).jpg,Leaf Blast,singleton_0389,train,hasan
+Leaf_blast  (25).jpg,Leaf Blast,singleton_0390,train,hasan
+Leaf_blast  (253).jpg,Leaf Blast,singleton_0391,train,hasan
+Leaf_blast  (254).jpg,Leaf Blast,singleton_0392,val,hasan
+Leaf_blast  (255).jpg,Leaf Blast,singleton_0393,train,hasan
+Leaf_blast  (256).jpg,Leaf Blast,singleton_0394,train,hasan
+Leaf_blast  (257).jpg,Leaf Blast,singleton_0395,train,hasan
+Leaf_blast  (258).jpg,Leaf Blast,singleton_0396,train,hasan
+Leaf_blast  (259).jpg,Leaf Blast,singleton_0397,train,hasan
+Leaf_blast  (26).jpg,Leaf Blast,singleton_0398,val,hasan
+Leaf_blast  (260).jpg,Leaf Blast,singleton_0399,train,hasan
+Leaf_blast  (261).jpg,Leaf Blast,singleton_0400,train,hasan
+Leaf_blast  (262).jpg,Leaf Blast,singleton_0401,train,hasan
+Leaf_blast  (263).jpg,Leaf Blast,singleton_0402,val,hasan
+Leaf_blast  (264).jpg,Leaf Blast,singleton_0403,train,hasan
+Leaf_blast  (265).jpg,Leaf Blast,singleton_0404,train,hasan
+Leaf_blast  (266).jpg,Leaf Blast,singleton_0405,test,hasan
+Leaf_blast  (267).jpg,Leaf Blast,singleton_0406,train,hasan
+Leaf_blast  (268).jpg,Leaf Blast,singleton_0407,train,hasan
+Leaf_blast  (269).jpg,Leaf Blast,singleton_0408,test,hasan
+Leaf_blast  (27).jpg,Leaf Blast,singleton_0409,train,hasan
+Leaf_blast  (270).jpg,Leaf Blast,singleton_0410,train,hasan
+Leaf_blast  (271).jpg,Leaf Blast,singleton_0411,train,hasan
+Leaf_blast  (272).jpg,Leaf Blast,singleton_0412,val,hasan
+Leaf_blast  (273).jpg,Leaf Blast,singleton_0413,val,hasan
+Leaf_blast  (28).jpg,Leaf Blast,singleton_0414,train,hasan
+Leaf_blast  (281).jpg,Leaf Blast,singleton_0415,val,hasan
+Leaf_blast  (29).jpg,Leaf Blast,singleton_0416,train,hasan
+Leaf_blast  (294).jpg,Leaf Blast,singleton_0417,train,hasan
+Leaf_blast  (295).jpg,Leaf Blast,singleton_0418,test,hasan
+Leaf_blast  (296).jpg,Leaf Blast,singleton_0419,train,hasan
+Leaf_blast  (297).jpg,Leaf Blast,singleton_0420,train,hasan
+Leaf_blast  (298).jpg,Leaf Blast,singleton_0421,train,hasan
+Leaf_blast  (299).jpg,Leaf Blast,singleton_0422,train,hasan
+Leaf_blast  (3).jpg,Leaf Blast,singleton_0423,train,hasan
+Leaf_blast  (30).jpg,Leaf Blast,singleton_0424,train,hasan
+Leaf_blast  (300).jpg,Leaf Blast,singleton_0425,test,hasan
+Leaf_blast  (301).jpg,Leaf Blast,singleton_0426,val,hasan
+Leaf_blast  (302).jpg,Leaf Blast,singleton_0427,train,hasan
+Leaf_blast  (303).jpg,Leaf Blast,singleton_0428,test,hasan
+Leaf_blast  (304).jpg,Leaf Blast,singleton_0429,val,hasan
+Leaf_blast  (305).jpg,Leaf Blast,singleton_0430,train,hasan
+Leaf_blast  (33).jpg,Leaf Blast,singleton_0431,test,hasan
+Leaf_blast  (34).jpg,Leaf Blast,singleton_0432,train,hasan
+Leaf_blast  (35).jpg,Leaf Blast,singleton_0433,train,hasan
+Leaf_blast  (36).jpg,Leaf Blast,singleton_0434,train,hasan
+Leaf_blast  (4).jpg,Leaf Blast,singleton_0435,test,hasan
+Leaf_blast  (46).jpg,Leaf Blast,singleton_0436,train,hasan
+Leaf_blast  (47).jpg,Leaf Blast,singleton_0437,train,hasan
+Leaf_blast  (48).jpg,Leaf Blast,singleton_0438,train,hasan
+Leaf_blast  (49).jpg,Leaf Blast,singleton_0439,train,hasan
+Leaf_blast  (5).jpg,Leaf Blast,singleton_0440,train,hasan
+Leaf_blast  (50).jpg,Leaf Blast,singleton_0441,test,hasan
+Leaf_blast  (51).jpg,Leaf Blast,singleton_0442,train,hasan
+Leaf_blast  (52).jpg,Leaf Blast,singleton_0443,train,hasan
+Leaf_blast  (53).jpg,Leaf Blast,singleton_0444,train,hasan
+Leaf_blast  (54).jpg,Leaf Blast,singleton_0445,test,hasan
+Leaf_blast  (55).jpg,Leaf Blast,singleton_0446,train,hasan
+Leaf_blast  (56).jpg,Leaf Blast,singleton_0447,train,hasan
+Leaf_blast  (57).jpg,Leaf Blast,singleton_0448,train,hasan
+Leaf_blast  (58).jpg,Leaf Blast,singleton_0449,train,hasan
+Leaf_blast  (59).jpg,Leaf Blast,singleton_0450,train,hasan
+Leaf_blast  (6).jpg,Leaf Blast,singleton_0451,train,hasan
+Leaf_blast  (60).jpg,Leaf Blast,singleton_0452,test,hasan
+Leaf_blast  (61).jpg,Leaf Blast,singleton_0453,test,hasan
+Leaf_blast  (62).jpg,Leaf Blast,singleton_0454,train,hasan
+Leaf_blast  (63).jpg,Leaf Blast,singleton_0455,train,hasan
+Leaf_blast  (64).jpg,Leaf Blast,singleton_0456,val,hasan
+Leaf_blast  (65).jpg,Leaf Blast,singleton_0457,train,hasan
+Leaf_blast  (66).jpg,Leaf Blast,singleton_0458,train,hasan
+Leaf_blast  (67).jpg,Leaf Blast,singleton_0459,test,hasan
+Leaf_blast  (68).jpg,Leaf Blast,singleton_0460,train,hasan
+Leaf_blast  (69).jpg,Leaf Blast,singleton_0461,train,hasan
+Leaf_blast  (7).jpg,Leaf Blast,singleton_0462,train,hasan
+Leaf_blast  (70).jpg,Leaf Blast,singleton_0463,train,hasan
+Leaf_blast  (71).jpg,Leaf Blast,singleton_0464,train,hasan
+Leaf_blast  (72).jpg,Leaf Blast,singleton_0465,train,hasan
+Leaf_blast  (73).jpg,Leaf Blast,singleton_0466,train,hasan
+Leaf_blast  (74).jpg,Leaf Blast,singleton_0467,val,hasan
+Leaf_blast  (75).jpg,Leaf Blast,singleton_0468,train,hasan
+Leaf_blast  (76).jpg,Leaf Blast,singleton_0469,train,hasan
+Leaf_blast  (77).jpg,Leaf Blast,singleton_0470,train,hasan
+Leaf_blast  (78).jpg,Leaf Blast,singleton_0471,test,hasan
+Leaf_blast  (79).jpg,Leaf Blast,singleton_0472,train,hasan
+Leaf_blast  (8).jpg,Leaf Blast,singleton_0473,train,hasan
+Leaf_blast  (80).jpg,Leaf Blast,singleton_0474,test,hasan
+Leaf_blast  (81).jpg,Leaf Blast,singleton_0475,train,hasan
+Leaf_blast  (84).jpg,Leaf Blast,singleton_0476,test,hasan
+Leaf_blast  (85).jpg,Leaf Blast,singleton_0477,train,hasan
+Leaf_blast  (86).jpg,Leaf Blast,singleton_0478,train,hasan
+Leaf_blast  (87).jpg,Leaf Blast,singleton_0479,train,hasan
+Leaf_blast  (88).jpg,Leaf Blast,singleton_0480,train,hasan
+Leaf_blast  (89).jpg,Leaf Blast,singleton_0481,val,hasan
+Leaf_blast  (9).jpg,Leaf Blast,singleton_0482,train,hasan
+Leaf_blast  (90).jpg,Leaf Blast,singleton_0483,train,hasan
+Leaf_blast  (92).jpg,Leaf Blast,singleton_0484,train,hasan
+Leaf_blast  (94).jpg,Leaf Blast,singleton_0485,test,hasan
+Leaf_blast  (95).jpg,Leaf Blast,singleton_0486,val,hasan
+Leaf_blast  (96).jpg,Leaf Blast,singleton_0487,val,hasan
+Leaf_blast  (97).jpg,Leaf Blast,singleton_0488,train,hasan
+Leaf_blast  (98).jpg,Leaf Blast,singleton_0489,train,hasan

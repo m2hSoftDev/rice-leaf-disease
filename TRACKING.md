@@ -2,14 +2,14 @@
 
 ## Current Status
 - Milestone: M0
-- Active task: T-002 (blocked)
+- Active task: None (T-002 DONE)
 - Last updated: 2026-11-03
 
 ## Task Board
 | ID | Task | Status | Owner | Notes |
 |---|---|---|---|---|
 | T-001 | Create GitHub repo | DONE | agent | Pushed to https://github.com/m2hsoftdev/rice-leaf-disease.git on 2026-11-03 (commit 06fe726) |
-| T-002 | Python env + TensorFlow check | BLOCKED | agent | TF 2.21.0 & deps installed in .venv; import blocked by missing MSVC++ 2015-2022 x64 Redistributable (msvcp140.dll) |
+| T-002 | Python env + TensorFlow check | DONE | agent | Verified TensorFlow 2.21.0 imports successfully in .venv on 2026-11-03 |
 | T-003 | Create Flutter project, verify it builds for Android | TODO | agent | |
 | T-004 | Choose license and write LICENSE file (D-01) | DONE | agent | MIT License chosen per D-01; Copyright (c) 2026 Mehedi Hasan; root LICENSE created on 2026-11-03 |
 | T-005 | Write dataset card draft in docs/dataset_card.md | DONE | agent | Draft completed in docs/dataset_card.md with verified Hasan counts, license quote, and UNVERIFIED collection markings |
@@ -19,7 +19,7 @@
 | T-013 | Get expert labels for field photos; fill field_log.csv | TODO | agent | |
 | T-014 | Dedupe public data with perceptual hashing | DONE | agent | pHash analysis complete (Hamming <= 5 across all target classes); 108 duplicate groups found; group_035 excluded per D-17; per D-18 groups are kept in full and split by group; active counts before split: Bacterial Leaf Blight 179, Brown Spot 267, Leaf Blast 304, Healthy 157 (total 907 images across 737 groups) |
 
-| T-015 | Create train/val/test splits (Section 7.3) and save split manifests | TODO | agent | |
+| T-015 | Create train/val/test splits (Section 7.3) and save split manifests | DONE | agent | Group-stratified split manifest created with seed 42 in data/metadata/split_manifest.csv; 70/15/15 target achieved (634 train, 135 val, 138 test); zero leakage |
 | T-015a | Dataset candidate search | DONE | agent | Completed; source choice recorded in D-15 (Hasan et al. CC BY 4.0 only for v1; 4 classes per D-14) |
 
 
@@ -88,7 +88,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - D-18: Near-duplicate groups (pHash Hamming distance <= 5, computed across all target classes) are kept in full. They are not deleted. Each group is assigned to one split only, so near-copies cannot leak between train and test (APPROVED, 2026-11-03)
 
 ## Blockers and Questions
-- T-002: TensorFlow import requires Microsoft Visual C++ 2015-2022 Redistributable (x64) installed on Windows (missing msvcp140.dll). User must run official installer with admin elevation.
+- None (T-002 resolved: TensorFlow 2.21.0 imports cleanly in .venv).
 
 ## Daily Log
 - 2026-11-02: Recorded decisions D-08 to D-13; updated PROJECT_SCOPE.md to reflect decisions D-08 through D-13; added task T-015a to task board.
@@ -106,5 +106,9 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: Audited all 412,686 pairwise combinations across all target classes; verified that no cross-class near-duplicates exist beyond group_035.
 - 2026-11-03: Spot-checked 10 random duplicate groups (including 3 Brown Spot, 3 Leaf Blast) and generated side-by-side grids in results/figures/dedup_spotcheck/; confirmed 100% true near-duplicates and 0 false positives.
 - 2026-11-03: T-004 DONE - Created root LICENSE file under MIT License with copyright holder Mehedi Hasan (D-01).
+- 2026-11-03: T-002 DONE - Verified TensorFlow import in .venv (version 2.21.0); MSVC++ Redistributable installed and functional.
+- 2026-11-03: T-015 DONE - Generated group-stratified train/val/test split (seed 42) into data/metadata/split_manifest.csv and results/metrics/split_summary.csv; verified zero leakage and exact count matches across all 4 classes.
+
+
 
 

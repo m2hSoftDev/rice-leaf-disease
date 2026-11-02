@@ -2,13 +2,13 @@
 
 ## Current Status
 - Milestone: M0
-- Active task: none
-- Last updated: 2026-11-02
+- Active task: T-002 (blocked)
+- Last updated: 2026-11-03
 
 ## Task Board
 | ID | Task | Status | Owner | Notes |
 |---|---|---|---|---|
-| T-001 | Create GitHub repo | IN_PROGRESS | agent | Local folder structure, .gitignore, and git init complete; remote GitHub repo setup pending user action |
+| T-001 | Create GitHub repo | DONE | agent | Pushed to https://github.com/m2hsoftdev/rice-leaf-disease.git on 2026-11-03 (commit 06fe726) |
 | T-002 | Python env + TensorFlow check | BLOCKED | agent | TF 2.21.0 & deps installed in .venv; import blocked by missing MSVC++ 2015-2022 x64 Redistributable (msvcp140.dll) |
 | T-003 | Create Flutter project, verify it builds for Android | TODO | agent | |
 | T-004 | Choose license and write LICENSE file (D-01) | TODO | agent | |
@@ -19,7 +19,7 @@
 | T-013 | Get expert labels for field photos; fill field_log.csv | TODO | agent | |
 | T-014 | Dedupe public data with perceptual hashing | TODO | agent | |
 | T-015 | Create train/val/test splits (Section 7.3) and save split manifests | TODO | agent | |
-| T-015a | Dataset candidate search | UNVERIFIED | agent | Search Kaggle/Mendeley; save details to docs/dataset_candidates.md; no downloads until approved |
+| T-015a | Dataset candidate search | UNVERIFIED | agent | docs/dataset_candidates.md updated with class counts, quoted licenses, folder names, and leaf_smut options; awaiting user review |
 | T-020 | Class distribution report and sample grid | TODO | agent | |
 | T-021 | B0 majority baseline metrics | TODO | agent | |
 | T-022 | B1 small CNN from scratch | TODO | agent | |
@@ -76,10 +76,12 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - D-13: The primary cross-platform entry point is `python -m scripts.reproduce_all`. Do not create a bash script. Add a PowerShell wrapper only if I ask for one (2026-11-02)
 
 ## Blockers and Questions
-- T-002: TensorFlow import requires Microsoft Visual C++ 2015-2022 Redistributable (x64) installed on Windows (missing msvcp140.dll / msvcp140_1.dll). User must run official installer with admin elevation.
-- T-001: GitHub remote creation requires user action (GitHub CLI not installed/authenticated).
-- T-015a: No single public dataset provides all 5 classes with >= 100 images. User decision needed on composite approach.
+- T-002: TensorFlow import requires Microsoft Visual C++ 2015-2022 Redistributable (x64) installed on Windows (missing msvcp140.dll). User must run official installer with admin elevation.
+- T-015a: Public datasets do not contain all 5 classes with >= 100 images natively. User decision needed on Options A, B, or C.
 
 ## Daily Log
 - 2026-11-02: Recorded decisions D-08 to D-13; updated PROJECT_SCOPE.md to reflect decisions D-08 through D-13; added task T-015a to task board.
 - 2026-11-02: Executed T-015a (dataset search saved to docs/dataset_candidates.md); executed T-001 locally (created Section 12 directory structure, .gitignore, .gitkeep files, git init); created requirements.txt with pinned versions and installed dependencies in .venv; T-002 marked BLOCKED due to missing MSVC++ Redistributable (msvcp140.dll).
+- 2026-11-03: T-001 DONE - Updated .gitignore with strict dataset/model exclusions and pushed to origin (commits b41c399, 06fe726).
+- 2026-11-03: T-002 checked - TensorFlow import error persists (msvcp140.dll missing); remains BLOCKED.
+- 2026-11-03: T-015a updated docs/dataset_candidates.md with exact folder names, quoted licenses, count mismatch explanations, and leaf_smut options analysis (UNVERIFIED).

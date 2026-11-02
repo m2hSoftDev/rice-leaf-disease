@@ -32,6 +32,8 @@ data/**/*.tar.gz
 results/figures/*
 !results/figures/.gitkeep
 results/metrics/*
+!results/metrics/
+!results/metrics/*.csv
 !results/metrics/.gitkeep
 results/failure_cases/*
 !results/failure_cases/.gitkeep

@@ -1,0 +1,37 @@
+# Python virtual environments
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Data directories (per PROJECT_SCOPE.md: data is not committed to git)
+data/raw/
+data/processed/
+!data/metadata/
+!data/**/.gitkeep
+
+# Results artifacts and cache
+results/figures/*
+!results/figures/.gitkeep
+results/metrics/*
+!results/metrics/.gitkeep
+results/failure_cases/*
+!results/failure_cases/.gitkeep
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Flutter build artifacts
+app/build/
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/.packages

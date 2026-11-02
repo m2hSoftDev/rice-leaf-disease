@@ -11,15 +11,18 @@
 | T-001 | Create GitHub repo | DONE | agent | Pushed to https://github.com/m2hsoftdev/rice-leaf-disease.git on 2026-11-03 (commit 06fe726) |
 | T-002 | Python env + TensorFlow check | BLOCKED | agent | TF 2.21.0 & deps installed in .venv; import blocked by missing MSVC++ 2015-2022 x64 Redistributable (msvcp140.dll) |
 | T-003 | Create Flutter project, verify it builds for Android | TODO | agent | |
-| T-004 | Choose license and write LICENSE file (D-01) | TODO | agent | |
-| T-005 | Write dataset card draft in docs/dataset_card.md | TODO | agent | |
-| T-010 | Download public datasets, record source and license in licenses.md | TODO | agent | |
+| T-004 | Choose license and write LICENSE file (D-01) | DONE | agent | MIT License chosen per D-01; Copyright (c) 2026 Mehedi Hasan; root LICENSE created on 2026-11-03 |
+| T-005 | Write dataset card draft in docs/dataset_card.md | DONE | agent | Draft completed in docs/dataset_card.md with verified Hasan counts, license quote, and UNVERIFIED collection markings |
+| T-010 | Download public datasets, record source and license in licenses.md | DONE | agent | Hasan archive downloaded, extracted, verified (1,701 images, SHA-256 verified, CC BY 4.0); data/metadata/licenses.md recorded |
 | T-011 | Build field photo collection plan (sites, dates, consent form, photo protocol) | TODO | agent | |
 | T-012 | Collect field photos (target 300–500, all 5 classes where present) | TODO | agent | |
 | T-013 | Get expert labels for field photos; fill field_log.csv | TODO | agent | |
-| T-014 | Dedupe public data with perceptual hashing | TODO | agent | |
+| T-014 | Dedupe public data with perceptual hashing | DONE | agent | pHash analysis complete (Hamming <= 5 across all target classes); 108 duplicate groups found; group_035 excluded per D-17; per D-18 groups are kept in full and split by group; active counts before split: Bacterial Leaf Blight 179, Brown Spot 267, Leaf Blast 304, Healthy 157 (total 907 images across 737 groups) |
+
 | T-015 | Create train/val/test splits (Section 7.3) and save split manifests | TODO | agent | |
-| T-015a | Dataset candidate search | UNVERIFIED | agent | docs/dataset_candidates.md updated with class counts, quoted licenses, folder names, and leaf_smut options; awaiting user review |
+| T-015a | Dataset candidate search | DONE | agent | Completed; source choice recorded in D-15 (Hasan et al. CC BY 4.0 only for v1; 4 classes per D-14) |
+
+
 | T-020 | Class distribution report and sample grid | TODO | agent | |
 | T-021 | B0 majority baseline metrics | TODO | agent | |
 | T-022 | B1 small CNN from scratch | TODO | agent | |
@@ -67,17 +70,25 @@
 Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 
 ## Decisions Log
-- D-01: MIT license (YYYY-MM-DD)
+- D-01: MIT license (2026-11-03)
 - D-08: State management is Riverpod (2026-11-02)
 - D-09: Local storage for scan history is sqflite (2026-11-02)
 - D-10: On-device Grad-CAM is out of scope for v1. Grad-CAM runs only in the Python evaluation notebook for test_field errors. The app shows no heatmaps in v1. Precomputed demo heatmaps are not allowed (2026-11-02)
 - D-11: Low-confidence behavior (top confidence < 60%): show an "Uncertain" banner with the confidence score and the text "Please consult an agricultural expert." Hide the advisory section. The top class name may appear in the banner as a weak guess, but no treatment advice is shown for it (2026-11-02)
 - D-12: Milestones M2 and M3 use public data only and may run in parallel with field collection. Replace Gate 1 with Gate 1a (public splits and dataset cards, end of M1) and Gate 1b (field photos collected and expert-labeled, required before M4) (2026-11-02)
 - D-13: The primary cross-platform entry point is `python -m scripts.reproduce_all`. Do not create a bash script. Add a PowerShell wrapper only if I ask for one (2026-11-02)
+- D-14: Amend D-07 to four classes for v1 (bacterial_leaf_blight, brown_spot, leaf_blast, healthy). Leaf Smut is deferred to v2 (APPROVED, 2026-11-03)
+  - Proposed Amendment: Locked decision D-07 amended from 5 to 4 classes: bacterial_leaf_blight, brown_spot, leaf_blast, healthy.
+  - Reason: Section 6 requires >= 100 images per class before training. Public Leaf Smut is limited to 40 images (UCI ID 486), causing severe class imbalance (7:1) and unreliable test metrics. Candidate 1 (Hasan et al.) provides verified counts: Bacterial Leaf Blight 180, Brown Spot 267, Leaf Blast 305, Healthy 157 (original images, before deduplication).
+  - Note: Healthy (157) is the smallest class; the 100-image rule must be re-checked after T-014 deduplication.
+  - What Remains Open: Leaf Smut deferred to v2. Field campaign (Gate 1b) or institutional partner (BRRI) may supply >= 100 images to expand back to 5 classes under a future DECISION.
+- D-15: v1 trains and evaluates on the Hasan et al. (CC BY 4.0) dataset only. Sethy et al. and Ramesh & Vydeki are not used in training or test splits for v1. Sethy may be used later as an external cross-check only, and only after a new DECISION (APPROVED, 2026-11-03)
+- D-16: Saputra and Anshul M are excluded because their licenses are Unknown (APPROVED, 2026-11-03)
+- D-17: Exclude both instances of the cross-class duplicate group_035 (Bacterial_leaf_Blight (33).jpg and Leaf_blast (289).jpg) from v1. Reason: the same image carries two conflicting labels (APPROVED, 2026-11-03)
+- D-18: Near-duplicate groups (pHash Hamming distance <= 5, computed across all target classes) are kept in full. They are not deleted. Each group is assigned to one split only, so near-copies cannot leak between train and test (APPROVED, 2026-11-03)
 
 ## Blockers and Questions
 - T-002: TensorFlow import requires Microsoft Visual C++ 2015-2022 Redistributable (x64) installed on Windows (missing msvcp140.dll). User must run official installer with admin elevation.
-- T-015a: Public datasets do not contain all 5 classes with >= 100 images natively. User decision needed on Options A, B, or C.
 
 ## Daily Log
 - 2026-11-02: Recorded decisions D-08 to D-13; updated PROJECT_SCOPE.md to reflect decisions D-08 through D-13; added task T-015a to task board.
@@ -85,3 +96,15 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: T-001 DONE - Updated .gitignore with strict dataset/model exclusions and pushed to origin (commits b41c399, 06fe726).
 - 2026-11-03: T-002 checked - TensorFlow import error persists (msvcp140.dll missing); remains BLOCKED.
 - 2026-11-03: T-015a updated docs/dataset_candidates.md with exact folder names, quoted licenses, count mismatch explanations, and leaf_smut options analysis (UNVERIFIED).
+- 2026-11-03: Resolved Candidate 3 license (UCI CC BY 4.0 vs Kaggle Unknown), added Sethy confound analysis, Option A PROPOSED decision draft, and Hasan verification checklist to docs/dataset_candidates.md.
+- 2026-11-03: Recorded approved decisions D-14 (amend D-07 to 4 classes, drop Leaf Smut for v1), D-15 (single source Hasan et al. CC BY 4.0 for v1), and D-16 (exclude unknown licenses); updated PROJECT_SCOPE.md Sections 6, 15, 17; marked T-015a DONE; completed T-010 (downloaded, extracted, verified Hasan archive, 1,701 originals verified against SHA-256 eb1e804..., created data/metadata/licenses.md).
+- 2026-11-03: T-005 DONE - Created dataset card draft in docs/dataset_card.md with verified Hasan counts, CC BY 4.0 license, and UNVERIFIED collection status.
+- 2026-11-03: T-014 DONE - Ran perceptual hash deduplication analysis (Hamming <= 5 on 64-bit DCT pHash) across 909 target images; found 108 near-duplicate groups; generated data/metadata/dedup_report.csv; all 4 target classes comfortably pass >= 100 threshold (Healthy: 146).
+- 2026-11-03: Recorded approved decision D-17 (exclude cross-class duplicate group_035 due to conflicting labels) in PROJECT_SCOPE.md Section 17 and TRACKING.md.
+- 2026-11-03: Recorded approved decision D-18 (keep near-duplicate groups in full and assign each group to one split only) in PROJECT_SCOPE.md Section 17 and TRACKING.md.
+- 2026-11-03: Corrected T-014 notes in TRACKING.md: designated 'keep one representative' counts as informational and documented active pre-split counts (907 images across 737 groups, group_035 excluded).
+- 2026-11-03: Audited all 412,686 pairwise combinations across all target classes; verified that no cross-class near-duplicates exist beyond group_035.
+- 2026-11-03: Spot-checked 10 random duplicate groups (including 3 Brown Spot, 3 Leaf Blast) and generated side-by-side grids in results/figures/dedup_spotcheck/; confirmed 100% true near-duplicates and 0 false positives.
+- 2026-11-03: T-004 DONE - Created root LICENSE file under MIT License with copyright holder Mehedi Hasan (D-01).
+
+

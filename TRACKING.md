@@ -14,7 +14,7 @@
 | T-004 | Choose license and write LICENSE file (D-01) | DONE | agent | MIT License chosen per D-01; Copyright (c) 2026 Mehedi Hasan; root LICENSE created on 2026-11-03 |
 | T-005 | Write dataset card draft in docs/dataset_card.md | DONE | agent | Draft completed in docs/dataset_card.md with verified Hasan counts, license quote, and UNVERIFIED collection markings |
 | T-010 | Download public datasets, record source and license in licenses.md | DONE | agent | Hasan archive downloaded, extracted, verified (1,701 images, SHA-256 verified, CC BY 4.0); data/metadata/licenses.md recorded |
-| T-011 | Build field photo collection plan (sites, dates, consent form, photo protocol) | TODO | agent | |
+| T-011 | Build field photo collection plan (sites, dates, consent form, photo protocol) | TODO | user | |
 | T-012 | Collect field photos (target 300–500, all 5 classes where present) | TODO | agent | |
 | T-013 | Get expert labels for field photos; fill field_log.csv | TODO | agent | |
 | T-014 | Dedupe public data with perceptual hashing | DONE | agent | pHash analysis complete (Hamming <= 5 across all target classes); 108 duplicate groups found; group_035 excluded per D-17; per D-18 groups are kept in full and split by group; active counts before split: Bacterial Leaf Blight 179, Brown Spot 267, Leaf Blast 304, Healthy 157 (total 907 images across 737 groups) |
@@ -23,7 +23,7 @@
 | T-015a | Dataset candidate search | DONE | agent | Completed; source choice recorded in D-15 (Hasan et al. CC BY 4.0 only for v1; 4 classes per D-14) |
 
 
-| T-020 | Class distribution report and sample grid | TODO | agent | |
+| T-020 | Class distribution report and sample grid | DONE | agent | Generated results/metrics/class_distribution.csv, class_distribution.md, and sample grids in results/figures/class_samples/ on 2026-11-03 |
 | T-021 | B0 majority baseline metrics | TODO | agent | |
 | T-022 | B1 small CNN from scratch | TODO | agent | |
 | T-023 | B2 frozen MobileNetV2 (Stage 1) | TODO | agent | |
@@ -108,6 +108,8 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: T-004 DONE - Created root LICENSE file under MIT License with copyright holder Mehedi Hasan (D-01).
 - 2026-11-03: T-002 DONE - Verified TensorFlow import in .venv (version 2.21.0); MSVC++ Redistributable installed and functional.
 - 2026-11-03: T-015 DONE - Generated group-stratified train/val/test split (seed 42) into data/metadata/split_manifest.csv and results/metrics/split_summary.csv; verified zero leakage and exact count matches across all 4 classes.
+- 2026-11-03: T-020 DONE - Generated class distribution report (class_distribution.csv, class_distribution.md) and train sample grids in results/figures/class_samples/; set T-011 owner to user.
+
 
 
 

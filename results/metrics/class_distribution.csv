@@ -1,0 +1,13 @@
+class,split,count
+Bacterial Leaf Blight,train,125
+Bacterial Leaf Blight,val,27
+Bacterial Leaf Blight,test,27
+Brown Spot,train,186
+Brown Spot,val,38
+Brown Spot,test,43
+Healthy Rice Leaf,train,110
+Healthy Rice Leaf,val,24
+Healthy Rice Leaf,test,23
+Leaf Blast,train,213
+Leaf Blast,val,46
+Leaf Blast,test,45

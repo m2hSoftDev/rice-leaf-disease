@@ -9,11 +9,22 @@ __pycache__/
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Data directories (per PROJECT_SCOPE.md: data is not committed to git)
+# Data directories and datasets (not committed to git per Section 12)
 data/raw/
 data/processed/
-!data/metadata/
+data/**/*.csv
+data/*.csv
+data/**/*.zip
+data/**/*.tar.gz
+*.zip
+*.tar.gz
 !data/**/.gitkeep
+!data/metadata/.gitkeep
+
+# Models and exported weights
+*.keras
+*.h5
+*.tflite
 
 # Results artifacts and cache
 results/figures/*

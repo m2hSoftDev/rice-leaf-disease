@@ -132,7 +132,7 @@ data/
 
 ### 8.3 Model Training
 - Base: MobileNetV2, ImageNet weights, alpha 1.0
-- Stage 1: Freeze base, train head (Dense 128, ReLU, Dropout 0.3, Dense 5, softmax). Adam lr 1e-3, up to 20 epochs.
+- Stage 1: Freeze base, train head (Dense 128, ReLU, Dropout 0.3, Dense 4, softmax). Adam lr 1e-3, up to 20 epochs.
 - Stage 2: Unfreeze last 30 layers, Adam lr 1e-5, up to 30 epochs.
 - Callbacks: EarlyStopping (patience 5, monitor val_loss), ReduceLROnPlateau, ModelCheckpoint.
 - Class imbalance: class weights computed from training set.

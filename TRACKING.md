@@ -112,6 +112,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: T-020 DONE - Generated class distribution report (class_distribution.csv, class_distribution.md) and train sample grids in results/figures/class_samples/; set T-011 owner to user.
 - 2026-11-03: T-021 DONE - Evaluated B0 majority class baseline (Leaf Blast) on val and test splits; saved results/metrics/baseline_b0.csv and baseline_b0.md.
 - 2026-11-03: T-022 DONE - Trained B1 small CNN from scratch (6 epochs run, early stopped at epoch 6, best val_loss=1.3694 at epoch 1); achieved val macro F1=0.1012 (acc=19.26%) and test macro F1=0.0669 (acc=13.04%); saved metrics to results/metrics/baseline_b1.csv, baseline_b1.md, and confusion matrix figure to results/figures/b1_confusion.png.
+- 2026-11-03: Spec update - Section 8.3 updated Dense 5 to Dense 4 to align with 4-class v1 scope under D-14.
 
 
 

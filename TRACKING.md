@@ -25,7 +25,7 @@
 
 | T-020 | Class distribution report and sample grid | DONE | agent | Generated results/metrics/class_distribution.csv, class_distribution.md, and sample grids in results/figures/class_samples/ on 2026-11-03 |
 | T-021 | B0 majority baseline metrics | DONE | agent | Majority class is Leaf Blast (213 train); val macro F1=0.1271 (acc=34.07%), test macro F1=0.1230 (acc=32.61%), kappa=0.0000 on 2026-11-03 |
-| T-022 | B1 small CNN from scratch | TODO | agent | |
+| T-022 | B1 small CNN from scratch | DONE | agent | Trained 3-block small CNN from scratch with Adam lr=1e-3, balanced class weights, and train-only augmentation; 6 epochs run (early stopped at epoch 6, best val_loss 1.3694 at epoch 1); val macro F1=0.1012 (acc=19.26%), test macro F1=0.0669 (acc=13.04%), kappa=-0.0504; results in results/metrics/baseline_b1.csv and baseline_b1.md |
 | T-023 | B2 frozen MobileNetV2 (Stage 1) | TODO | agent | |
 | T-024 | Log results in results/metrics/baselines.csv | TODO | agent | |
 | T-030 | Stage 1 and Stage 2 training of M1 with train_config.yaml | TODO | agent | |
@@ -110,6 +110,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: T-015 DONE - Generated group-stratified train/val/test split (seed 42) into data/metadata/split_manifest.csv and results/metrics/split_summary.csv; verified zero leakage and exact count matches across all 4 classes.
 - 2026-11-03: T-020 DONE - Generated class distribution report (class_distribution.csv, class_distribution.md) and train sample grids in results/figures/class_samples/; set T-011 owner to user.
 - 2026-11-03: T-021 DONE - Evaluated B0 majority class baseline (Leaf Blast) on val and test splits; saved results/metrics/baseline_b0.csv and baseline_b0.md.
+- 2026-11-03: T-022 DONE - Trained B1 small CNN from scratch (6 epochs run, early stopped at epoch 6, best val_loss=1.3694 at epoch 1); achieved val macro F1=0.1012 (acc=19.26%) and test macro F1=0.0669 (acc=13.04%); saved metrics to results/metrics/baseline_b1.csv, baseline_b1.md, and confusion matrix figure to results/figures/b1_confusion.png.
 
 
 

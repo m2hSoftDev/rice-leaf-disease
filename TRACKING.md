@@ -2,8 +2,8 @@
 
 ## Current Status
 - Milestone: M3
-- Note: Gate 2 met on seed 42 only (test macro F1 0.8534). M3 is not closed until T-031 and T-033 are complete.
-- Active task: T-031
+- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609 ± 0.0132, all seeds >= 0.85). T-031 and T-033 complete; M3 closed.
+- Active task: None
 - Last updated: 2026-11-03
 
 ## Task Board
@@ -32,7 +32,7 @@
 | T-030 | Stage 1 and Stage 2 training of M1 with train_config.yaml | DONE | agent | Stage 2 fine-tuning completed from B2 checkpoint; last 30 layers of MobileNetV2 unfrozen with Adam lr=1e-5 (trainable params: 1,675,204); 26 epochs run (early stopped on val macro F1 per D-19, best epoch 21 with val macro F1=0.8561, val acc=85.19%); test macro F1=0.8534 (acc=83.33%), kappa=0.7730; Gate 2 MET (0.8534 >= 0.80); results in results/metrics/m1.csv and m1.md |
 | T-031 | Augmentation pipeline with visual check | DONE | agent | Visual inspection complete across 8 samples per class in results/figures/augmentation_check/; confirmed no disease alteration between Brown Spot and Leaf Blast, zero augmentation on val/test, and no augmented images saved to disk; results in results/metrics/augmentation_check.md |
 | T-032 | Evaluate on test_public (macro F1 target >= 0.80) | TODO | agent | |
-| T-033 | Three-seed repeat, mean and std | TODO | agent | |
+| T-033 | Three-seed repeat, mean and std | DONE | agent | Evaluated M1 across seeds 42, 43, 44; mean test macro F1=0.8609 ± 0.0132, mean test acc=84.54% ± 2.09%, mean kappa=0.7895; Gate 2 met on all three seeds (0.8534, 0.8532, 0.8761); results in results/metrics/m1_seeds.csv and m1_seeds.md |
 | T-034 | Optional EfficientNet-B0 comparison | TODO | agent | |
 | T-040 | Evaluate on test_field; compute gap vs test_public | TODO | agent | |
 | T-041 | Grad-CAM on all test_field errors; manual lesion check on 30 samples | TODO | agent | |
@@ -118,6 +118,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: T-024 DONE - Built results/metrics/baselines.csv summarizing B0, B1, and B2 metrics; verified all values against source files.
 - 2026-11-03: T-030 DONE - Stage 2 fine-tuning of M1 from B2 checkpoint (26 epochs run, early stopped on val macro F1 per D-19, best epoch 21 with val macro F1=0.8561, val acc=85.19%); evaluated on held-out test split: test macro F1=0.8534 (acc=83.33%), kappa=0.7730; Quality Gate 2 MET (0.8534 >= 0.80); Brown Spot to Leaf Blast confusion reduced from 18 to 11; saved results to results/metrics/m1.csv, m1.md, and baselines.csv.
 - 2026-11-03: T-031 DONE - Built visual augmentation check grids (8 samples per class) in results/figures/augmentation_check/; confirmed pipeline preserves disease morphology (circular brown spots and spindle blast lesions unaltered); documented findings in results/metrics/augmentation_check.md.
+- 2026-11-03: T-033 DONE - Completed 3-seed repeat of M1 (seeds 42, 43, 44); mean test macro F1=0.8609 ± 0.0132, mean test accuracy=84.54% ± 2.09%; Gate 2 holds across all three seeds; Brown Spot -> Leaf Blast errors reduced to 11, 9, 3 (mean 7.67 vs B2's 18); saved results to results/metrics/m1_seeds.csv and m1_seeds.md.
 
 
 

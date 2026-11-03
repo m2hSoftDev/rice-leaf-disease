@@ -1,0 +1,21 @@
+filename,true_label,keras_label,keras_confidence,tflite_label,tflite_confidence,parity_match,keras_correct,tflite_correct
+Bacterial_leaf_Blight  (79).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.9996,bacterial_leaf_blight,0.9996,YES,YES,YES
+Bacterial_leaf_Blight  (133).jpg,bacterial_leaf_blight,leaf_blast,0.5256,leaf_blast,0.5290,YES,NO,NO
+Bacterial_leaf_Blight  (10).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.8909,bacterial_leaf_blight,0.8895,YES,YES,YES
+Bacterial_leaf_Blight  (89).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.9982,bacterial_leaf_blight,0.9983,YES,YES,YES
+Bacterial_leaf_Blight  (157).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.9761,bacterial_leaf_blight,0.9759,YES,YES,YES
+Brown_spot  (92).jpg,brown_spot,brown_spot,0.9992,brown_spot,0.9991,YES,YES,YES
+Brown_spot  (170).jpg,brown_spot,brown_spot,0.5206,brown_spot,0.5159,YES,YES,YES
+Brown_spot  (109).jpg,brown_spot,leaf_blast,0.6076,leaf_blast,0.6079,YES,NO,NO
+Brown_spot  (244).jpg,brown_spot,brown_spot,0.9788,brown_spot,0.9791,YES,YES,YES
+Brown_spot  (242).jpg,brown_spot,brown_spot,0.9959,brown_spot,0.9955,YES,YES,YES
+Healthy_rice_leaf  (80).jpg,healthy,healthy,0.9733,healthy,0.9730,YES,YES,YES
+Healthy_rice_leaf  (124).jpg,healthy,healthy,1.0000,healthy,1.0000,YES,YES,YES
+Healthy_rice_leaf  (108).jpg,healthy,healthy,1.0000,healthy,1.0000,YES,YES,YES
+Healthy_rice_leaf  (17).jpg,healthy,healthy,0.9978,healthy,0.9977,YES,YES,YES
+Healthy_rice_leaf  (15).jpg,healthy,healthy,1.0000,healthy,1.0000,YES,YES,YES
+Leaf_blast  (84).jpg,leaf_blast,bacterial_leaf_blight,0.8239,bacterial_leaf_blight,0.8266,YES,NO,NO
+Leaf_blast  (169).jpg,leaf_blast,leaf_blast,0.9361,leaf_blast,0.9383,YES,YES,YES
+Leaf_blast  (100).jpg,leaf_blast,bacterial_leaf_blight,0.9144,bacterial_leaf_blight,0.9151,YES,NO,NO
+Leaf_blast  (214).jpg,leaf_blast,brown_spot,0.6617,brown_spot,0.6765,YES,NO,NO
+Leaf_blast  (206).jpg,leaf_blast,leaf_blast,0.7032,leaf_blast,0.7003,YES,YES,YES

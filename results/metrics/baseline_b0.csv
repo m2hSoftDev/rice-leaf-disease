@@ -1,0 +1,15 @@
+split,class,precision,recall,f1,support
+val,Bacterial Leaf Blight,0.0000,0.0000,0.0000,27
+val,Brown Spot,0.0000,0.0000,0.0000,38
+val,Healthy Rice Leaf,0.0000,0.0000,0.0000,24
+val,Leaf Blast,0.3407,1.0000,0.5083,46
+val,macro_avg,0.0852,0.2500,0.1271,135
+val,accuracy,N/A,N/A,0.3407,135
+val,cohen_kappa,N/A,N/A,0.0000,135
+test,Bacterial Leaf Blight,0.0000,0.0000,0.0000,27
+test,Brown Spot,0.0000,0.0000,0.0000,43
+test,Healthy Rice Leaf,0.0000,0.0000,0.0000,23
+test,Leaf Blast,0.3261,1.0000,0.4918,45
+test,macro_avg,0.0815,0.2500,0.1230,138
+test,accuracy,N/A,N/A,0.3261,138
+test,cohen_kappa,N/A,N/A,0.0000,138

@@ -1,0 +1,28 @@
+{
+  "input_size": [
+    224,
+    224
+  ],
+  "color_mode": "RGB",
+  "interpolation": "bilinear",
+  "normalization": "mobilenet_v2.preprocess_input",
+  "formula": "x / 127.5 - 1.0",
+  "value_range": [
+    -1.0,
+    1.0
+  ],
+  "output_activation": "softmax",
+  "num_classes": 4,
+  "input_tensor_shape": [
+    1,
+    224,
+    224,
+    3
+  ],
+  "input_tensor_dtype": "float32",
+  "output_tensor_shape": [
+    1,
+    4
+  ],
+  "output_tensor_dtype": "float32"
+}

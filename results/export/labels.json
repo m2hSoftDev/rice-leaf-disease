@@ -1,0 +1,33 @@
+{
+  "model_classes": [
+    "bacterial_leaf_blight",
+    "brown_spot",
+    "healthy",
+    "leaf_blast"
+  ],
+  "model_index_to_label": {
+    "0": "bacterial_leaf_blight",
+    "1": "brown_spot",
+    "2": "healthy",
+    "3": "leaf_blast"
+  },
+  "model_index_to_display_name_en": {
+    "0": "Bacterial Leaf Blight",
+    "1": "Brown Spot",
+    "2": "Healthy",
+    "3": "Leaf Blast"
+  },
+  "model_index_to_display_name_bn": {
+    "0": "ব্যাকটেরিয়াল পাতা ঝলসানো",
+    "1": "বাদামি দাগ রোগ",
+    "2": "সুস্থ পাতা",
+    "3": "পাতা ব্লাস্ট"
+  },
+  "section6_classes": [
+    "bacterial_leaf_blight",
+    "brown_spot",
+    "leaf_blast",
+    "healthy"
+  ],
+  "note": "Model output logits are ordered alphabetically by training folder: 0=bacterial_leaf_blight, 1=brown_spot, 2=healthy, 3=leaf_blast. In Flutter inference, index 2 is 'healthy' and index 3 is 'leaf_blast'. Do NOT use Section 6 table order (where healthy was 3 and leaf_blast was 2), or Healthy and Leaf Blast predictions will be transposed."
+}

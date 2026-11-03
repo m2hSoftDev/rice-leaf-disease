@@ -38,10 +38,10 @@
 | T-041 | Grad-CAM on all test_field errors; manual lesion check on 30 samples | TODO | agent | |
 | T-042 | Failure analysis grouping and report | TODO | agent | |
 | T-043 | Confusion matrices and per-class tables for report | TODO | agent | |
-| T-050 | Export float16 TFLite | TODO | agent | |
-| T-051 | Try int8 quantization with representative data | TODO | agent | |
-| T-052 | Re-evaluate TFLite on both test sets; record accuracy drop | TODO | agent | |
-| T-053 | Write labels.json and preprocess_config.json | TODO | agent | |
+| T-050 | Export float16 TFLite | DONE | agent | Exported canonical model (m1_seed44_best.keras) to results/export/model_fp16.tflite; size 4.62 MB (4,840,736 bytes), passing <= 5.0 MB requirement (Gate 3); test accuracy 86.96%, test macro F1 0.8791 |
+| T-051 | Try int8 quantization with representative data | DONE | agent | Quantized canonical model using representative dataset (N=200) from training split only to results/export/model_int8.tflite; size 2.77 MB (2,903,240 bytes), passing <= 5.0 MB requirement; test accuracy 86.23%, test macro F1 0.8635 |
+| T-052 | Re-evaluate TFLite on both test sets; record accuracy drop | DONE | agent | Evaluated fp16 and int8 models on val (N=135) and test (N=138); fp16 accuracy drop vs Keras is +0.00 pp on both val and test (passes <= 2.0 pp gate); int8 accuracy drop is +0.72 pp on test (passes gate) and +4.44 pp on val; results in results/metrics/export_evaluation.csv and export_evaluation.md |
+| T-053 | Write labels.json and preprocess_config.json | DONE | agent | Generated results/export/preprocess_config.json (MobileNetV2 [-1, 1], bilinear, 224x224) and results/export/labels.json with explicit model index mapping (0: BLB, 1: Brown Spot, 2: Healthy, 3: Leaf Blast) and warning against Section 6 index order |
 | T-054 | Verify parity: Python TFLite output vs Flutter output on 20 test images (must match top-1) | TODO | agent | |
 | T-060 | App skeleton: routes, theme, localization setup | TODO | agent | |
 | T-061 | Bangla font and strings (ARB files) | TODO | agent | |
@@ -120,6 +120,8 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: T-030 DONE - Stage 2 fine-tuning of M1 from B2 checkpoint (26 epochs run, early stopped on val macro F1 per D-19, best epoch 21 with val macro F1=0.8561, val acc=85.19%); evaluated on held-out test split: test macro F1=0.8534 (acc=83.33%), kappa=0.7730; Quality Gate 2 MET (0.8534 >= 0.80); Brown Spot to Leaf Blast confusion reduced from 18 to 11; saved results to results/metrics/m1.csv, m1.md, and baselines.csv.
 - 2026-11-03: T-031 DONE - Built visual augmentation check grids (8 samples per class) in results/figures/augmentation_check/; confirmed pipeline preserves disease morphology (circular brown spots and spindle blast lesions unaltered); documented findings in results/metrics/augmentation_check.md.
 - 2026-11-03: T-033 DONE - Completed 3-seed repeat of M1 (seeds 42, 43, 44); mean test macro F1=0.8609 ± 0.0132, mean test accuracy=84.54% ± 2.09%; Gate 2 holds across all three seeds; Brown Spot -> Leaf Blast errors reduced to 11, 9, 3 (mean 7.67 vs B2's 18); saved results to results/metrics/m1_seeds.csv and m1_seeds.md.
+- 2026-11-04: Recorded approved decision D-20 (canonical model selection by validation macro F1 under D-19: seed 44).
+- 2026-11-04: T-050 to T-053 DONE - Exported canonical model (m1_seed44_best.keras) to Float16 (4.62 MB) and Int8 (2.77 MB) TFLite models at results/export/; re-evaluated on val and test splits; Float16 showed 0.00 pp drop on both val and test, Int8 showed +0.72 pp test drop and +4.44 pp val drop; generated preprocess_config.json and labels.json with model output index alignment; saved metrics to results/metrics/export_evaluation.csv and export_evaluation.md.
 
 
 

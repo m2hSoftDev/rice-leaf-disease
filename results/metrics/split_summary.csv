@@ -1,0 +1,6 @@
+class,train,val,test,total
+Bacterial Leaf Blight,125,27,27,179
+Brown Spot,186,38,43,267
+Healthy Rice Leaf,110,24,23,157
+Leaf Blast,213,46,45,304
+Overall,634,135,138,907

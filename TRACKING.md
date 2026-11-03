@@ -28,7 +28,7 @@
 | T-022 | B1 small CNN from scratch | DONE | agent | Trained 3-block small CNN from scratch with Adam lr=1e-3, balanced class weights, and train-only augmentation; 6 epochs run (early stopped at epoch 6, best val_loss 1.3694 at epoch 1); val macro F1=0.1012 (acc=19.26%), test macro F1=0.0669 (acc=13.04%), kappa=-0.0504; results in results/metrics/baseline_b1.csv and baseline_b1.md |
 | T-023 | B2 frozen MobileNetV2 (Stage 1) | DONE | agent | MobileNetV2 frozen backbone (ImageNet weights, alpha 1.0) with Dense 128 -> Dropout 0.3 -> Dense 4 head; trained with Adam lr=1e-3, balanced class weights, train augmentation; early stopped at epoch 9 (patience 5 on val macro F1 per D-19, best epoch 4 with val macro F1 0.7670, val acc 76.30%); test macro F1=0.7369 (acc=71.01%), kappa=0.6051; results in results/metrics/baseline_b2.csv and baseline_b2.md |
 | T-024 | Log results in results/metrics/baselines.csv | DONE | agent | Aggregated B0, B1, and B2 metrics into results/metrics/baselines.csv on 2026-11-03; verified all values against baseline_b0, baseline_b1, and baseline_b2 source files |
-| T-030 | Stage 1 and Stage 2 training of M1 with train_config.yaml | TODO | agent | |
+| T-030 | Stage 1 and Stage 2 training of M1 with train_config.yaml | DONE | agent | Stage 2 fine-tuning completed from B2 checkpoint; last 30 layers of MobileNetV2 unfrozen with Adam lr=1e-5 (trainable params: 1,675,204); 26 epochs run (early stopped on val macro F1 per D-19, best epoch 21 with val macro F1=0.8561, val acc=85.19%); test macro F1=0.8534 (acc=83.33%), kappa=0.7730; Gate 2 MET (0.8534 >= 0.80); results in results/metrics/m1.csv and m1.md |
 | T-031 | Augmentation pipeline with visual check | TODO | agent | |
 | T-032 | Evaluate on test_public (macro F1 target >= 0.80) | TODO | agent | |
 | T-033 | Three-seed repeat, mean and std | TODO | agent | |
@@ -115,6 +115,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-03: Spec update - Section 8.3 updated Dense 5 to Dense 4 to align with 4-class v1 scope under D-14.
 - 2026-11-03: T-023 DONE - Trained B2 frozen MobileNetV2 Stage 1 (9 epochs run, early stopped on val macro F1 per D-19, best epoch 4 with val macro F1=0.7670, val acc=76.30%); evaluated on held-out test split: test macro F1=0.7369 (acc=71.01%), kappa=0.6051; saved results to results/metrics/baseline_b2.csv, baseline_b2.md, and results/figures/b2_confusion.png.
 - 2026-11-03: T-024 DONE - Built results/metrics/baselines.csv summarizing B0, B1, and B2 metrics; verified all values against source files.
+- 2026-11-03: T-030 DONE - Stage 2 fine-tuning of M1 from B2 checkpoint (26 epochs run, early stopped on val macro F1 per D-19, best epoch 21 with val macro F1=0.8561, val acc=85.19%); evaluated on held-out test split: test macro F1=0.8534 (acc=83.33%), kappa=0.7730; Quality Gate 2 MET (0.8534 >= 0.80); Brown Spot to Leaf Blast confusion reduced from 18 to 11; saved results to results/metrics/m1.csv, m1.md, and baselines.csv.
 
 
 

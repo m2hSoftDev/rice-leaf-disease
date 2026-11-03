@@ -34,6 +34,7 @@ results/figures/*
 results/metrics/*
 !results/metrics/
 !results/metrics/*.csv
+!results/metrics/*.md
 !results/metrics/.gitkeep
 results/failure_cases/*
 !results/failure_cases/.gitkeep

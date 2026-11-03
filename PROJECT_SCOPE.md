@@ -429,6 +429,8 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 - D-18: Near-duplicate groups (pHash Hamming distance <= 5, computed across all target classes) are kept in full. They are not deleted. Each group is assigned to one split only, so near-copies cannot leak between train and test (APPROVED, 2026-11-03).
 - D-19: For B2 and M1, the model checkpoint and early stopping are selected by validation macro F1 (not val_loss). B1 used val_loss; this difference is documented and B1 is not re-run (APPROVED, 2026-11-03).
 - D-20: The canonical model for export is selected by validation macro F1 under D-19. Seed 44 (val macro F1 0.8669) is the canonical model. Seeds 42 and 43 are reported as repeats. Test scores are not used for selection (APPROVED, 2026-11-04).
+- D-21: The deployment model is float16 TFLite (results/export/model_fp16.tflite). Int8 is not used in v1 because its validation accuracy drop (4.44 pp) exceeds the 2 pp limit in Section 8.9 (APPROVED by developer, 2026-11-04).
+- D-22: The canonical label order is the alphabetical order used in training, recorded in labels.json (0 bacterial_leaf_blight, 1 brown_spot, 2 healthy, 3 leaf_blast). The index column in Section 6 is documentation only. All inference code must map indices through labels.json (APPROVED by developer, 2026-11-04).
 
 
 

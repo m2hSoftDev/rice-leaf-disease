@@ -1,8 +1,9 @@
 # TRACKING.md
 
 ## Current Status
-- Milestone: M0
-- Active task: None (T-002 DONE)
+- Milestone: M3
+- Note: Gate 2 met on seed 42 only (test macro F1 0.8534). M3 is not closed until T-031 and T-033 are complete.
+- Active task: T-031
 - Last updated: 2026-11-03
 
 ## Task Board

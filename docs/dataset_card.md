@@ -85,3 +85,13 @@ The remaining 4 classes in the archive are outside the project scope and are exc
 3. **Healthy Class Margin:** `Healthy Rice Leaf` has 157 images, which is the narrowest margin above the $\ge 100$ image threshold. Near-duplicate removal in T-014 must be verified to ensure the count remains $\ge 100$.
 4. **Third-Party Rights Notice:** Covered by standard CC BY 4.0 terms, users should be cognizant of the generic third-party clause.
 5. **Geographical Domain Concentration:** Sourced exclusively from Sirajganj and Pabna, Bangladesh. Performance on field samples from other Bangladeshi divisions (e.g., Barishal, Sylhet, Rangpur) will be evaluated in Milestone M4 (`test_field`) to quantify the regional domain gap.
+
+---
+
+## 7. Processing & Derivative Artifacts (Decision D-24)
+
+Under decision **D-24**, all 1,701 original images in `data/raw/public/hasan_staging/Original Images/` are transposed to their upright EXIF orientation (`ImageOps.exif_transpose`) and saved to `data/processed/hasan_upright/`:
+* **Orientation Transformation:** PIL `ImageOps.exif_transpose` (transposes orientation tag 6 images $90^\circ$ clockwise into native upright portrait rasters and strips the EXIF orientation tag).
+* **JPEG Export Parameters:** `quality=95`, `subsampling=0` (4:4:4 chroma subsampling, preventing color subsampling degradation on disease lesion borders).
+* **Target Classes Scope:** 907 active images assigned via `split_manifest.csv` (excluding cross-class duplicate `group_035`). Total file count: 1,701 images across all 8 classes.
+

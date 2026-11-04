@@ -3,6 +3,7 @@
 Applies PIL ImageOps.exif_transpose to all 1,701 images in
 data/raw/public/hasan_staging/Original Images/ and saves the upright portrait
 copies to data/processed/hasan_upright/, preserving class folders and filenames.
+JPEG settings: quality=95, subsampling=0 (4:4:4 chroma subsampling).
 """
 
 from pathlib import Path
@@ -14,6 +15,10 @@ WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
 STAGING_DIR = WORKSPACE_ROOT / "data" / "raw" / "public" / "hasan_staging" / "Original Images"
 PROCESSED_DIR = WORKSPACE_ROOT / "data" / "processed" / "hasan_upright"
 MANIFEST_PATH = WORKSPACE_ROOT / "data" / "metadata" / "split_manifest.csv"
+
+# JPEG export settings per D-24: quality 95 and 4:4:4 chroma subsampling (no subsampling)
+JPEG_QUALITY = 95
+JPEG_SUBSAMPLING = 0  # PIL 0 = 4:4:4, 1 = 4:2:2, 2 = 4:2:0
 
 # Cross-class duplicate group_035 excluded per D-17
 GROUP_035_FILES = {
@@ -67,7 +72,7 @@ def build_upright_dataset():
 
             # Apply EXIF transpose to rotate upright
             im_upright = ImageOps.exif_transpose(im)
-            im_upright.save(dst_path, quality=95, subsampling=0)
+            im_upright.save(dst_path, quality=JPEG_QUALITY, subsampling=JPEG_SUBSAMPLING)
 
         if idx % 300 == 0 or idx == total_staging_count:
             print(f"  Processed {idx}/{total_staging_count} images...")

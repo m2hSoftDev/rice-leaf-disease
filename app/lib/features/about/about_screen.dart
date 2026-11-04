@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ricedisease/l10n/app_localizations.dart';
 
-/// About placeholder screen.
+/// About placeholder screen with credits, licenses, and disclaimer (F-14).
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
@@ -9,14 +9,71 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final title = l10n?.aboutTitle ?? 'About Screen';
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n?.appTitle ?? 'Rice Leaf Disease Detection'),
       ),
-      body: Center(
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n?.aboutDescription ?? '',
+              style: const TextStyle(fontSize: 15),
+            ),
+            const SizedBox(height: 20),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n?.creditsTitle ?? 'Credits & Sources',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n?.creditsText ?? '',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n?.licenseTitle ?? 'License',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n?.licenseText ?? '',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${l10n?.versionLabel ?? "Version"}: 1.0.0+1',
+              style: const TextStyle(fontSize: 13, color: Colors.grey),
+            ),
+          ],
         ),
       ),
     );

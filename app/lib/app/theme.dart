@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 /// App theme implementation adhering to Material 3, high-contrast accessibility,
 /// minimum 48 dp touch target size, and system-scaled typography.
 class AppTheme {
+  static const String banglaFontFamily = 'NotoSansBengali';
+
   // High-contrast primary colors (contrast ratio >= 7:1 against light surfaces)
   static const Color primary = Color(0xFF134E17);
   static const Color onPrimary = Color(0xFFFFFFFF);
@@ -20,7 +22,11 @@ class AppTheme {
   static const Color error = Color(0xFFB00020);
   static const Color onError = Color(0xFFFFFFFF);
 
-  static ThemeData get lightTheme {
+  /// Returns localized theme with Noto Sans Bengali font for Bangla locale,
+  /// and system default font for English locale.
+  static ThemeData getTheme(Locale locale) {
+    final String? fontFamily = locale.languageCode == 'bn' ? banglaFontFamily : null;
+
     final colorScheme = ColorScheme(
       brightness: Brightness.light,
       primary: primary,
@@ -39,6 +45,7 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      fontFamily: fontFamily,
       colorScheme: colorScheme,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,

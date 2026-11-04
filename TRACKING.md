@@ -2,7 +2,7 @@
 
 ## Current Status
 - Milestone: M6
-- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3: PASSED for size, accuracy drop, and Keras-to-TFLite parity (20/20). Flutter-side parity is open as T-054b (M6). T-050 to T-054 complete. T-060 complete (App skeleton, routes, theme, localization).
+- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3: PASSED for size, accuracy drop, and Keras-to-TFLite parity (20/20). Flutter-side parity is open as T-054b (M6). T-050 to T-054 complete. T-060 and T-061 complete (App skeleton, routes, theme, localization, Bangla font & ARB strings).
 - Active task: None
 - Last updated: 2026-11-04
 
@@ -45,7 +45,7 @@
 | T-054 | Verify parity: Python TFLite output vs Flutter output on 20 test images (must match top-1) | DONE | agent | Evaluated Keras vs Float16 TFLite parity on 20 stratified test images (seed 42, 5/class); 20/20 (100.0%) top-1 matches; verified labels.json index order (Healthy=2, Leaf Blast=3, not transposed); Gate 3 passed for size, accuracy drop, and Keras-to-TFLite parity; results in results/metrics/parity_check.csv and parity_check.md |
 | T-054b | Flutter vs Python TFLite top-1 parity on 20 test images. Run after T-063. Must match on all 20 before Gate 3 is fully closed. | TODO | agent | |
 | T-060 | App skeleton: routes, theme, localization setup | DONE | agent | App skeleton complete in app/: Material 3 theme (48 dp touch target, system text scaling), routes (splash, onboarding, home, result, history, about), dynamic locale provider (en/bn toggle with SharedPreferences persistence), l10n ARB files generated; all 5 widget tests passed; flutter build apk --debug succeeded (debug APK size: 153.98 MB / 161,461,355 bytes, measurement only, not release size) |
-| T-061 | Bangla font and strings (ARB files) | TODO | agent | |
+| T-061 | Bangla font and strings (ARB files) | DONE | agent | Embedded Noto Sans Bengali (Regular 0.1364 MB, Bold 0.1381 MB, OFL 1.1) in app/assets/fonts/; recorded in docs/licenses_third_party.md; expanded app_en.arb and app_bn.arb with exact Section 6 Bangla disease names, disclaimer (F-08), uncertain banner (D-11), and About credits; 8/8 widget tests passed; debug build passed |
 | T-062 | Image picker and preprocessing service | TODO | agent | |
 | T-063 | TFLite inference service in an isolate | TODO | agent | |
 | T-064 | Result screen with confidence and uncertain state (F-05) | TODO | agent | |
@@ -134,3 +134,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 
 
 - 2026-11-04: T-060 DONE - Implemented Flutter app skeleton, 6 placeholder routes with first-launch splash redirection via shared_preferences, Material 3 high-contrast theme, Riverpod locale toggle provider (en/bn), and l10n setup; all widget tests passed (5/5); debug APK built successfully (153.98 MB measurement).
+- 2026-11-04: T-061 DONE - Downloaded Noto Sans Bengali v3.011 (OFL 1.1), embedded Regular/Bold fonts into app/assets/fonts/ with docs/licenses_third_party.md; expanded English and Bangla ARB files with exact Section 6 disease names, disclaimer, and uncertain banner; verified all 23 Bangla glyphs present; all widget tests passed (8/8); debug APK built successfully.

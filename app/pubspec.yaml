@@ -31,3 +31,11 @@ flutter:
     - assets/model_fp16.tflite
     - assets/labels.json
     - assets/preprocess_config.json
+    - assets/fonts/
+
+  fonts:
+    - family: NotoSansBengali
+      fonts:
+        - asset: assets/fonts/NotoSansBengali-Regular.ttf
+        - asset: assets/fonts/NotoSansBengali-Bold.ttf
+          weight: 700

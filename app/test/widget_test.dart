@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ricedisease/app/app.dart';
 import 'package:ricedisease/core/constants.dart';
 import 'package:ricedisease/core/locale_provider.dart';
+import 'package:ricedisease/features/home/home_screen.dart';
 
 Widget createTestApp({
   required SharedPreferences prefs,
@@ -132,6 +133,88 @@ void main() {
       expect(find.text('Home Screen'), findsOneWidget);
       expect(find.text('বাংলায় দেখুন'), findsOneWidget);
       expect(prefs.getString(PrefKeys.selectedLocale), 'en');
+    });
+  });
+
+  group('T-061 Font and Localized Strings Tests', () {
+    testWidgets('Bangla locale uses NotoSansBengali font and renders Bangla disclaimer',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'bn',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(createTestApp(prefs: prefs));
+      await tester.pumpAndSettle();
+
+      // Home Screen in Bangla
+      expect(find.text('হোম স্ক্রিন'), findsOneWidget);
+
+      // Bangla disclaimer is present
+      final disclaimerFinder = find.byKey(const Key('disclaimer_text'));
+      expect(disclaimerFinder, findsOneWidget);
+      final Text disclaimerWidget = tester.widget(disclaimerFinder);
+      expect(
+        disclaimerWidget.data,
+        contains('এই অ্যাপটি কেবল তথ্য ও পরামর্শের জন্য তৈরি'),
+      );
+
+      // Theme uses NotoSansBengali font for Bangla
+      final BuildContext context = tester.element(find.byType(HomeScreen));
+      final theme = Theme.of(context);
+      expect(theme.textTheme.bodyMedium?.fontFamily, equals('NotoSansBengali'));
+    });
+
+    testWidgets('English locale uses default font (no NotoSansBengali)',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'en',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(createTestApp(prefs: prefs));
+      await tester.pumpAndSettle();
+
+      // Home Screen in English
+      expect(find.text('Home Screen'), findsOneWidget);
+
+      // English disclaimer is present
+      final disclaimerFinder = find.byKey(const Key('disclaimer_text'));
+      expect(disclaimerFinder, findsOneWidget);
+      final Text disclaimerWidget = tester.widget(disclaimerFinder);
+      expect(
+        disclaimerWidget.data,
+        contains('This tool is advisory only'),
+      );
+
+      // Theme uses default font (not NotoSansBengali) for English
+      final BuildContext context = tester.element(find.byType(HomeScreen));
+      final theme = Theme.of(context);
+      expect(theme.textTheme.bodyMedium?.fontFamily, isNot(equals('NotoSansBengali')));
+    });
+
+    testWidgets('Result screen renders all 4 Section 6 Bangla disease names in Bangla locale',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'bn',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      await tester.pumpWidget(createTestApp(prefs: prefs));
+      await tester.pumpAndSettle();
+
+      // Navigate to Result Screen
+      await tester.tap(find.byKey(const Key('nav_result_button')));
+      await tester.pumpAndSettle();
+
+      // Confirm all 4 exact Bangla disease names from Section 6
+      expect(find.text('ব্যাকটেরিয়াল পাতা ঝলসানো'), findsOneWidget);
+      expect(find.text('বাদামি দাগ রোগ'), findsOneWidget);
+      expect(find.text('পাতা ব্লাস্ট'), findsOneWidget);
+      expect(find.text('সুস্থ পাতা'), findsOneWidget);
     });
   });
 }

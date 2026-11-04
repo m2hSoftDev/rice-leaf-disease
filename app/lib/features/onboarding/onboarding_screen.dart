@@ -4,7 +4,7 @@ import 'package:ricedisease/core/constants.dart';
 import 'package:ricedisease/core/locale_provider.dart';
 import 'package:ricedisease/l10n/app_localizations.dart';
 
-/// Onboarding screen shown on first launch.
+/// Onboarding screen shown on first launch with disclaimer (F-08).
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
 
@@ -18,27 +18,53 @@ class OnboardingScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n?.appTitle ?? 'Rice Leaf Disease Detection'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              key: const Key('get_started_button'),
-              onPressed: () async {
-                final prefs = ref.read(sharedPreferencesProvider);
-                await prefs.setBool(PrefKeys.onboardingDone, true);
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.home);
-                }
-              },
-              child: Text(getStarted),
-            ),
-          ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 24),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n?.disclaimerTitle ?? 'Advisory Notice',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n?.disclaimerText ?? '',
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 28),
+              ElevatedButton(
+                key: const Key('get_started_button'),
+                onPressed: () async {
+                  final prefs = ref.read(sharedPreferencesProvider);
+                  await prefs.setBool(PrefKeys.onboardingDone, true);
+                  if (context.mounted) {
+                    Navigator.pushReplacementNamed(context, AppRoutes.home);
+                  }
+                },
+                child: Text(getStarted),
+              ),
+            ],
+          ),
         ),
       ),
     );

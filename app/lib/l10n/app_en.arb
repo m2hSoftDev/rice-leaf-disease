@@ -34,19 +34,110 @@
   },
   "switchToBangla": "বাংলায় দেখুন",
   "@switchToBangla": {
-    "description": "Label for button to switch to Bangla"
+    "description": "Button label to switch to Bangla"
   },
   "switchToEnglish": "View in English",
   "@switchToEnglish": {
-    "description": "Label for button to switch to English"
+    "description": "Button label to switch to English"
   },
   "getStarted": "Get Started",
   "@getStarted": {
     "description": "Button to complete onboarding"
   },
-  "disclaimerText": "This tool is advisory only and does not replace professional agricultural advice.",
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Button to take a leaf photo"
+  },
+  "chooseGallery": "Choose from Gallery",
+  "@chooseGallery": {
+    "description": "Button to pick photo from gallery"
+  },
+  "goToResult": "Go to Result Screen",
+  "@goToResult": {
+    "description": "Navigation button to result screen"
+  },
+  "goToHistory": "Go to History Screen",
+  "@goToHistory": {
+    "description": "Navigation button to history screen"
+  },
+  "goToAbout": "Go to About Screen",
+  "@goToAbout": {
+    "description": "Navigation button to about screen"
+  },
+  "disclaimerTitle": "Advisory Notice",
+  "@disclaimerTitle": {
+    "description": "Title for disclaimer"
+  },
+  "disclaimerText": "This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action.",
   "@disclaimerText": {
-    "description": "Advisory disclaimer text"
+    "description": "Advisory disclaimer text (F-08)"
+  },
+  "uncertainTitle": "Uncertain Result",
+  "@uncertainTitle": {
+    "description": "Banner title when confidence is below 60 percent (D-11)"
+  },
+  "uncertainDescription": "Confidence is low. Please consult an agricultural expert for guidance.",
+  "@uncertainDescription": {
+    "description": "Banner description when confidence is low (D-11)"
+  },
+  "weakGuessPrefix": "Possible condition:",
+  "@weakGuessPrefix": {
+    "description": "Prefix for weak guess display when uncertain"
+  },
+  "diseaseBacterialLeafBlight": "Bacterial Leaf Blight",
+  "@diseaseBacterialLeafBlight": {
+    "description": "Class name for Bacterial Leaf Blight"
+  },
+  "diseaseBrownSpot": "Brown Spot",
+  "@diseaseBrownSpot": {
+    "description": "Class name for Brown Spot"
+  },
+  "diseaseLeafBlast": "Leaf Blast",
+  "@diseaseLeafBlast": {
+    "description": "Class name for Leaf Blast"
+  },
+  "diseaseHealthy": "Healthy",
+  "@diseaseHealthy": {
+    "description": "Class name for Healthy leaf"
+  },
+  "diseaseLeafSmut": "Leaf Smut",
+  "@diseaseLeafSmut": {
+    "description": "Class name for Leaf Smut (deferred to v2)"
+  },
+  "confidenceLabel": "Confidence",
+  "@confidenceLabel": {
+    "description": "Label for prediction confidence percentage"
+  },
+  "advisoryTitle": "Field Advisory",
+  "@advisoryTitle": {
+    "description": "Title for disease advisory note"
+  },
+  "historyEmpty": "No past scans yet.",
+  "@historyEmpty": {
+    "description": "Empty state text for history screen"
+  },
+  "aboutDescription": "Offline mobile application for identifying rice leaf conditions in Bangladesh. Developed as an academic final-year project.",
+  "@aboutDescription": {
+    "description": "Description of the application in About screen"
+  },
+  "creditsTitle": "Credits & Sources",
+  "@creditsTitle": {
+    "description": "Credits title in About screen"
+  },
+  "creditsText": "Model trained on public rice leaf dataset by Hasan et al. (CC BY 4.0). Deployed with TensorFlow Lite.",
+  "@creditsText": {
+    "description": "Credits description in About screen"
+  },
+  "licenseTitle": "License",
+  "@licenseTitle": {
+    "description": "License title in About screen"
+  },
+  "licenseText": "Released under the MIT License. Embedded font Noto Sans Bengali licensed under SIL Open Font License 1.1.",
+  "@licenseText": {
+    "description": "License details in About screen"
+  },
+  "versionLabel": "Version",
+  "@versionLabel": {
+    "description": "App version label"
   }
 }
-

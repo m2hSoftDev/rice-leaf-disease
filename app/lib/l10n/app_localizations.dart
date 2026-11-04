@@ -146,13 +146,13 @@ abstract class AppLocalizations {
   /// **'English'**
   String get languageName;
 
-  /// Label for button to switch to Bangla
+  /// Button label to switch to Bangla
   ///
   /// In en, this message translates to:
   /// **'বাংলায় দেখুন'**
   String get switchToBangla;
 
-  /// Label for button to switch to English
+  /// Button label to switch to English
   ///
   /// In en, this message translates to:
   /// **'View in English'**
@@ -164,11 +164,149 @@ abstract class AppLocalizations {
   /// **'Get Started'**
   String get getStarted;
 
-  /// Advisory disclaimer text
+  /// Button to take a leaf photo
   ///
   /// In en, this message translates to:
-  /// **'This tool is advisory only and does not replace professional agricultural advice.'**
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// Button to pick photo from gallery
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from Gallery'**
+  String get chooseGallery;
+
+  /// Navigation button to result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Result Screen'**
+  String get goToResult;
+
+  /// Navigation button to history screen
+  ///
+  /// In en, this message translates to:
+  /// **'Go to History Screen'**
+  String get goToHistory;
+
+  /// Navigation button to about screen
+  ///
+  /// In en, this message translates to:
+  /// **'Go to About Screen'**
+  String get goToAbout;
+
+  /// Title for disclaimer
+  ///
+  /// In en, this message translates to:
+  /// **'Advisory Notice'**
+  String get disclaimerTitle;
+
+  /// Advisory disclaimer text (F-08)
+  ///
+  /// In en, this message translates to:
+  /// **'This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action.'**
   String get disclaimerText;
+
+  /// Banner title when confidence is below 60 percent (D-11)
+  ///
+  /// In en, this message translates to:
+  /// **'Uncertain Result'**
+  String get uncertainTitle;
+
+  /// Banner description when confidence is low (D-11)
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence is low. Please consult an agricultural expert for guidance.'**
+  String get uncertainDescription;
+
+  /// Prefix for weak guess display when uncertain
+  ///
+  /// In en, this message translates to:
+  /// **'Possible condition:'**
+  String get weakGuessPrefix;
+
+  /// Class name for Bacterial Leaf Blight
+  ///
+  /// In en, this message translates to:
+  /// **'Bacterial Leaf Blight'**
+  String get diseaseBacterialLeafBlight;
+
+  /// Class name for Brown Spot
+  ///
+  /// In en, this message translates to:
+  /// **'Brown Spot'**
+  String get diseaseBrownSpot;
+
+  /// Class name for Leaf Blast
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf Blast'**
+  String get diseaseLeafBlast;
+
+  /// Class name for Healthy leaf
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy'**
+  String get diseaseHealthy;
+
+  /// Class name for Leaf Smut (deferred to v2)
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf Smut'**
+  String get diseaseLeafSmut;
+
+  /// Label for prediction confidence percentage
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get confidenceLabel;
+
+  /// Title for disease advisory note
+  ///
+  /// In en, this message translates to:
+  /// **'Field Advisory'**
+  String get advisoryTitle;
+
+  /// Empty state text for history screen
+  ///
+  /// In en, this message translates to:
+  /// **'No past scans yet.'**
+  String get historyEmpty;
+
+  /// Description of the application in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Offline mobile application for identifying rice leaf conditions in Bangladesh. Developed as an academic final-year project.'**
+  String get aboutDescription;
+
+  /// Credits title in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Credits & Sources'**
+  String get creditsTitle;
+
+  /// Credits description in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Model trained on public rice leaf dataset by Hasan et al. (CC BY 4.0). Deployed with TensorFlow Lite.'**
+  String get creditsText;
+
+  /// License title in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'License'**
+  String get licenseTitle;
+
+  /// License details in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Released under the MIT License. Embedded font Noto Sans Bengali licensed under SIL Open Font License 1.1.'**
+  String get licenseText;
+
+  /// App version label
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get versionLabel;
 }
 
 class _AppLocalizationsDelegate

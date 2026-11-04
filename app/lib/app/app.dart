@@ -16,7 +16,7 @@ class RiceDiseaseApp extends ConsumerWidget {
 
     return MaterialApp(
       title: 'Rice Leaf Disease Detection',
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.getTheme(currentLocale),
       locale: currentLocale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -25,4 +25,3 @@ class RiceDiseaseApp extends ConsumerWidget {
     );
   }
 }
-

@@ -2,7 +2,7 @@
 
 ## Current Status
 - Milestone: M6
-- Note: Baseline B2 Stage 1 and Main Model M1 Stage 2 reruns complete on EXIF-upright data per D-24 (M1 test macro F1 0.8149, Gate 2 MET). Previous B2 and M1 results archived to results/superseded/. Previous seed repeats, export, and parity remain SUPERSEDED pending rerun with EXIF-upright model. T-062 remains REOPENED. T-011 remains TODO (user).
+- Note: Baseline B2 Stage 1, Main Model M1 Stage 2, and three-seed repeat reruns complete on EXIF-upright data per D-24 (M1 seed 42 test macro F1 0.8149; 3-seed mean test macro F1 0.7856 ± 0.0339). Previous export and parity remain SUPERSEDED pending rerun with EXIF-upright model. T-062 remains REOPENED. T-011 remains TODO (user).
 - Active task: T-062 (reopened)
 - Last updated: 2026-11-04
 
@@ -32,7 +32,7 @@
 | T-030 | Stage 1 and Stage 2 training of M1 with train_config.yaml | DONE | agent | Rerun on EXIF-upright data (D-24). Stage 2 fine-tuning initialized from upright B2 checkpoint (results/checkpoints/b2_best.keras); last 30 layers unfrozen (1,675,204 trainable params); early stopped at epoch 17 (patience 5 on val macro F1 per D-19, best epoch 12 with val macro F1 0.8584, val acc 85.19%); evaluated on held-out test split: test macro F1 0.8149 (acc 79.71%), kappa 0.7246; Gate 2 MET (0.8149 >= 0.80); BS->LB errors=10; previous results archived to results/superseded/; metrics in results/metrics/m1.csv, m1.md, and baselines.csv |
 | T-031 | Augmentation pipeline with visual check | DONE | agent | Visual inspection complete across 8 samples per class in results/figures/augmentation_check/; confirmed no disease alteration between Brown Spot and Leaf Blast, zero augmentation on val/test, and no augmented images saved to disk; results in results/metrics/augmentation_check.md |
 | T-032 | Evaluate on test_public (macro F1 target >= 0.80) | TODO | agent | |
-| T-033 | Three-seed repeat, mean and std | DONE | agent | SUPERSEDED per D-24 (pending rerun with EXIF-upright data). Evaluated M1 across seeds 42, 43, 44; mean test macro F1=0.8609 ± 0.0132, mean test acc=84.54% ± 2.09%, mean kappa=0.7895; Gate 2 met on all three seeds (0.8534, 0.8532, 0.8761); results in results/metrics/m1_seeds.csv and m1_seeds.md |
+| T-033 | Three-seed repeat, mean and std | DONE | agent | Rerun on EXIF-upright data (D-24). Evaluated M1 across seeds 42, 43, 44 with end-to-end per-seed Stage 1 and Stage 2 training; val macro F1: 0.8494 ± 0.0109; mean test macro F1: 0.7856 ± 0.0339, mean test acc: 77.54% ± 2.61%, mean test kappa: 0.6927 ± 0.0373; Gate 2 MET on seed 42 (0.8149), NOT MET on seed 43 (0.7485) and seed 44 (0.7933); Brown Spot -> Leaf Blast errors: 10, 8, 9 (mean 9.00 ± 1.00); canonical seed 42 selected by val macro F1 per D-25; results in results/metrics/m1_upright_seeds.csv and m1_upright_seeds.md |
 | T-034 | Optional EfficientNet-B0 comparison | TODO | agent | |
 | T-040 | Evaluate on test_field; compute gap vs test_public | TODO | agent | |
 | T-041 | Grad-CAM on all test_field errors; manual lesion check on 30 samples | TODO | agent | |
@@ -143,3 +143,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-04: Recorded JPEG export settings (quality=95, subsampling=0 / 4:4:4) in src/data/build_upright.py and docs/dataset_card.md under Processing per D-24.
 - 2026-11-04: T-023 rerun on EXIF-upright data per D-24 (10 epochs run, early stopped on val macro F1 per D-19, best epoch 5 with val macro F1 0.8249, val acc 81.48%); evaluated on held-out test split: test macro F1 0.7530 (acc 73.91%), kappa 0.6445; saved results to results/metrics/baseline_b2.csv, baseline_b2.md, results/figures/b2_confusion.png, and updated baselines.csv.
 - 2026-11-04: T-030 rerun on EXIF-upright data per D-24 (17 epochs run, early stopped on val macro F1 per D-19, best epoch 12 with val macro F1 0.8584, val acc 85.19%); evaluated on held-out test split: test macro F1 0.8149 (acc 79.71%), kappa 0.7246; Quality Gate 2 MET (0.8149 >= 0.80); Brown Spot -> Leaf Blast errors=10; saved results to results/metrics/m1.csv, m1.md, results/figures/m1_confusion.png, and updated baselines.csv.
+- 2026-11-04: T-033 rerun on EXIF-upright data per D-24 across seeds 42, 43, 44 (end-to-end Stage 1 + Stage 2 per seed); mean test macro F1=0.7856 ± 0.0339, mean test acc=77.54% ± 2.61%, mean test kappa=0.6927 ± 0.0373; Gate 2 MET on seed 42 (0.8149 >= 0.80), NOT MET on seeds 43 (0.7485) and 44 (0.7933); BS->LB errors: 10, 8, 9 (mean 9.00 ± 1.00); saved results/metrics/m1_upright_seeds.csv and m1_upright_seeds.md.

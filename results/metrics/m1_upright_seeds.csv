@@ -1,0 +1,4 @@
+seed,val_macro_f1,test_macro_f1,test_accuracy,test_kappa,best_epoch,train_seconds,bs_to_lb_errors
+42,0.8584,0.8149,0.7971,0.7246,12,866.10,10
+43,0.8525,0.7485,0.7464,0.6517,5,412.68,8
+44,0.8373,0.7933,0.7826,0.7018,17,1432.65,9

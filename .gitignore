@@ -40,6 +40,11 @@ results/metrics/*
 !results/metrics/*.csv
 !results/metrics/*.md
 !results/metrics/.gitkeep
+results/superseded/*
+!results/superseded/
+!results/superseded/*.csv
+!results/superseded/*.md
+!results/superseded/.gitkeep
 results/failure_cases/*
 !results/failure_cases/.gitkeep
 

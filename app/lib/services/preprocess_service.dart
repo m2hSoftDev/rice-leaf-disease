@@ -27,7 +27,7 @@ class ImageDecodeException implements Exception {
 }
 
 /// Image picking and preprocessing service implementing Section 8.1 contract:
-/// - Bilinear resize to 224x224
+/// - Manual bilinear resize to 224x224 with exact TensorFlow 2 half-pixel-centers mapping
 /// - RGB color space
 /// - Normalization: (x / 127.5) - 1.0 matching mobilenet_v2.preprocess_input
 /// - EXIF orientation handling
@@ -99,6 +99,76 @@ class PreprocessService {
     }
   }
 
+  /// Manual bilinear resize and normalization matching TensorFlow 2.x `tf.image.resize`
+  /// default behavior (`method="bilinear"`, `half_pixel_centers=True`, `antialias=False`).
+  ///
+  /// Coordinate mapping formula:
+  ///   src = (dst + 0.5) * (srcSize / dstSize) - 0.5
+  ///
+  /// Clamped to [0, srcSize - 1] at image boundaries.
+  static Float32List resizeBilinearTf(
+    img.Image src,
+    int dstHeight,
+    int dstWidth,
+  ) {
+    final srcH = src.height;
+    final srcW = src.width;
+    final scaleY = srcH / dstHeight;
+    final scaleX = srcW / dstWidth;
+
+    final output = Float32List(1 * dstHeight * dstWidth * numChannels);
+    int offset = 0;
+
+    for (int dstY = 0; dstY < dstHeight; dstY++) {
+      final srcY = (dstY + 0.5) * scaleY - 0.5;
+      final yFloor = srcY.floor();
+      final y0 = yFloor.clamp(0, srcH - 1);
+      final y1 = (srcY.ceil()).clamp(0, srcH - 1);
+      double dy = srcY - yFloor;
+      if (srcY < 0.0) {
+        dy = 0.0;
+      } else if (srcY > srcH - 1) {
+        dy = 0.0;
+      }
+
+      for (int dstX = 0; dstX < dstWidth; dstX++) {
+        final srcX = (dstX + 0.5) * scaleX - 0.5;
+        final xFloor = srcX.floor();
+        final x0 = xFloor.clamp(0, srcW - 1);
+        final x1 = (srcX.ceil()).clamp(0, srcW - 1);
+        double dx = srcX - xFloor;
+        if (srcX < 0.0) {
+          dx = 0.0;
+        } else if (srcX > srcW - 1) {
+          dx = 0.0;
+        }
+
+        final p00 = src.getPixel(x0, y0);
+        final p01 = src.getPixel(x1, y0);
+        final p10 = src.getPixel(x0, y1);
+        final p11 = src.getPixel(x1, y1);
+
+        final topR = p00.r * (1.0 - dx) + p01.r * dx;
+        final botR = p10.r * (1.0 - dx) + p11.r * dx;
+        final valR = topR * (1.0 - dy) + botR * dy;
+
+        final topG = p00.g * (1.0 - dx) + p01.g * dx;
+        final botG = p10.g * (1.0 - dx) + p11.g * dx;
+        final valG = topG * (1.0 - dy) + botG * dy;
+
+        final topB = p00.b * (1.0 - dx) + p01.b * dx;
+        final botB = p10.b * (1.0 - dx) + p11.b * dx;
+        final valB = topB * (1.0 - dy) + botB * dy;
+
+        output[offset++] = (valR / 127.5) - 1.0;
+        output[offset++] = (valG / 127.5) - 1.0;
+        output[offset++] = (valB / 127.5) - 1.0;
+      }
+    }
+
+    return output;
+  }
+
   /// Preprocesses image bytes to a normalized [1, 224, 224, 3] Float32List in HWC order.
   ///
   /// [applyExifOrientation] defaults to true so images taken by phone cameras or selected
@@ -127,37 +197,16 @@ class PreprocessService {
       // If the caller explicitly requests unbaked/raw orientation, reverse any baked 90 CW rotation.
       final isJpeg = bytes[0] == 0xFF && bytes[1] == 0xD8;
       if (isJpeg) {
-        // Read raw EXIF orientation tag from header
         final decoder = img.JpegDecoder();
         final info = decoder.startDecode(bytes);
-        // If JPEG was orientation 6 (90 CW baked by package:image), rotate 270 to restore landscape raster
         if (info != null && image.height > image.width) {
-          // If the decoded image is portrait but raw JPEG has orientation 6, unrotate
           image = img.copyRotate(image, angle: 270);
+          image.exif.clear();
         }
       }
     }
 
-    // 4. Resize to 224x224 with bilinear interpolation
-    final resized = img.copyResize(
-      image,
-      width: targetWidth,
-      height: targetHeight,
-      interpolation: img.Interpolation.linear,
-    );
-
-    // 5. Scale pixels to [-1.0, 1.0] via (x / 127.5) - 1.0 and format HWC Float32List
-    final output = Float32List(outputElementCount);
-    int offset = 0;
-    for (int y = 0; y < targetHeight; y++) {
-      for (int x = 0; x < targetWidth; x++) {
-        final pixel = resized.getPixel(x, y);
-        output[offset++] = (pixel.r / 127.5) - 1.0;
-        output[offset++] = (pixel.g / 127.5) - 1.0;
-        output[offset++] = (pixel.b / 127.5) - 1.0;
-      }
-    }
-
-    return output;
+    // 4. Resize to 224x224 with exact TensorFlow 2 half-pixel-centers bilinear mapping & normalize
+    return resizeBilinearTf(image, targetHeight, targetWidth);
   }
 }

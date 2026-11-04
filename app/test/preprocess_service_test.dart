@@ -176,6 +176,7 @@ void main() {
           final diffB = (actualB - expectedRGB[2]).abs();
 
           final localMax = [diffR, diffG, diffB].reduce(max);
+          print('    Point ($y, $x): diff=[${diffR.toStringAsFixed(6)}, ${diffG.toStringAsFixed(6)}, ${diffB.toStringAsFixed(6)}], max=${localMax.toStringAsFixed(6)} (actual=[${actualR.toStringAsFixed(4)}, ${actualG.toStringAsFixed(4)}, ${actualB.toStringAsFixed(4)}], exp=[${expectedRGB[0].toStringAsFixed(4)}, ${expectedRGB[1].toStringAsFixed(4)}, ${expectedRGB[2].toStringAsFixed(4)}])');
           if (localMax > imgMax) {
             imgMax = localMax;
           }
@@ -219,11 +220,12 @@ void main() {
       print('Overall max difference (upright EXIF vs PIL upright reference):    ${maxObservedDiffExif.toStringAsFixed(6)}');
       print('Nominal parity tolerance target: 1e-3 (0.001000)');
       if (maxObservedDiffRaw > 1e-3) {
-        print('NOTE: Bilinear implementations and JPEG decoders differ (Section Step 2).\n'
-              '  - On smooth regions, difference is ~0.01 - 0.04 (due to pure-Dart JpegDecoder vs C++ libjpeg-turbo IDCT rounding).\n'
-              '  - On sharp boundary edges, difference reaches ${maxObservedDiffRaw.toStringAsFixed(4)} due to coordinate mapping\n'
-              '    differences (package:image uses fx = x * srcW / dstW, whereas TensorFlow uses\n'
-              '    fx = x * (srcW - 1) / (dstW - 1) or half-pixel alignment, causing a 4-5 source-pixel shift in downsampling).');
+        print('NOTE: Bilinear resize formula matches TensorFlow 2.x tf.image.resize\n'
+              '  (half_pixel_centers=True, bilinear). Remaining difference is due to pure-Dart\n'
+              '  JpegDecoder vs C++ libjpeg-turbo (chroma upsampling and IDCT rounding):\n'
+              '  - On smooth regions, difference is <= 0.02 (~0.001 - 0.016).\n'
+              '  - On sharp edge/chroma boundary pixels, difference reaches ${maxObservedDiffRaw.toStringAsFixed(4)} (up to ~8 intensity values / 255).\n'
+              '  - Per instruction, tolerance is not widened beyond 0.02 without user approval.');
       }
       print('================================================================');
 

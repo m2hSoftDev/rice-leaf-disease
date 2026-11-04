@@ -3,7 +3,7 @@
 ## Current Status
 - Milestone: M6
 - Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3: PASSED for size, accuracy drop, and Keras-to-TFLite parity (20/20). Flutter-side parity is open as T-054b (M6). T-050 to T-054 complete. T-060 and T-061 complete (App skeleton, routes, theme, localization, Bangla font & ARB strings).
-- Active task: None
+- Active task: T-062 (reopened)
 - Last updated: 2026-11-04
 
 ## Task Board
@@ -46,7 +46,7 @@
 | T-054b | Flutter vs Python TFLite top-1 parity on 20 test images. Run after T-063. Must match on all 20 before Gate 3 is fully closed. | TODO | agent | |
 | T-060 | App skeleton: routes, theme, localization setup | DONE | agent | App skeleton complete in app/: Material 3 theme (48 dp touch target, system text scaling), routes (splash, onboarding, home, result, history, about), dynamic locale provider (en/bn toggle with SharedPreferences persistence), l10n ARB files generated; all 5 widget tests passed; flutter build apk --debug succeeded (debug APK size: 153.98 MB / 161,461,355 bytes, measurement only, not release size) |
 | T-061 | Bangla font and strings (ARB files) | DONE | agent | Embedded Noto Sans Bengali (Regular 0.1364 MB, Bold 0.1381 MB, OFL 1.1) in app/assets/fonts/; recorded in docs/licenses_third_party.md; expanded app_en.arb and app_bn.arb with exact Section 6 Bangla disease names, disclaimer (F-08), uncertain banner (D-11), and About credits; 8/8 widget tests passed; debug build passed |
-| T-062 | Image picker and preprocessing service | DONE | agent | Added image_picker: 1.2.4 and image: 4.12.0; implemented PreprocessService with 10 MB limit (F-02), JPG/PNG validation, EXIF orientation handling, bilinear resize to 224x224, and (x / 127.5) - 1.0 normalization to Float32List [1, 224, 224, 3]; synthetic unit test passed within 1e-3; real-image parity evaluated on 3 test images (observed max diff 0.3644 due to downsampling coordinate mapping and JPEG IDCT; gracefully skips if dataset absent); all 13 tests passed; debug build passed |
+| T-062 | Image picker and preprocessing service | REOPENED | agent | REOPENED: Parity test max difference 0.364 exceeded 1e-3 target and assertion was relaxed. TF half-pixel bilinear resize implemented (diff reduced from 0.364 to 0.0610; smooth regions <= 0.02, edge chroma boundary 0.0610 due to pure-Dart JpegDecoder vs libjpeg-turbo); awaiting user decision on tolerance |
 | T-063 | TFLite inference service in an isolate | TODO | agent | |
 | T-064 | Result screen with confidence and uncertain state (F-05) | TODO | agent | |
 | T-065 | Advisory JSON loader (Bangla and English) | TODO | agent | |
@@ -136,3 +136,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-04: T-060 DONE - Implemented Flutter app skeleton, 6 placeholder routes with first-launch splash redirection via shared_preferences, Material 3 high-contrast theme, Riverpod locale toggle provider (en/bn), and l10n setup; all widget tests passed (5/5); debug APK built successfully (153.98 MB measurement).
 - 2026-11-04: T-061 DONE - Downloaded Noto Sans Bengali v3.011 (OFL 1.1), embedded Regular/Bold fonts into app/assets/fonts/ with docs/licenses_third_party.md; expanded English and Bangla ARB files with exact Section 6 disease names, disclaimer, and uncertain banner; verified all 23 Bangla glyphs present; all widget tests passed (8/8); debug APK built successfully.
 - 2026-11-04: T-062 DONE - Implemented PreprocessService and image picking validation (10 MB limit, JPG/PNG); audited Hasan dataset EXIF orientation (88.8% Orientation 6); built Python parity fixture test/fixtures/preprocess_expected.json; evaluated 3 test images (max diff 0.3644 on sharp lesion boundaries due to downsampling coordinate differences between package:image and TensorFlow, ~0.02 on smooth regions); all 13 Flutter tests passed; debug APK built successfully.
+- 2026-11-04: T-062 REOPENED - Parity test max diff 0.3644 exceeded 1e-3 target and assertion had been relaxed. Completed EXIF orientation diagnostic on test split N=138 (Condition a raw stored: accuracy 86.96%, macro F1 0.8761; Condition b upright: accuracy 70.29%, macro F1 0.7205; tag 6 count 123/138); saved results/metrics/diagnostic_exif_orientation.csv and .md. Implemented manual TF 2.x bilinear resize (half_pixel_centers=True) reducing max difference from 0.3644 to 0.0610 (smooth regions <= 0.02, edge chroma boundaries 0.0610 due to pure-Dart JpegDecoder vs libjpeg-turbo); T-062 remains REOPENED pending decision on parity tolerance.

@@ -2,7 +2,7 @@
 
 ## Current Status
 - Milestone: M5
-- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3 PASSED (Float16 TFLite size 4.62 MB <= 5.0 MB, accuracy drop 0.00 pp <= 2.0 pp, parity 20/20 matches on stratified test sample). T-050 to T-054 complete.
+- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3: PASSED for size, accuracy drop, and Keras-to-TFLite parity (20/20). Flutter-side parity is open as T-054b (M6). T-050 to T-054 complete.
 - Active task: None
 - Last updated: 2026-11-04
 
@@ -42,7 +42,8 @@
 | T-051 | Try int8 quantization with representative data | DONE | agent | Quantized canonical model using representative dataset (N=200) from training split only to results/export/model_int8.tflite; measured size 2.77 MB (2,903,240 bytes), within <= 5.0 MB budget; test accuracy 86.23%, test macro F1 0.8635 |
 | T-052 | Re-evaluate TFLite on both test sets; record accuracy drop | DONE | agent | Evaluated fp16 and int8 models on val (N=135) and test (N=138); measured fp16 accuracy drop vs Keras is +0.00 pp on both val and test (within <= 2.0 pp limit); measured int8 accuracy drop is +0.72 pp on test and +4.44 pp on val; results in results/metrics/export_evaluation.csv and export_evaluation.md |
 | T-053 | Write labels.json and preprocess_config.json | DONE | agent | Generated results/export/preprocess_config.json (MobileNetV2 [-1, 1], bilinear, 224x224) and results/export/labels.json with explicit model index mapping (0: BLB, 1: Brown Spot, 2: Healthy, 3: Leaf Blast) and warning against Section 6 index order |
-| T-054 | Verify parity: Python TFLite output vs Flutter output on 20 test images (must match top-1) | DONE | agent | Evaluated Keras vs Float16 TFLite parity on 20 stratified test images (seed 42, 5/class); 20/20 (100.0%) top-1 matches; verified labels.json index order (Healthy=2, Leaf Blast=3, not transposed); Quality Gate 3 PASSED; results in results/metrics/parity_check.csv and parity_check.md |
+| T-054 | Verify parity: Python TFLite output vs Flutter output on 20 test images (must match top-1) | DONE | agent | Evaluated Keras vs Float16 TFLite parity on 20 stratified test images (seed 42, 5/class); 20/20 (100.0%) top-1 matches; verified labels.json index order (Healthy=2, Leaf Blast=3, not transposed); Gate 3 passed for size, accuracy drop, and Keras-to-TFLite parity; results in results/metrics/parity_check.csv and parity_check.md |
+| T-054b | Flutter vs Python TFLite top-1 parity on 20 test images. Run after T-063. Must match on all 20 before Gate 3 is fully closed. | TODO | agent | |
 | T-060 | App skeleton: routes, theme, localization setup | TODO | agent | |
 | T-061 | Bangla font and strings (ARB files) | TODO | agent | |
 | T-062 | Image picker and preprocessing service | TODO | agent | |
@@ -126,6 +127,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-04: T-050 to T-053 DONE - Exported canonical model (m1_seed44_best.keras) to Float16 (4.62 MB) and Int8 (2.77 MB) TFLite models at results/export/; re-evaluated on val and test splits; measured Float16 drop at 0.00 pp on both val and test, Int8 drop at +0.72 pp test and +4.44 pp val; generated preprocess_config.json and labels.json with model output index alignment; saved metrics to results/metrics/export_evaluation.csv and export_evaluation.md (Gate 3 remains open pending T-054 parity check).
 - 2026-11-04: Recorded approved decisions D-21 (float16 deployment model, int8 excluded due to 4.44 pp val drop) and D-22 (canonical alphabetical label order via labels.json; Section 6 index doc only).
 - 2026-11-04: T-054 DONE - Evaluated Keras vs Float16 TFLite top-1 parity on 20 stratified test images (seed 42); achieved 20/20 (100.0%) matches; verified labels.json indices (Healthy=2, Leaf Blast=3, not transposed); Quality Gate 3 PASSED; saved results to results/metrics/parity_check.csv and parity_check.md.
+- 2026-11-04: Corrected Gate 3 status (PASSED for size, accuracy drop, and Keras-to-TFLite parity 20/20; Flutter-side parity open as T-054b in M6); added T-054b to Task Board.
 
 
 

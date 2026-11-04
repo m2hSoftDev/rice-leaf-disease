@@ -400,7 +400,7 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 ## 16. Quality Gates
 - Gate 1a (end of M1): Public data splits and dataset cards complete, no leakage check passed (D-12).
 - Gate 1b (before M4): Field photos collected (target 300–500, min 60/class) and expert-labeled in field_log.csv (D-12).
-- Gate 2 (end of M3): Macro F1 >= 0.80 on test_public, or a written analysis of why not.
+- Gate 2 (end of M3): Macro F1 >= 0.80 on test_public, or a written analysis of why not. Upright pipeline status: NOT MET (mean test macro F1 0.7856 ± 0.0339 across seeds 42–44; seed 42 alone 0.8149). Disclosure: test split was used for the D-24 orientation diagnostic and for model comparisons; public test results are optimistic for generalization.
 - Gate 3 (end of M5): TFLite parity check passed, size <= 5 MB.
 - Gate 4 (end of M6): All Must features working offline on test device.
 - Gate 5 (end of M7): Play Store testing track live, privacy policy published.

@@ -3,17 +3,18 @@
 ## Overview
 - **Dataset**: EXIF-upright copies in `data/processed/hasan_upright/` per D-24
 - **Methodology**: For each seed (42, 43, 44), Stage 1 trains the classification head on frozen MobileNetV2 with Adam lr=1e-3 (max 20 epochs, patience 5 on val macro F1 per D-19). Stage 2 unfreezes the last 30 layers with Adam lr=1e-5 (max 30 epochs, patience 5 on val macro F1 per D-19).
+- **Provenance**: Seed 42 metrics were reused directly from the upright M1 Stage 2 run (`results/metrics/m1.csv`, `results/metrics/m1.md`), where Stage 1 was trained under `baseline_b2.py` (best epoch 5) and Stage 2 ran under `train_m1.py` (best epoch 12, 866.10s). Seeds 43 and 44 were retrained end-to-end (Stage 1 + Stage 2) within `train_upright_seeds.py`.
 - **Hardware**: CPU (oneDNN optimized)
 
 ## Summary Metrics Across Seeds (Seeds 42, 43, 44)
 
-| Seed | Val Macro F1 | Test Macro F1 | Test Accuracy | Test Cohen's Kappa | Best Epoch (St2) | Train Seconds (St2) | Brown Spot -> Leaf Blast Errors |
-|---|---|---|---|---|---|---|---|
-| **42** | 0.8584 | **0.8149** | 0.7971 (79.71%) | 0.7246 | 12 | 866.10s | 10 |
-| **43** | 0.8525 | **0.7485** | 0.7464 (74.64%) | 0.6517 | 5 | 412.68s | 8 |
-| **44** | 0.8373 | **0.7933** | 0.7826 (78.26%) | 0.7018 | 17 | 1432.65s | 9 |
-| **Mean** | **0.8494** | **0.7856** | **0.7754 (77.54%)** | **0.6927** | - | - | - |
-| **Std (ddof=1)** | **0.0109** | **0.0339** | **0.0261** | **0.0373** | - | - | - |
+| Seed | Val Macro F1 | Test Macro F1 | Test Accuracy | Test Cohen's Kappa | Best Epoch (St2) | Train Seconds (St2) | Brown Spot -> Leaf Blast Errors | Provenance |
+|---|---|---|---|---|---|---|---|---|
+| **42** | 0.8584 | **0.8149** | 0.7971 (79.71%) | 0.7246 | 12 | 866.10s | 10 | Reused from upright M1 run |
+| **43** | 0.8525 | **0.7485** | 0.7464 (74.64%) | 0.6517 | 5 | 412.68s | 8 | Retrained end-to-end |
+| **44** | 0.8373 | **0.7933** | 0.7826 (78.26%) | 0.7018 | 17 | 1432.65s | 9 | Retrained end-to-end |
+| **Mean** | **0.8494** | **0.7856** | **0.7754 (77.54%)** | **0.6927** | - | - | **9.00** | - |
+| **Std (ddof=1)** | **0.0109** | **0.0339** | **0.0261** | **0.0373** | - | - | **1.00** | - |
 
 ## Quality Gate 2 Evaluation Across Seeds
 - **Threshold**: Test Macro F1 $\ge 0.8000$

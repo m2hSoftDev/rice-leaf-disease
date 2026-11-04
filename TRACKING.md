@@ -2,7 +2,7 @@
 
 ## Current Status
 - Milestone: M6
-- Note: Baseline B2 Stage 1, Main Model M1 Stage 2, and three-seed repeat reruns complete on EXIF-upright data per D-24 (M1 seed 42 test macro F1 0.8149; 3-seed mean test macro F1 0.7856 ± 0.0339). Previous export and parity remain SUPERSEDED pending rerun with EXIF-upright model. T-062 remains REOPENED. T-011 remains TODO (user).
+- Note: Baseline B2 Stage 1, Main Model M1 Stage 2, and three-seed repeat reruns complete on EXIF-upright data per D-24. Gate 2 on upright pipeline is NOT MET (mean test macro F1 0.7856 ± 0.0339 across seeds 42–44; seed 42 alone 0.8149). Disclosure: test split was used for D-24 orientation diagnostic and model comparisons; public test results are optimistic for generalization. Canonical model is seed 42 per D-25. Export and parity remain SUPERSEDED pending rerun with upright model. T-062 remains REOPENED. T-011 remains TODO (user).
 - Active task: T-062 (reopened)
 - Last updated: 2026-11-04
 
@@ -70,6 +70,14 @@
 | T-094 | Presentation slides and live demo rehearsal | TODO | agent | |
 
 Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
+
+## Quality Gate Status
+- Gate 1a (public data splits and dataset cards): PASSED (2026-11-03)
+- Gate 1b (field photos collected and expert-labeled, min 60/class): PENDING (user, T-011/T-012/T-013)
+- Gate 2 (Macro F1 >= 0.80 on test_public): NOT MET on upright pipeline (mean test macro F1 0.7856 ± 0.0339 across seeds 42–44; seed 42 alone 0.8149). Disclosure: test split was used for D-24 orientation diagnostic and model comparisons; public test results are optimistic for generalization.
+- Gate 3 (TFLite parity, size <= 5 MB): SUPERSEDED pending rerun with upright canonical model (seed 42).
+- Gate 4 (Must features working offline on test device): PENDING (M6)
+- Gate 5 (Play Store testing track live, privacy policy): PENDING (M7)
 
 ## Decisions Log
 - D-01: MIT license (2026-11-03)
@@ -146,3 +154,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-04: T-030 rerun on EXIF-upright data per D-24 (17 epochs run, early stopped on val macro F1 per D-19, best epoch 12 with val macro F1 0.8584, val acc 85.19%); evaluated on held-out test split: test macro F1 0.8149 (acc 79.71%), kappa 0.7246; Quality Gate 2 MET (0.8149 >= 0.80); Brown Spot -> Leaf Blast errors=10; saved results to results/metrics/m1.csv, m1.md, results/figures/m1_confusion.png, and updated baselines.csv.
 - 2026-11-04: T-033 rerun on EXIF-upright data per D-24 across seeds 42, 43, 44 (end-to-end Stage 1 + Stage 2 per seed); mean test macro F1=0.7856 ± 0.0339, mean test acc=77.54% ± 2.61%, mean test kappa=0.6927 ± 0.0373; Gate 2 MET on seed 42 (0.8149 >= 0.80), NOT MET on seeds 43 (0.7485) and 44 (0.7933); BS->LB errors: 10, 8, 9 (mean 9.00 ± 1.00); saved results/metrics/m1_upright_seeds.csv and m1_upright_seeds.md.
 - 2026-11-04: Recorded approved decision D-25 (canonical seed selection for upright pipeline by validation macro F1 under D-19, superseding D-20: Seed 42 with val macro F1 0.8584).
+- 2026-11-04: Recorded Gate 2 status for upright pipeline as NOT MET (mean test macro F1 0.7856 ± 0.0339 across seeds 42–44; seed 42 alone 0.8149) in TRACKING.md and PROJECT_SCOPE.md Section 16; added disclosure on test split usage for D-24 diagnostic and comparisons.

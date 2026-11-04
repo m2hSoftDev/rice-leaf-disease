@@ -27,6 +27,10 @@ data/**/*.tar.gz
 *.keras
 *.h5
 *.tflite
+!app/assets/
+!app/assets/model_fp16.tflite
+!app/assets/labels.json
+!app/assets/preprocess_config.json
 
 # Results artifacts and cache
 results/figures/*

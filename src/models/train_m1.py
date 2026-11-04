@@ -574,7 +574,7 @@ def main():
         f"- Correctly identified Brown Spot: {bs_correct} (Recall: {bs_correct/bs_total*100:.2f}%)",
         f"- Total missed Brown Spot images: {bs_missed}",
         f"- Misclassified as Leaf Blast in M1: **{bs_to_lb_count}** images ({bs_to_lb_count/bs_missed*100:.2f}% of missed Brown Spot)",
-        f"- Comparison: Superseded B2 had **18** BS->LB errors, Upright B2 had **10**, Superseded M1 had **7**, and Upright M1 has **{bs_to_lb_count}**.",
+        f"- Comparison: Superseded B2 had **18** BS->LB errors, Upright B2 had **10**, Superseded M1 (seed 42) had **11**, and Upright M1 (seed 42) has **{bs_to_lb_count}**.",
         "",
         "## Analysis and Findings",
         f"1. Stage 2 fine-tuning achieved Test Macro F1 of {test_metrics['macro_f1']:.4f} (Accuracy: {test_metrics['accuracy']*100:.2f}%) on held-out test data.",

@@ -11,7 +11,7 @@
 |---|---|---|---|---|
 | T-001 | Create GitHub repo | DONE | agent | Pushed to https://github.com/m2hsoftdev/rice-leaf-disease.git on 2026-11-03 (commit 06fe726) |
 | T-002 | Python env + TensorFlow check | DONE | agent | Verified TensorFlow 2.21.0 imports successfully in .venv on 2026-11-03 |
-| T-003 | Create Flutter project, verify it builds for Android | TODO | agent | |
+| T-003 | Create Flutter project, verify it builds for Android | DONE | agent | Created Flutter project in app/ (package name com.m2hsoftdev.ricedisease, Android-only per D-02); copied and declared assets (model_fp16.tflite, labels.json, preprocess_config.json); pinned Dart/Flutter/dependency versions; flutter build apk --debug succeeded on 2026-11-04 (app-debug.apk 148.1 MB) |
 | T-004 | Choose license and write LICENSE file (D-01) | DONE | agent | MIT License chosen per D-01; Copyright (c) 2026 Mehedi Hasan; root LICENSE created on 2026-11-03 |
 | T-005 | Write dataset card draft in docs/dataset_card.md | DONE | agent | Draft completed in docs/dataset_card.md with verified Hasan counts, license quote, and UNVERIFIED collection markings |
 | T-010 | Download public datasets, record source and license in licenses.md | DONE | agent | Hasan archive downloaded, extracted, verified (1,701 images, SHA-256 verified, CC BY 4.0); data/metadata/licenses.md recorded |
@@ -128,6 +128,7 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-04: Recorded approved decisions D-21 (float16 deployment model, int8 excluded due to 4.44 pp val drop) and D-22 (canonical alphabetical label order via labels.json; Section 6 index doc only).
 - 2026-11-04: T-054 DONE - Evaluated Keras vs Float16 TFLite top-1 parity on 20 stratified test images (seed 42); achieved 20/20 (100.0%) matches; verified labels.json indices (Healthy=2, Leaf Blast=3, not transposed); Quality Gate 3 PASSED; saved results to results/metrics/parity_check.csv and parity_check.md.
 - 2026-11-04: Corrected Gate 3 status (PASSED for size, accuracy drop, and Keras-to-TFLite parity 20/20; Flutter-side parity open as T-054b in M6); added T-054b to Task Board.
+- 2026-11-04: T-003 DONE - Created Flutter Android skeleton in app/ with package name com.m2hsoftdev.ricedisease (D-02); removed counter demo; pinned versions in pubspec.yaml; copied and declared model_fp16.tflite, labels.json, and preprocess_config.json in app/assets/; verified flutter test passed; built debug APK successfully via flutter build apk --debug (build/app/outputs/flutter-apk/app-debug.apk).
 
 
 

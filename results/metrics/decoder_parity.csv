@@ -1,0 +1,4 @@
+filename,width,height,max_diff_uint8,max_diff_normalized,mean_diff_uint8,note
+Healthy_rice_leaf  (17).jpg,1600,1200,21,0.164706,0.9703,measured pure-Dart JpegDecoder vs libjpeg-turbo limitation
+Leaf_blast  (290).jpg,1600,1200,25,0.196078,1.4325,measured pure-Dart JpegDecoder vs libjpeg-turbo limitation
+Bacterial_leaf_Blight  (142).jpg,1600,1200,26,0.203922,1.8240,measured pure-Dart JpegDecoder vs libjpeg-turbo limitation

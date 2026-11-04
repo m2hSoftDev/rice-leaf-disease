@@ -48,6 +48,12 @@ for _, row in sample.iterrows():
         pts_raw[f"{y},{x}"] = [round(float(v), 6) for v in norm_tf[y, x].tolist()]
         pts_upright[f"{y},{x}"] = [round(float(v), 6) for v in norm_upright[y, x].tolist()]
         
+    # Save python decoded image as lossless PNG for resize and decoder parity tests
+    decoded_dir = WORKSPACE_ROOT / "app" / "test" / "fixtures" / "python_decoded"
+    decoded_dir.mkdir(parents=True, exist_ok=True)
+    safe_name = row['filename'].replace(' ', '_').replace('(', '').replace(')', '') + '.png'
+    Image.fromarray(img_tf.numpy()).save(decoded_dir / safe_name)
+    
     fixture_data["images"].append({
         "class": row["class"],
         "filename": row["filename"],

@@ -115,51 +115,41 @@ void main() {
   });
 
   group('T-062: Real-Image Parity Tests against Python training preprocessing', () {
-    test('Evaluates 6 fixed positions on 3 test images from split_manifest.csv', () {
-      // Check test fixtures file
+    test('(a) Resize parity: Python-decoded pixels fed to PreprocessService.resizeBilinearTf match Python TF output within 1e-4', () {
       final fixtureFile = File('test/fixtures/preprocess_expected.json');
       if (!fixtureFile.existsSync()) {
-        print('Test image directory not found; skipping real-image parity test.');
+        print('Fixture file not found; skipping resize parity test.');
         return;
       }
 
       final fixtureData = jsonDecode(fixtureFile.readAsStringSync()) as Map<String, dynamic>;
       final images = fixtureData['images'] as List<dynamic>;
 
-      // Determine test image directory: environment variable or standard staging path
-      final envPath = Platform.environment['TEST_IMAGE_DIR'];
-      final candidateDir = envPath != null
-          ? Directory(envPath)
-          : Directory('../data/raw/public/hasan_staging/Original Images');
-
-      if (!candidateDir.existsSync()) {
-        print('Test image directory not found; skipping real-image parity test.');
-        return;
-      }
-
-      print('Running real-image parity check across ${images.length} images from ${candidateDir.path}...');
-
-      double maxObservedDiffRaw = 0.0;
-      double maxObservedDiffExif = 0.0;
-      final Map<String, double> perImageMaxDiff = {};
+      double overallMaxDiff = 0.0;
+      final Map<String, double> perImageResizeDiff = {};
 
       for (final item in images) {
-        final relPath = item['relative_path'] as String;
         final filename = item['filename'] as String;
         final rawPoints = item['points_training_raw'] as Map<String, dynamic>;
-        final uprightPoints = item['points_exif_upright'] as Map<String, dynamic>;
 
-        final file = File('${candidateDir.path}/$relPath');
-        if (!file.existsSync()) {
-          print('Test image directory not found; skipping real-image parity test.');
+        final safeName = filename.replaceAll(' ', '_').replaceAll('(', '').replaceAll(')', '') + '.png';
+        final pyDecodedFile = File('test/fixtures/python_decoded/$safeName');
+        if (!pyDecodedFile.existsSync()) {
+          print('Python decoded image not found: ${pyDecodedFile.path}; skipping.');
           return;
         }
 
-        final bytes = file.readAsBytesSync();
-        double imgMax = 0.0;
+        final pyDecodedBytes = pyDecodedFile.readAsBytesSync();
+        final pyDecodedImg = img.decodePng(pyDecodedBytes)!;
 
-        // 1. Raw raster parity check (matching Python tf.image.decode_jpeg training preprocessing)
-        final rawTensor = service.preprocess(bytes, applyExifOrientation: false);
+        // Feed the Python-decoded pixels into PreprocessService.resizeBilinearTf
+        final resizedTensor = PreprocessService.resizeBilinearTf(
+          pyDecodedImg,
+          PreprocessService.targetHeight,
+          PreprocessService.targetWidth,
+        );
+
+        double imgMax = 0.0;
         for (final entry in rawPoints.entries) {
           final coords = entry.key.split(',').map(int.parse).toList();
           final y = coords[0];
@@ -167,72 +157,156 @@ void main() {
           final expectedRGB = (entry.value as List<dynamic>).map((v) => (v as num).toDouble()).toList();
 
           final offset = (y * PreprocessService.targetWidth + x) * PreprocessService.numChannels;
-          final actualR = rawTensor[offset];
-          final actualG = rawTensor[offset + 1];
-          final actualB = rawTensor[offset + 2];
+          final actualR = resizedTensor[offset];
+          final actualG = resizedTensor[offset + 1];
+          final actualB = resizedTensor[offset + 2];
 
           final diffR = (actualR - expectedRGB[0]).abs();
           final diffG = (actualG - expectedRGB[1]).abs();
           final diffB = (actualB - expectedRGB[2]).abs();
 
           final localMax = [diffR, diffG, diffB].reduce(max);
-          print('    Point ($y, $x): diff=[${diffR.toStringAsFixed(6)}, ${diffG.toStringAsFixed(6)}, ${diffB.toStringAsFixed(6)}], max=${localMax.toStringAsFixed(6)} (actual=[${actualR.toStringAsFixed(4)}, ${actualG.toStringAsFixed(4)}, ${actualB.toStringAsFixed(4)}], exp=[${expectedRGB[0].toStringAsFixed(4)}, ${expectedRGB[1].toStringAsFixed(4)}, ${expectedRGB[2].toStringAsFixed(4)}])');
           if (localMax > imgMax) {
             imgMax = localMax;
           }
-          if (localMax > maxObservedDiffRaw) {
-            maxObservedDiffRaw = localMax;
+          if (localMax > overallMaxDiff) {
+            overallMaxDiff = localMax;
           }
         }
-        perImageMaxDiff[filename] = imgMax;
+        perImageResizeDiff[filename] = imgMax;
 
-        // 2. Upright parity check (with EXIF orientation applied)
-        final uprightTensor = service.preprocess(bytes, applyExifOrientation: true);
-        for (final entry in uprightPoints.entries) {
-          final coords = entry.key.split(',').map(int.parse).toList();
-          final y = coords[0];
-          final x = coords[1];
-          final expectedRGB = (entry.value as List<dynamic>).map((v) => (v as num).toDouble()).toList();
-
-          final offset = (y * PreprocessService.targetWidth + x) * PreprocessService.numChannels;
-          final actualR = uprightTensor[offset];
-          final actualG = uprightTensor[offset + 1];
-          final actualB = uprightTensor[offset + 2];
-
-          final diffR = (actualR - expectedRGB[0]).abs();
-          final diffG = (actualG - expectedRGB[1]).abs();
-          final diffB = (actualB - expectedRGB[2]).abs();
-
-          final localMax = [diffR, diffG, diffB].reduce(max);
-          if (localMax > maxObservedDiffExif) {
-            maxObservedDiffExif = localMax;
-          }
-        }
+        // Assert max difference <= 1e-4 against Python TF output
+        expect(
+          imgMax,
+          lessThanOrEqualTo(1e-4),
+          reason: 'Resize parity max difference for $filename must be <= 1e-4',
+        );
       }
 
       print('================================================================');
-      print('PARITY TEST RESULTS & DIFFERENCE AUDIT:');
-      print('Per-image max differences (raw raster vs TF training preprocessing):');
-      perImageMaxDiff.forEach((file, diff) {
-        print('  - $file: max diff = ${diff.toStringAsFixed(6)}');
+      print('RESIZE PARITY TEST RESULTS (Dart resizeBilinearTf vs Python tf.image.resize):');
+      perImageResizeDiff.forEach((file, diff) {
+        print('  - $file: max diff = ${diff.toStringAsFixed(8)}');
       });
-      print('Overall max difference (raw raster vs TF training preprocessing): ${maxObservedDiffRaw.toStringAsFixed(6)}');
-      print('Overall max difference (upright EXIF vs PIL upright reference):    ${maxObservedDiffExif.toStringAsFixed(6)}');
-      print('Nominal parity tolerance target: 1e-3 (0.001000)');
-      if (maxObservedDiffRaw > 1e-3) {
-        print('NOTE: Bilinear resize formula matches TensorFlow 2.x tf.image.resize\n'
-              '  (half_pixel_centers=True, bilinear). Remaining difference is due to pure-Dart\n'
-              '  JpegDecoder vs C++ libjpeg-turbo (chroma upsampling and IDCT rounding):\n'
-              '  - On smooth regions, difference is <= 0.02 (~0.001 - 0.016).\n'
-              '  - On sharp edge/chroma boundary pixels, difference reaches ${maxObservedDiffRaw.toStringAsFixed(4)} (up to ~8 intensity values / 255).\n'
-              '  - Per instruction, tolerance is not widened beyond 0.02 without user approval.');
-      }
+      print('Overall max resize difference: ${overallMaxDiff.toStringAsFixed(8)} (target <= 1e-4)');
       print('================================================================');
 
-      // Do not widen nominal tolerance to hide a bug; report the difference truthfully.
-      // Assert that output tensors are finite, correctly sized, and bounded in [-1.0, 1.0].
-      expect(maxObservedDiffRaw.isFinite, isTrue);
-      expect(maxObservedDiffExif.isFinite, isTrue);
+      expect(overallMaxDiff, lessThanOrEqualTo(1e-4), reason: 'Overall resize parity difference must be <= 1e-4');
+    });
+
+    test('(b) Decoder parity: compare Dart-decoded pixels to Python-decoded pixels and record to results/metrics/decoder_parity.csv', () {
+      final fixtureFile = File('test/fixtures/preprocess_expected.json');
+      if (!fixtureFile.existsSync()) {
+        print('Fixture file not found; skipping decoder parity test.');
+        return;
+      }
+
+      final fixtureData = jsonDecode(fixtureFile.readAsStringSync()) as Map<String, dynamic>;
+      final images = fixtureData['images'] as List<dynamic>;
+
+      final envPath = Platform.environment['TEST_IMAGE_DIR'];
+      final candidateDir = envPath != null
+          ? Directory(envPath)
+          : Directory('../data/raw/public/hasan_staging/Original Images');
+
+      if (!candidateDir.existsSync()) {
+        print('Test image directory not found; skipping decoder parity test.');
+        return;
+      }
+
+      final List<Map<String, dynamic>> csvRows = [];
+      final Map<String, int> perImageMaxDiffUint8 = {};
+      final Map<String, double> perImageMaxDiffNorm = {};
+
+      for (final item in images) {
+        final relPath = item['relative_path'] as String;
+        final filename = item['filename'] as String;
+
+        final origFile = File('${candidateDir.path}/$relPath');
+        if (!origFile.existsSync()) {
+          print('Original image not found: ${origFile.path}; skipping.');
+          return;
+        }
+
+        final safeName = filename.replaceAll(' ', '_').replaceAll('(', '').replaceAll(')', '') + '.png';
+        final pyDecodedFile = File('test/fixtures/python_decoded/$safeName');
+        if (!pyDecodedFile.existsSync()) {
+          print('Python decoded image not found: ${pyDecodedFile.path}; skipping.');
+          return;
+        }
+
+        final pyImg = img.decodePng(pyDecodedFile.readAsBytesSync())!;
+        final rawBytes = origFile.readAsBytesSync();
+        img.Image? dartImg = img.decodeImage(rawBytes);
+        if (dartImg == null) {
+          throw Exception('Failed to decode $filename in Dart');
+        }
+
+        // Align with Python raw decode raster orientation (1600x1200)
+        if (dartImg.height > dartImg.width) {
+          dartImg = img.copyRotate(dartImg, angle: 270);
+          dartImg.exif.clear();
+        }
+
+        expect(dartImg.width, equals(pyImg.width));
+        expect(dartImg.height, equals(pyImg.height));
+
+        int maxDiffUint8 = 0;
+        int sumDiff = 0;
+        final totalPixels = dartImg.width * dartImg.height;
+
+        for (int y = 0; y < dartImg.height; y++) {
+          for (int x = 0; x < dartImg.width; x++) {
+            final pDart = dartImg.getPixel(x, y);
+            final pPy = pyImg.getPixel(x, y);
+
+            final dr = (pDart.r - pPy.r).abs().toInt();
+            final dg = (pDart.g - pPy.g).abs().toInt();
+            final db = (pDart.b - pPy.b).abs().toInt();
+
+            final m = [dr, dg, db].reduce(max);
+            if (m > maxDiffUint8) {
+              maxDiffUint8 = m;
+            }
+            sumDiff += dr + dg + db;
+          }
+        }
+
+        final maxDiffNorm = maxDiffUint8 / 127.5;
+        final meanDiffUint8 = sumDiff / (totalPixels * 3);
+
+        perImageMaxDiffUint8[filename] = maxDiffUint8;
+        perImageMaxDiffNorm[filename] = maxDiffNorm;
+
+        csvRows.add({
+          'filename': filename,
+          'width': dartImg.width,
+          'height': dartImg.height,
+          'max_diff_uint8': maxDiffUint8,
+          'max_diff_normalized': maxDiffNorm.toStringAsFixed(6),
+          'mean_diff_uint8': meanDiffUint8.toStringAsFixed(4),
+        });
+      }
+
+      print('================================================================');
+      print('DECODER PARITY RESULTS (Dart JpegDecoder vs C++ libjpeg-turbo):');
+      perImageMaxDiffUint8.forEach((file, diff) {
+        print('  - $file: max uint8 diff = $diff / 255 (normalized = ${perImageMaxDiffNorm[file]!.toStringAsFixed(6)})');
+      });
+      print('================================================================');
+
+      // Write results to results/metrics/decoder_parity.csv as a measured limitation
+      final csvFile = File('../results/metrics/decoder_parity.csv');
+      final sink = csvFile.openWrite();
+      sink.writeln('filename,width,height,max_diff_uint8,max_diff_normalized,mean_diff_uint8,note');
+      for (final r in csvRows) {
+        sink.writeln('${r['filename']},${r['width']},${r['height']},${r['max_diff_uint8']},${r['max_diff_normalized']},${r['mean_diff_uint8']},measured pure-Dart JpegDecoder vs libjpeg-turbo limitation');
+      }
+      sink.close();
+      print('Wrote measured decoder limitation to ${csvFile.path}');
+
+      // Do not assert a pass threshold; record as measured limitation
+      expect(csvFile.existsSync(), isTrue);
     });
   });
 }

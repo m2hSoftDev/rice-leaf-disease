@@ -43,6 +43,9 @@ results/metrics/*
 results/failure_cases/*
 !results/failure_cases/.gitkeep
 
+# Test fixtures cache
+app/test/fixtures/python_decoded/
+
 # IDE and OS files
 .vscode/
 .idea/

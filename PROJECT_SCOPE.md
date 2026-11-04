@@ -431,6 +431,7 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 - D-20: The canonical model for export is selected by validation macro F1 under D-19. Seed 44 (val macro F1 0.8669) is the canonical model. Seeds 42 and 43 are reported as repeats. Test scores are not used for selection (APPROVED, 2026-11-04).
 - D-21: The deployment model is float16 TFLite (results/export/model_fp16.tflite). Int8 is not used in v1 because its validation accuracy drop (4.44 pp) exceeds the 2 pp limit in Section 8.9 (APPROVED by developer, 2026-11-04).
 - D-22: The canonical label order is the alphabetical order used in training, recorded in labels.json (0 bacterial_leaf_blight, 1 brown_spot, 2 healthy, 3 leaf_blast). The index column in Section 6 is documentation only. All inference code must map indices through labels.json (APPROVED by developer, 2026-11-04).
+- D-24: Training, validation, test, and serving all apply EXIF orientation before preprocessing. B2, M1, seed repeats, export, and parity are rerun under this rule. Previous results (with raw stored orientation) are marked SUPERSEDED and kept in the record. Epoch selection remains by validation macro F1 (D-19). The diagnostic on test split orientation was used for the decision and is disclosed in the report (APPROVED, 2026-11-04).
 
 
 

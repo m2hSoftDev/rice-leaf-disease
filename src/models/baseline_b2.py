@@ -48,7 +48,7 @@ tf.random.set_seed(RANDOM_SEED)
 # Paths
 WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = WORKSPACE_ROOT / "data" / "metadata" / "split_manifest.csv"
-STAGING_DIR = WORKSPACE_ROOT / "data" / "raw" / "public" / "hasan_staging" / "Original Images"
+UPRIGHT_DIR = WORKSPACE_ROOT / "data" / "processed" / "hasan_upright"
 
 CHECKPOINT_DIR = WORKSPACE_ROOT / "results" / "checkpoints"
 CHECKPOINT_PATH = CHECKPOINT_DIR / "b2_best.keras"
@@ -79,6 +79,12 @@ B1_TEST_ACC = 0.1304
 B1_VAL_MACRO_F1 = 0.1012
 B1_VAL_ACC = 0.1926
 B1_TEST_KAPPA = -0.0504
+
+B2_SUPERSEDED_VAL_ACC = 0.7630
+B2_SUPERSEDED_VAL_MACRO_F1 = 0.7670
+B2_SUPERSEDED_TEST_ACC = 0.7101
+B2_SUPERSEDED_TEST_MACRO_F1 = 0.7369
+B2_SUPERSEDED_TEST_KAPPA = 0.6051
 
 
 def load_manifest():
@@ -148,7 +154,7 @@ def prefetch_in_memory(rows, class_to_idx):
     images_list = []
     labels_list = []
     for r in rows:
-        p = STAGING_DIR / r["class"] / r["filename"]
+        p = UPRIGHT_DIR / r["class"] / r["filename"]
         if not p.exists():
             raise FileNotFoundError(f"Image not found: {p}")
         raw = tf.io.read_file(str(p))
@@ -440,6 +446,7 @@ def main():
         "- **Base Architecture**: MobileNetV2 (ImageNet pretrained, alpha 1.0, fully frozen, GlobalAveragePooling)",
         "- **Classification Head**: Dense(128, ReLU) -> Dropout(0.3) -> Dense(4, softmax) (Section 8.3, D-14)",
         "- **Input**: 224x224 RGB, bilinear resize, `mobilenet_v2.preprocess_input` (Section 8.1)",
+        "- **Dataset**: EXIF-upright dataset (`data/processed/hasan_upright/`) per D-24",
         "- **Augmentation**: Training set only per Section 8.2 (rotation +-30 deg, flip, zoom, brightness, contrast)",
         "- **Loss & Optimizer**: Sparse Categorical Crossentropy, Adam lr=1e-3, balanced class weights",
         "- **Checkpoint Selection & Early Stopping**: Selected by validation macro F1 (patience 5, max 20 epochs, D-19)",
@@ -447,13 +454,14 @@ def main():
         f"- **Training Time**: {total_train_sec:.2f} seconds ({total_train_sec / 60.0:.2f} min)",
         f"- **Hardware**: {hardware_str}",
         "",
-        "## Comparison with Baselines B0 and B1",
+        "## Comparison with Baselines B0, B1, and Superseded B2",
         "",
         "| Baseline Model | Val Accuracy | Val Macro F1 | Test Accuracy | Test Macro F1 | Test Cohen's Kappa |",
         "|---|---|---|---|---|---|",
         f"| **B0 (Majority: Leaf Blast)** | {B0_VAL_ACC:.4f} ({B0_VAL_ACC*100:.2f}%) | {B0_VAL_MACRO_F1:.4f} | {B0_TEST_ACC:.4f} ({B0_TEST_ACC*100:.2f}%) | **{B0_TEST_MACRO_F1:.4f}** | {B0_TEST_KAPPA:.4f} |",
         f"| **B1 (Small CNN from Scratch)** | {B1_VAL_ACC:.4f} ({B1_VAL_ACC*100:.2f}%) | {B1_VAL_MACRO_F1:.4f} | {B1_TEST_ACC:.4f} ({B1_TEST_ACC*100:.2f}%) | **{B1_TEST_MACRO_F1:.4f}** | {B1_TEST_KAPPA:.4f} |",
-        f"| **B2 (Frozen MobileNetV2 Stage 1)** | {val_metrics['accuracy']:.4f} ({val_metrics['accuracy']*100:.2f}%) | {val_metrics['macro_f1']:.4f} | {test_metrics['accuracy']:.4f} ({test_metrics['accuracy']*100:.2f}%) | **{test_metrics['macro_f1']:.4f}** | {test_metrics['cohen_kappa']:.4f} |",
+        f"| **B2 (Superseded: Raw Orientation)** | {B2_SUPERSEDED_VAL_ACC:.4f} ({B2_SUPERSEDED_VAL_ACC*100:.2f}%) | {B2_SUPERSEDED_VAL_MACRO_F1:.4f} | {B2_SUPERSEDED_TEST_ACC:.4f} ({B2_SUPERSEDED_TEST_ACC*100:.2f}%) | **{B2_SUPERSEDED_TEST_MACRO_F1:.4f}** | {B2_SUPERSEDED_TEST_KAPPA:.4f} |",
+        f"| **B2 (EXIF-Upright Orientation)** | {val_metrics['accuracy']:.4f} ({val_metrics['accuracy']*100:.2f}%) | {val_metrics['macro_f1']:.4f} | {test_metrics['accuracy']:.4f} ({test_metrics['accuracy']*100:.2f}%) | **{test_metrics['macro_f1']:.4f}** | {test_metrics['cohen_kappa']:.4f} |",
         "",
         "## Detailed Per-Class Breakdown (B2)",
         "",
@@ -496,9 +504,10 @@ def main():
         "Figure saved to `results/figures/b2_confusion.png` (git-ignored).",
         "",
         "## Analysis and Findings",
-        f"1. Baseline B2 (Frozen MobileNetV2 Stage 1) achieves a Test Macro F1 of {test_metrics['macro_f1']:.4f} (Accuracy: {test_metrics['accuracy']*100:.2f}%) on the held-out test split, evaluated against B0 ({B0_TEST_MACRO_F1:.4f}) and B1 ({B1_TEST_MACRO_F1:.4f}).",
+        f"1. Baseline B2 (EXIF-Upright Orientation, Stage 1) achieves a Test Macro F1 of {test_metrics['macro_f1']:.4f} (Accuracy: {test_metrics['accuracy']*100:.2f}%) on the held-out test split, compared to Superseded B2 ({B2_SUPERSEDED_TEST_MACRO_F1:.4f}), B0 ({B0_TEST_MACRO_F1:.4f}), and B1 ({B1_TEST_MACRO_F1:.4f}).",
         f"2. Leveraging ImageNet feature representations through a frozen backbone provides substantially superior feature extraction compared to training from scratch (B1), validating transfer learning as the foundational methodology for this dataset.",
         "3. Selection of the best checkpoint based on validation macro F1 (D-19) prevents class-imbalanced bias and avoids premature or degraded checkpoint restoration.",
+        "4. Per D-24, all images are oriented upright according to EXIF tags before training and evaluation, establishing orientation consistency across the entire pipeline.",
     ])
 
     md_text = "\n".join(md_lines) + "\n"
@@ -506,6 +515,7 @@ def main():
     # Assert required comparisons
     assert f"{B0_TEST_MACRO_F1:.4f}" in md_text, "B0 test macro F1 must be reported in markdown table"
     assert f"{B1_TEST_MACRO_F1:.4f}" in md_text, "B1 test macro F1 must be reported in markdown table"
+    assert f"{B2_SUPERSEDED_TEST_MACRO_F1:.4f}" in md_text, "Superseded B2 test macro F1 must be reported in markdown table"
     assert f"{test_metrics['macro_f1']:.4f}" in md_text, "B2 test macro F1 must be reported in markdown table"
 
     with open(OUTPUT_MD, "w", encoding="utf-8") as f:

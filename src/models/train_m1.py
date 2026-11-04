@@ -50,7 +50,7 @@ tf.random.set_seed(RANDOM_SEED)
 # Paths
 WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = WORKSPACE_ROOT / "data" / "metadata" / "split_manifest.csv"
-STAGING_DIR = WORKSPACE_ROOT / "data" / "raw" / "public" / "hasan_staging" / "Original Images"
+UPRIGHT_DIR = WORKSPACE_ROOT / "data" / "processed" / "hasan_upright"
 
 B2_CHECKPOINT_PATH = WORKSPACE_ROOT / "results" / "checkpoints" / "b2_best.keras"
 CHECKPOINT_DIR = WORKSPACE_ROOT / "results" / "checkpoints"
@@ -85,11 +85,23 @@ B1_VAL_MACRO_F1 = 0.1012
 B1_VAL_ACC = 0.1926
 B1_TEST_KAPPA = -0.0504
 
-B2_TEST_MACRO_F1 = 0.7369
-B2_TEST_ACC = 0.7101
-B2_VAL_MACRO_F1 = 0.7670
-B2_VAL_ACC = 0.7630
-B2_TEST_KAPPA = 0.6051
+B2_SUPERSEDED_TEST_MACRO_F1 = 0.7369
+B2_SUPERSEDED_TEST_ACC = 0.7101
+B2_SUPERSEDED_VAL_MACRO_F1 = 0.7670
+B2_SUPERSEDED_VAL_ACC = 0.7630
+B2_SUPERSEDED_TEST_KAPPA = 0.6051
+
+B2_UPRIGHT_TEST_MACRO_F1 = 0.7530
+B2_UPRIGHT_TEST_ACC = 0.7391
+B2_UPRIGHT_VAL_MACRO_F1 = 0.8249
+B2_UPRIGHT_VAL_ACC = 0.8148
+B2_UPRIGHT_TEST_KAPPA = 0.6445
+
+M1_SUPERSEDED_TEST_MACRO_F1 = 0.8534
+M1_SUPERSEDED_TEST_ACC = 0.8333
+M1_SUPERSEDED_VAL_MACRO_F1 = 0.8561
+M1_SUPERSEDED_VAL_ACC = 0.8519
+M1_SUPERSEDED_TEST_KAPPA = 0.7730
 
 
 def load_manifest():
@@ -136,7 +148,7 @@ def prefetch_in_memory(rows, class_to_idx):
     images_list = []
     labels_list = []
     for r in rows:
-        p = STAGING_DIR / r["class"] / r["filename"]
+        p = UPRIGHT_DIR / r["class"] / r["filename"]
         if not p.exists():
             raise FileNotFoundError(f"Image not found: {p}")
         raw = tf.io.read_file(str(p))
@@ -486,12 +498,13 @@ def main():
         "# Main Model M1: Stage 2 Fine-Tuned MobileNetV2",
         "",
         "## Model Configuration",
-        "- **Base Checkpoint**: Initialized from `results/checkpoints/b2_best.keras` (B2 epoch 4, val_macro_f1=0.7670, D-19)",
+        "- **Base Checkpoint**: Initialized from `results/checkpoints/b2_best.keras` (Upright B2 best epoch 5, val_macro_f1=0.8249, D-19)",
         f"- **Unfreezing Policy**: Last 30 layers unfrozen (BatchNorm frozen, base called with `training=False`)",
         f"- **Trainable Parameters**: {trainable_after:,} (increased from {trainable_before:,})",
         f"- **Non-Trainable Parameters**: {non_trainable_after:,}",
         f"- **Total Parameters**: {total_after:,}",
         "- **Input**: 224x224 RGB, bilinear resize, `mobilenet_v2.preprocess_input` (Section 8.1)",
+        "- **Dataset**: EXIF-upright dataset (`data/processed/hasan_upright/`) per D-24",
         "- **Augmentation**: Training set only per Section 8.2 (rotation +-30 deg, flip, zoom, brightness, contrast)",
         "- **Loss & Optimizer**: Sparse Categorical Crossentropy, Adam lr=1e-5, balanced class weights",
         "- **Checkpoint Selection & Early Stopping**: Selected by validation macro F1 (patience 5, max 30 epochs, D-19)",
@@ -505,14 +518,16 @@ def main():
         f"- **Test Accuracy**: **{test_metrics['accuracy']:.4f} ({test_metrics['accuracy']*100:.2f}%)**",
         f"- **Test Cohen's Kappa**: **{test_metrics['cohen_kappa']:.4f}**",
         "",
-        "## Comparison with Baselines B0, B1, and B2",
+        "## Comparison with Baselines and Superseded Models",
         "",
         "| Model | Val Accuracy | Val Macro F1 | Test Accuracy | Test Macro F1 | Test Cohen's Kappa |",
         "|---|---|---|---|---|---|",
         f"| **B0 (Majority: Leaf Blast)** | {B0_VAL_ACC:.4f} ({B0_VAL_ACC*100:.2f}%) | {B0_VAL_MACRO_F1:.4f} | {B0_TEST_ACC:.4f} ({B0_TEST_ACC*100:.2f}%) | **{B0_TEST_MACRO_F1:.4f}** | {B0_TEST_KAPPA:.4f} |",
         f"| **B1 (Small CNN from Scratch)** | {B1_VAL_ACC:.4f} ({B1_VAL_ACC*100:.2f}%) | {B1_VAL_MACRO_F1:.4f} | {B1_TEST_ACC:.4f} ({B1_TEST_ACC*100:.2f}%) | **{B1_TEST_MACRO_F1:.4f}** | {B1_TEST_KAPPA:.4f} |",
-        f"| **B2 (Frozen MobileNetV2 Stage 1)** | {B2_VAL_ACC:.4f} ({B2_VAL_ACC*100:.2f}%) | {B2_VAL_MACRO_F1:.4f} | {B2_TEST_ACC:.4f} ({B2_TEST_ACC*100:.2f}%) | **{B2_TEST_MACRO_F1:.4f}** | {B2_TEST_KAPPA:.4f} |",
-        f"| **M1 (Fine-Tuned MobileNetV2 Stage 2)** | {val_metrics['accuracy']:.4f} ({val_metrics['accuracy']*100:.2f}%) | {val_metrics['macro_f1']:.4f} | {test_metrics['accuracy']:.4f} ({test_metrics['accuracy']*100:.2f}%) | **{test_metrics['macro_f1']:.4f}** | {test_metrics['cohen_kappa']:.4f} |",
+        f"| **B2 (Superseded: Raw Orientation)** | {B2_SUPERSEDED_VAL_ACC:.4f} ({B2_SUPERSEDED_VAL_ACC*100:.2f}%) | {B2_SUPERSEDED_VAL_MACRO_F1:.4f} | {B2_SUPERSEDED_TEST_ACC:.4f} ({B2_SUPERSEDED_TEST_ACC*100:.2f}%) | **{B2_SUPERSEDED_TEST_MACRO_F1:.4f}** | {B2_SUPERSEDED_TEST_KAPPA:.4f} |",
+        f"| **B2 (EXIF-Upright Orientation)** | {B2_UPRIGHT_VAL_ACC:.4f} ({B2_UPRIGHT_VAL_ACC*100:.2f}%) | {B2_UPRIGHT_VAL_MACRO_F1:.4f} | {B2_UPRIGHT_TEST_ACC:.4f} ({B2_UPRIGHT_TEST_ACC*100:.2f}%) | **{B2_UPRIGHT_TEST_MACRO_F1:.4f}** | {B2_UPRIGHT_TEST_KAPPA:.4f} |",
+        f"| **M1 (Superseded: Raw Orientation)** | {M1_SUPERSEDED_VAL_ACC:.4f} ({M1_SUPERSEDED_VAL_ACC*100:.2f}%) | {M1_SUPERSEDED_VAL_MACRO_F1:.4f} | {M1_SUPERSEDED_TEST_ACC:.4f} ({M1_SUPERSEDED_TEST_ACC*100:.2f}%) | **{M1_SUPERSEDED_TEST_MACRO_F1:.4f}** | {M1_SUPERSEDED_TEST_KAPPA:.4f} |",
+        f"| **M1 (EXIF-Upright Orientation)** | {val_metrics['accuracy']:.4f} ({val_metrics['accuracy']*100:.2f}%) | {val_metrics['macro_f1']:.4f} | {test_metrics['accuracy']:.4f} ({test_metrics['accuracy']*100:.2f}%) | **{test_metrics['macro_f1']:.4f}** | {test_metrics['cohen_kappa']:.4f} |",
         "",
         "## Detailed Per-Class Breakdown (M1)",
         "",
@@ -559,12 +574,13 @@ def main():
         f"- Correctly identified Brown Spot: {bs_correct} (Recall: {bs_correct/bs_total*100:.2f}%)",
         f"- Total missed Brown Spot images: {bs_missed}",
         f"- Misclassified as Leaf Blast in M1: **{bs_to_lb_count}** images ({bs_to_lb_count/bs_missed*100:.2f}% of missed Brown Spot)",
-        f"- Comparison with Baseline B2: B2 had **18** Brown Spot -> Leaf Blast errors (M1 count: **{bs_to_lb_count}**).",
+        f"- Comparison: Superseded B2 had **18** BS->LB errors, Upright B2 had **10**, Superseded M1 had **7**, and Upright M1 has **{bs_to_lb_count}**.",
         "",
         "## Analysis and Findings",
         f"1. Stage 2 fine-tuning achieved Test Macro F1 of {test_metrics['macro_f1']:.4f} (Accuracy: {test_metrics['accuracy']*100:.2f}%) on held-out test data.",
         f"2. Quality Gate 2 (Macro F1 >= 0.80) is **{gate_2_status_str}**.",
         "3. Selection by validation macro F1 (D-19) strictly guarded against test leakage and balanced performance across all four classes.",
+        "4. Per D-24, all images are oriented upright according to EXIF tags before training and evaluation.",
     ])
 
     md_text = "\n".join(md_lines) + "\n"
@@ -572,7 +588,8 @@ def main():
     # Assert required comparisons
     assert f"{B0_TEST_MACRO_F1:.4f}" in md_text
     assert f"{B1_TEST_MACRO_F1:.4f}" in md_text
-    assert f"{B2_TEST_MACRO_F1:.4f}" in md_text
+    assert f"{B2_UPRIGHT_TEST_MACRO_F1:.4f}" in md_text
+    assert f"{M1_SUPERSEDED_TEST_MACRO_F1:.4f}" in md_text
     assert f"{test_metrics['macro_f1']:.4f}" in md_text
 
     with open(OUTPUT_MD, "w", encoding="utf-8") as f:

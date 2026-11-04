@@ -1,41 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ricedisease/app/app.dart';
+import 'package:ricedisease/core/locale_provider.dart';
 
-void main() {
-  runApp(const RiceDiseaseApp());
-}
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final sharedPreferences = await SharedPreferences.getInstance();
 
-class RiceDiseaseApp extends StatelessWidget {
-  const RiceDiseaseApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rice Leaf Disease Detection',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rice Leaf Disease Detection'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: const Center(
-        child: Text(
-          'Rice Leaf Disease Detection App Skeleton',
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: const RiceDiseaseApp(),
+    ),
+  );
 }

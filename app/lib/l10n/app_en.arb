@@ -1,0 +1,52 @@
+{
+  "@@locale": "en",
+  "appTitle": "Rice Leaf Disease Detection",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "splashTitle": "Splash Screen",
+  "@splashTitle": {
+    "description": "Title for splash screen"
+  },
+  "onboardingTitle": "Onboarding Screen",
+  "@onboardingTitle": {
+    "description": "Title for onboarding screen"
+  },
+  "homeTitle": "Home Screen",
+  "@homeTitle": {
+    "description": "Title for home screen"
+  },
+  "resultTitle": "Result Screen",
+  "@resultTitle": {
+    "description": "Title for result screen"
+  },
+  "historyTitle": "History Screen",
+  "@historyTitle": {
+    "description": "Title for history screen"
+  },
+  "aboutTitle": "About Screen",
+  "@aboutTitle": {
+    "description": "Title for about screen"
+  },
+  "languageName": "English",
+  "@languageName": {
+    "description": "Current language name"
+  },
+  "switchToBangla": "বাংলায় দেখুন",
+  "@switchToBangla": {
+    "description": "Label for button to switch to Bangla"
+  },
+  "switchToEnglish": "View in English",
+  "@switchToEnglish": {
+    "description": "Label for button to switch to English"
+  },
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "Button to complete onboarding"
+  },
+  "disclaimerText": "This tool is advisory only and does not replace professional agricultural advice.",
+  "@disclaimerText": {
+    "description": "Advisory disclaimer text"
+  }
+}
+

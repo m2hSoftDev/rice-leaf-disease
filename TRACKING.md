@@ -1,8 +1,8 @@
 # TRACKING.md
 
 ## Current Status
-- Milestone: M5
-- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3: PASSED for size, accuracy drop, and Keras-to-TFLite parity (20/20). Flutter-side parity is open as T-054b (M6). T-050 to T-054 complete.
+- Milestone: M6
+- Note: Gate 2 met across all 3 seeds (mean test macro F1 0.8609). Gate 3: PASSED for size, accuracy drop, and Keras-to-TFLite parity (20/20). Flutter-side parity is open as T-054b (M6). T-050 to T-054 complete. T-060 complete (App skeleton, routes, theme, localization).
 - Active task: None
 - Last updated: 2026-11-04
 
@@ -44,7 +44,7 @@
 | T-053 | Write labels.json and preprocess_config.json | DONE | agent | Generated results/export/preprocess_config.json (MobileNetV2 [-1, 1], bilinear, 224x224) and results/export/labels.json with explicit model index mapping (0: BLB, 1: Brown Spot, 2: Healthy, 3: Leaf Blast) and warning against Section 6 index order |
 | T-054 | Verify parity: Python TFLite output vs Flutter output on 20 test images (must match top-1) | DONE | agent | Evaluated Keras vs Float16 TFLite parity on 20 stratified test images (seed 42, 5/class); 20/20 (100.0%) top-1 matches; verified labels.json index order (Healthy=2, Leaf Blast=3, not transposed); Gate 3 passed for size, accuracy drop, and Keras-to-TFLite parity; results in results/metrics/parity_check.csv and parity_check.md |
 | T-054b | Flutter vs Python TFLite top-1 parity on 20 test images. Run after T-063. Must match on all 20 before Gate 3 is fully closed. | TODO | agent | |
-| T-060 | App skeleton: routes, theme, localization setup | TODO | agent | |
+| T-060 | App skeleton: routes, theme, localization setup | DONE | agent | App skeleton complete in app/: Material 3 theme (48 dp touch target, system text scaling), routes (splash, onboarding, home, result, history, about), dynamic locale provider (en/bn toggle with SharedPreferences persistence), l10n ARB files generated; all 5 widget tests passed; flutter build apk --debug succeeded (debug APK size: 153.98 MB / 161,461,355 bytes, measurement only, not release size) |
 | T-061 | Bangla font and strings (ARB files) | TODO | agent | |
 | T-062 | Image picker and preprocessing service | TODO | agent | |
 | T-063 | TFLite inference service in an isolate | TODO | agent | |
@@ -133,4 +133,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 
 
 
-
+- 2026-11-04: T-060 DONE - Implemented Flutter app skeleton, 6 placeholder routes with first-launch splash redirection via shared_preferences, Material 3 high-contrast theme, Riverpod locale toggle provider (en/bn), and l10n setup; all widget tests passed (5/5); debug APK built successfully (153.98 MB measurement).

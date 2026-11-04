@@ -1,0 +1,16 @@
+{
+  "@@locale": "bn",
+  "appTitle": "ধানের পাতার রোগ শনাক্তকরণ",
+  "splashTitle": "স্প্ল্যাশ স্ক্রিন",
+  "onboardingTitle": "অনবোর্ডিং স্ক্রিন",
+  "homeTitle": "হোম স্ক্রিন",
+  "resultTitle": "ফলাফল স্ক্রিন",
+  "historyTitle": "হিস্ট্রি স্ক্রিন",
+  "aboutTitle": "সম্পর্কে স্ক্রিন",
+  "languageName": "বাংলা",
+  "switchToBangla": "বাংলায় দেখুন",
+  "switchToEnglish": "View in English",
+  "getStarted": "শুরু করুন",
+  "disclaimerText": "এই অ্যাপটি কেবল পরামর্শমূলক এবং বিশেষজ্ঞ কৃষি পরামর্শের বিকল্প নয়।"
+}
+

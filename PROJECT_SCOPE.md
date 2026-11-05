@@ -400,7 +400,7 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 ## 16. Quality Gates
 - Gate 1a (end of M1): Public data splits and dataset cards complete, no leakage check passed (D-12).
 - Gate 1b (before M4): Field photos collected (target 300–500, min 60/class) and expert-labeled in field_log.csv (D-12).
-- Gate 2 (end of M3): Macro F1 >= 0.80 on test_public, or a written analysis of why not. Upright pipeline status: NOT MET (mean test macro F1 0.7856 ± 0.0339 across seeds 42–44; seed 42 alone 0.8149). Disclosure: test split was used for the D-24 orientation diagnostic and for model comparisons; public test results are optimistic for generalization.
+- Gate 2 (end of M3): Macro F1 >= 0.80 on test_public, or a written analysis of why not. Five-seed deterministic upright status: NOT MET (mean test macro F1 0.7756 ± 0.0339 across seeds 42–46; 1-sigma range [0.7417, 0.8094]; lower bound is < 0.80). Canonical model selected strictly by validation macro F1 is Seed 43 per D-27 (val macro F1 0.8697; test macro F1 0.7627). Disclosure: test split was used for D-24 orientation diagnostic and model comparisons; public test results are optimistic for generalization.
 - Gate 3 (end of M5): TFLite parity check passed, size <= 5 MB.
 - Gate 4 (end of M6): All Must features working offline on test device.
 - Gate 5 (end of M7): Play Store testing track live, privacy policy published.
@@ -432,7 +432,8 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 - D-21: The deployment model is float16 TFLite (results/export/model_fp16.tflite). Int8 is not used in v1 because its validation accuracy drop (4.44 pp) exceeds the 2 pp limit in Section 8.9 (APPROVED by developer, 2026-11-04).
 - D-22: The canonical label order is the alphabetical order used in training, recorded in labels.json (0 bacterial_leaf_blight, 1 brown_spot, 2 healthy, 3 leaf_blast). The index column in Section 6 is documentation only. All inference code must map indices through labels.json (APPROVED by developer, 2026-11-04).
 - D-24: Training, validation, test, and serving all apply EXIF orientation before preprocessing. B2, M1, seed repeats, export, and parity are rerun under this rule. Previous results (with raw stored orientation) are marked SUPERSEDED and kept in the record. Epoch selection remains by validation macro F1 (D-19). The diagnostic on test split orientation was used for the decision and is disclosed in the report (APPROVED, 2026-11-04).
-- D-25: Canonical model selection for upright pipeline by validation macro F1 under D-19 (superseding D-20): Seed 42 (val macro F1 0.8584) is selected as the canonical model for deployment; seeds 43 (val macro F1 0.8525) and 44 (val macro F1 0.8373) are reported as statistical repeats. Test scores are not used for selection (APPROVED, 2026-11-04).
+- D-25: [PROVISIONAL / SUPERSEDED by D-27] Canonical model selection for upright pipeline by validation macro F1 under D-19 (superseding D-20): Seed 42 (val macro F1 0.8584) was provisionally selected. Superseded by D-27 following 5-seed deterministic evaluation.
+- D-27: Canonical model selection for deterministic upright pipeline by validation macro F1 under D-19: Seed 43 is selected as the canonical model (val macro F1 = 0.8697; test macro F1 = 0.7627, test accuracy = 75.36%, kappa = 0.6622, BS->LB errors = 7). Checkpoint: results/checkpoints/m1_det_seed43_best.keras (SHA-256: 1041038f95c65132cb802d769ce15944ff7d69e7daca0fe6fd38dce2cc4f4787). Test scores were not used for selection. Gate 2 on 5-seed mean (0.7756 ± 0.0339, range [0.7417, 0.8094]) is NOT MET (APPROVED, 2026-11-05).
 
 
 

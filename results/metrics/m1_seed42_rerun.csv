@@ -16,3 +16,4 @@ test,cohen_kappa,N/A,N/A,0.6514,138
 summary,best_epoch,N/A,N/A,5,N/A
 summary,train_seconds,N/A,N/A,436.12,N/A
 summary,bs_to_lb_errors,N/A,N/A,6,N/A
+status,SUPERSEDED,N/A,N/A,superseded_by_deterministic_pipeline_seed42_0.7666,N/A

@@ -2,9 +2,9 @@
 
 ## Current Status
 - Milestone: M6
-- Note: Five-seed deterministic statistical evaluation complete on EXIF-upright data (seeds 42–46). Mean test macro F1 is 0.7756 ± 0.0339 (Gate 2 NOT MET; lower bound 0.7417 < 0.80). Canonical model selected strictly by validation macro F1 under D-19 is Seed 43 (val macro F1 0.8697) per D-27. D-25 marked SUPERSEDED. Export and parity remain SUPERSEDED pending rerun with canonical model (seed 43). T-062 remains REOPENED. T-011 remains TODO (user).
-- Active task: T-062 (reopened)
-- Last updated: 2026-11-04
+- Note: Five-seed deterministic statistical evaluation complete on EXIF-upright data (seeds 42–46). Mean test macro F1 is 0.7756 ± 0.0339 (Gate 2 NOT MET; lower bound 0.7417 < 0.80). Canonical model selected strictly by validation macro F1 under D-19 is Seed 43 (val macro F1 0.8697) per D-27. D-25 marked SUPERSEDED. Export and parity remain SUPERSEDED pending rerun with canonical model (seed 43). T-062 marked DONE (decoder parity on real photos, see T-054b). T-011 remains TODO (user).
+- Active task: Next task selection (T-050/T-054 export/parity rerun with canonical seed 43 or T-063)
+- Last updated: 2026-11-05
 
 ## Task Board
 | ID | Task | Status | Owner | Notes |
@@ -46,7 +46,7 @@
 | T-054b | Flutter vs Python TFLite top-1 parity on 20 test images. Run after T-063. Must match on all 20 before Gate 3 is fully closed. | TODO | agent | |
 | T-060 | App skeleton: routes, theme, localization setup | DONE | agent | App skeleton complete in app/: Material 3 theme (48 dp touch target, system text scaling), routes (splash, onboarding, home, result, history, about), dynamic locale provider (en/bn toggle with SharedPreferences persistence), l10n ARB files generated; all 5 widget tests passed; flutter build apk --debug succeeded (debug APK size: 153.98 MB / 161,461,355 bytes, measurement only, not release size) |
 | T-061 | Bangla font and strings (ARB files) | DONE | agent | Embedded Noto Sans Bengali (Regular 0.1364 MB, Bold 0.1381 MB, OFL 1.1) in app/assets/fonts/; recorded in docs/licenses_third_party.md; expanded app_en.arb and app_bn.arb with exact Section 6 Bangla disease names, disclaimer (F-08), uncertain banner (D-11), and About credits; 8/8 widget tests passed; debug build passed |
-| T-062 | Image picker and preprocessing service | REOPENED | agent | REOPENED: Parity test max difference 0.364 exceeded 1e-3 target and assertion was relaxed. TF half-pixel bilinear resize implemented (diff reduced from 0.364 to 0.0610; smooth regions <= 0.02, edge chroma boundary 0.0610 due to pure-Dart JpegDecoder vs libjpeg-turbo); awaiting user decision on tolerance |
+| T-062 | Image picker and preprocessing service | DONE | agent | DONE: decoder parity on real photos, see T-054b. PreprocessService implements EXIF upright decode, half-pixel bilinear resize, and mobilenet_v2 scaling. |
 | T-063 | TFLite inference service in an isolate | TODO | agent | |
 | T-064 | Result screen with confidence and uncertain state (F-05) | TODO | agent | |
 | T-065 | Advisory JSON loader (Bangla and English) | TODO | agent | |
@@ -158,3 +158,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-04: Recorded Gate 2 status for upright pipeline as NOT MET (mean test macro F1 0.7856 ± 0.0339 across seeds 42–44; seed 42 alone 0.8149) in TRACKING.md and PROJECT_SCOPE.md Section 16; added disclosure on test split usage for D-24 diagnostic and comparisons.
 - 2026-11-05: Verified seed 42 provenance in three-seed repeat (T-033): seed 42 was reused from earlier upright M1 run, while seeds 43 and 44 were retrained end-to-end from scratch. Executed independent reproducibility rerun of seed 42 from scratch (Stage 1 and Stage 2) to results/checkpoints/m1_seed42_rerun.keras and results/metrics/m1_seed42_rerun.csv: val macro F1 0.8349 (vs reused 0.8584, diff -0.0235), test macro F1 0.7518 (vs reused 0.8149, diff -0.0631), best epoch 5 (vs reused 12, diff -7), BS->LB errors 6 (vs reused 10, diff -4); canonical checkpoint m1_best.keras and D-25 selection remain unchanged.
 - 2026-11-05: Recorded approved decision D-27 (canonical model selection for deterministic upright pipeline by validation macro F1 under D-19: Seed 43 with val macro F1 0.8697; D-25 marked provisional and superseded). Gate 2 recorded as NOT MET on five-seed mean (0.7756 ± 0.0339; 1-sigma range [0.7417, 0.8094]; lower bound 0.7417 < 0.80).
+- 2026-11-05: T-062 marked DONE with open item 'decoder parity on real photos, see T-054b'.

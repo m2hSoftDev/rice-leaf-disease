@@ -1,7 +1,7 @@
 # PROPOSED Decision D-26: 5-Fold StratifiedGroupKFold Cross-Validation Protocol
 
 **Status**: PROPOSED (Awaiting Developer Approval — Do Not Execute Yet)  
-**Date**: 2026-11-04  
+**Date**: 2026-11-04 (Updated 2026-11-05)  
 **Author**: Antigravity Assistant & Developer  
 **Related Decisions**: D-14 (4 classes), D-17 (group_035 exclusion), D-18 (group-level split), D-19 (val macro F1 selection), D-24 (EXIF-upright data), D-25 (canonical seed 42)
 
@@ -15,6 +15,7 @@
    - Seed 43: Macro F1 = **0.7485** (Gate 2 NOT MET)
    - Seed 44: Macro F1 = **0.7933** (Gate 2 NOT MET)
    - Three-seed mean: **0.7856 $\pm$ 0.0339** (Gate 2 NOT MET overall across seeds).
+   *(Seed 42 reproducibility rerun from scratch yielded test macro F1 0.7518).*
 
 2. **Test Split Exposure & Disclosure**:
    The held-out test split ($N=138$) was used during the D-24 EXIF orientation diagnostic (Condition a vs Condition b) and for repeated baseline/seed comparisons. While individual training runs did not peek at test data during optimization, evaluating multiple models on the same fixed test split can introduce optimistic estimation bias.
@@ -27,7 +28,7 @@
 ## 2. Dataset and Preprocessing Specifications
 
 * **Data Source**: Hasan et al. CC BY 4.0 (`data/processed/hasan_upright/`), oriented portrait/upright per D-24.
-* **Active Images**: Exactly 907 images across 737 near-duplicate groups (`group_035` excluded per D-17; no augmented images on disk).
+* **Active Images**: Exactly 907 images across 737 near-duplicate groups (`group_035` [2 images: `Bacterial_leaf_Blight (33).jpg` and `Leaf_blast (289).jpg`] excluded under D-17 due to conflicting labels; no augmented images on disk).
 * **Classes (4)**: `bacterial_leaf_blight` (179), `brown_spot` (267), `healthy` (157), `leaf_blast` (304).
 * **Input Resolution & Normalization**: 224x224 RGB, bilinear interpolation (half-pixel centers per TF contract), `mobilenet_v2.preprocess_input` (scaling to $[-1, 1]$).
 * **Augmentation**: Training folds only per Section 8.2 (random rotation $\pm 30^\circ$, horizontal & vertical flips, random zoom $\pm 20\%$, brightness & contrast adjustments $\pm 20\%$). Zero augmentation applied to validation folds.
@@ -96,7 +97,22 @@ For each fold $k \in \{0, 1, 2, 3, 4\}$:
 
 ---
 
-## 6. Execution Decision
+## 6. Methodological Limitations and Disclosures
+
+1. **Same-Field, Different-Day Leakage Limitation**:
+   - Partitioning by `group_id` isolates near-duplicate clusters identified by perceptual hashing (Hamming distance $\le 5$). This successfully prevents identical or burst-shot frames from spanning folds.
+   - However, perceptual hash clustering does **not** prevent same-field, different-day leakage (i.e. images collected from the same geographical plot or rice plant on different dates or under differing lighting/weather conditions where pHash distance exceeds 5). This is explicitly disclosed as a limitation of the public dataset metadata.
+2. **Public Test Split Independence & Primary Estimate**:
+   - The 907-image cross-validation incorporates all 138 public test images from the original 70/15/15 split.
+   - Because the 138 test images will be included in the training partitions of four folds and the validation partition of one fold, the public test split is **no longer independent** once cross-validation is conducted.
+   - Therefore, the 5-fold cross-validation aggregate metric ($\bar{F}_1 \pm s$) becomes the **primary public estimate** of model capability, and the single public test split score will be reported alongside as a historical reference point.
+3. **Generalization Scope (Public Data vs. Field Performance)**:
+   - Cross-validation measures public-data generalization only within the specific imaging and disease characteristics of the Hasan et al. dataset.
+   - It does **not** measure field performance or real-world generalization to farm conditions. Field generalization will be evaluated independently on expert-labeled field images (`test_field`) under Gate 1b in Milestone M4.
+
+---
+
+## 7. Execution Decision
 
 * **Status**: **PROPOSED**.
-* This draft requires explicit user approval before running any scripts or creating fold files.
+* This draft requires explicit user approval before running any scripts, generating fold files, or initiating training.

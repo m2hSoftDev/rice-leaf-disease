@@ -1,0 +1,21 @@
+filename,true_label,keras_label,keras_confidence,tflite_label,tflite_confidence,parity_match,keras_correct,tflite_correct,max_prob_diff
+Bacterial_leaf_Blight  (79).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.9792,bacterial_leaf_blight,0.9785,YES,YES,YES,0.000708
+Bacterial_leaf_Blight  (133).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.7806,bacterial_leaf_blight,0.7789,YES,YES,YES,0.001773
+Bacterial_leaf_Blight  (10).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.8476,bacterial_leaf_blight,0.8438,YES,YES,YES,0.003825
+Bacterial_leaf_Blight  (89).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.8182,bacterial_leaf_blight,0.8165,YES,YES,YES,0.001749
+Bacterial_leaf_Blight  (157).jpg,bacterial_leaf_blight,bacterial_leaf_blight,0.6286,bacterial_leaf_blight,0.6265,YES,YES,YES,0.002044
+Brown_spot  (92).jpg,brown_spot,brown_spot,0.9959,brown_spot,0.9958,YES,YES,YES,0.000042
+Brown_spot  (170).jpg,brown_spot,leaf_blast,0.5139,leaf_blast,0.5098,YES,NO,NO,0.004110
+Brown_spot  (109).jpg,brown_spot,brown_spot,0.6388,brown_spot,0.6413,YES,YES,YES,0.002498
+Brown_spot  (244).jpg,brown_spot,brown_spot,0.5258,brown_spot,0.5264,YES,YES,YES,0.000946
+Brown_spot  (242).jpg,brown_spot,brown_spot,0.9277,brown_spot,0.9278,YES,YES,YES,0.000153
+Healthy_rice_leaf  (80).jpg,healthy,healthy,0.7462,healthy,0.7390,YES,YES,YES,0.007145
+Healthy_rice_leaf  (124).jpg,healthy,healthy,0.9992,healthy,0.9991,YES,YES,YES,0.000054
+Healthy_rice_leaf  (108).jpg,healthy,healthy,0.9999,healthy,0.9999,YES,YES,YES,0.000007
+Healthy_rice_leaf  (17).jpg,healthy,healthy,0.8049,healthy,0.8115,YES,YES,YES,0.006602
+Healthy_rice_leaf  (15).jpg,healthy,healthy,0.9957,healthy,0.9953,YES,YES,YES,0.000311
+Leaf_blast  (84).jpg,leaf_blast,bacterial_leaf_blight,0.8161,bacterial_leaf_blight,0.8159,YES,NO,NO,0.000219
+Leaf_blast  (169).jpg,leaf_blast,leaf_blast,0.9324,leaf_blast,0.9323,YES,YES,YES,0.000095
+Leaf_blast  (100).jpg,leaf_blast,bacterial_leaf_blight,0.8030,bacterial_leaf_blight,0.7997,YES,NO,NO,0.003259
+Leaf_blast  (214).jpg,leaf_blast,leaf_blast,0.7983,leaf_blast,0.7966,YES,YES,YES,0.002543
+Leaf_blast  (206).jpg,leaf_blast,leaf_blast,0.5689,leaf_blast,0.5709,YES,YES,YES,0.001978

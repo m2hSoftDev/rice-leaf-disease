@@ -107,6 +107,9 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 ## Blockers and Questions
 - None (T-002 resolved: TensorFlow 2.21.0 imports cleanly in .venv).
 
+## Known Limitations
+- The 60% confidence threshold (D-11) is underconfident in the 40–60% bin (mean confidence 51.12% vs empirical accuracy 73.08%), and about 69% (68.97%, 20/29) of low-confidence predictions are correct. Revisit in v2.
+
 ## Daily Log
 - 2026-11-02: Recorded decisions D-08 to D-13; updated PROJECT_SCOPE.md to reflect decisions D-08 through D-13; added task T-015a to task board.
 - 2026-11-02: Executed T-015a (dataset search saved to docs/dataset_candidates.md); executed T-001 locally (created Section 12 directory structure, .gitignore, .gitkeep files, git init); created requirements.txt with pinned versions and installed dependencies in .venv; T-002 marked BLOCKED due to missing MSVC++ Redistributable (msvcp140.dll).
@@ -163,3 +166,4 @@ Status values: TODO, IN_PROGRESS, BLOCKED, REVIEW, DONE, UNVERIFIED
 - 2026-11-06: T-050 DONE - Verified canonical checkpoint m1_det_seed43_best.keras weights SHA-256 (1041038f...); exported float16 TFLite to results/export/model_fp16_seed43.tflite (4.62 MB / 4,846,980 bytes, passing <= 5.0 MB limit); archived previous export files to results/superseded/model_fp16_raw_orientation.tflite and model_int8_raw_orientation.tflite; regenerated and verified labels.json and preprocess_config.json.
 - 2026-11-06: T-054 DONE - Evaluated Keras vs Float16 TFLite parity on 20 stratified test images (seed 42, 5/class); achieved 20/20 (100.0%) top-1 matches with max prob diff 0.0071; measured test accuracy drop on full test split (N=138) at -1.45 pp (Keras 75.36% vs TFLite 76.81%), passing <= 2.0 pp gate; Gate 3 PASSED for size, drop, and parity; saved results/metrics/parity_seed43.csv and parity_seed43.md.
 - 2026-11-06: Evaluated confidence calibration on validation split only (N=135) per D-11: 78.52% (106/135) predictions had confidence >= 60% with 91.51% accuracy; 21.48% (29/135) had confidence < 60% with 68.97% accuracy; ECE 8.75% across 5 bins; saved results/metrics/calibration_val_seed43.md. Gate 2 remains NOT MET on five-seed mean (0.7756 ± 0.0339).
+- 2026-11-06: Replaced app/assets/model_fp16.tflite with canonical Seed 43 float16 model (4.62 MB); moved previous model to results/superseded/model_fp16_seed44_raw_orientation.tflite; verified byte-level parity of labels.json and preprocess_config.json; recorded known limitation on underconfidence in 40–60% bin to revisit in v2.

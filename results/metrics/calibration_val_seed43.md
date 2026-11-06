@@ -7,7 +7,7 @@
 - **Model**: Canonical Model M1 (Seed 43, `m1_det_seed43_best.keras`).
 - **Dataset**: EXIF-upright Hasan validation split (`data/processed/hasan_upright/`, $N=135$).
 - **Confidence Threshold (D-11)**: **60% (0.60)**.
-  - Predictions with confidence $\ge 0.60$: Display top-1 diagnosis and agronomic advisory.
+  - Predictions with confidence $\ge 0.60$: Possible condition shown; general care note displayed.
   - Predictions with confidence $< 0.60$: Trigger 'Uncertain' banner, hide advisory, and suggest expert consultation per D-11.
 - **Overall Validation Accuracy**: **86.67%** (117 / 135).
 
@@ -17,7 +17,7 @@
 
 | Confidence Group | Condition | Count ($N$) | Fraction of Validation Set | Accuracy | Mean Confidence | Agronomic Handling (D-11) |
 |---|---|:---:|:---:|:---:|:---:|---|
-| **High Confidence** | Top Conf $\ge 0.60$ | **106** | **78.52%** | **91.51%** | 85.84% | Confident diagnosis + treatment advice |
+| **High Confidence** | Top Conf $\ge 0.60$ | **106** | **78.52%** | **91.51%** | 85.84% | Possible condition shown; general care note displayed |
 | **Low Confidence (Uncertain)** | Top Conf $< 0.60$ | **29** | **21.48%** | **68.97%** | 49.60% | Uncertain banner; advisory hidden |
 | **Total / Overall** | All validation samples | 135 | 100.00% | 86.67% | 78.06% | - |
 

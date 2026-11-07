@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Onboarding (light)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    
 :root {
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Bengali", sans-serif;
   --bg-color: #F8FAF6;
   --surface-color: #FFFFFF;
   --surface-variant: #EEF2EB;
+  --surface-container: #F0F4ED;
   --on-surface: #191C19;
   --on-surface-variant: #424940;
   --primary: #236A34;
@@ -16,6 +22,7 @@
   --on-primary: #FFFFFF;
   --on-primary-container: #00210A;
   --outline: #72796F;
+  --outline-variant: #C2C8BE;
   --error: #BA1A1A;
   --error-container: #FFDAD6;
   --on-error-container: #410002;
@@ -27,6 +34,7 @@
   --bg-color: #111411;
   --surface-color: #191C19;
   --surface-variant: #2D312C;
+  --surface-container: #191C19;
   --on-surface: #E1E3DF;
   --on-surface-variant: #C2C8BE;
   --primary: #8CD699;
@@ -34,6 +42,7 @@
   --on-primary: #003914;
   --on-primary-container: #A7F3B3;
   --outline: #8C9388;
+  --outline-variant: #424940;
   --error: #FFB4AB;
   --error-container: #4D0005;
   --on-error-container: #FFDAD6;
@@ -60,6 +69,12 @@ body {
   flex-direction: column;
 }
 
+body.landscape {
+  width: 892px;
+  height: 412px;
+  flex-direction: row;
+}
+
 /* Status Bar */
 .status-bar {
   height: 24px;
@@ -72,6 +87,12 @@ body {
   font-weight: 600;
   color: var(--on-surface);
   flex-shrink: 0;
+  z-index: 10;
+}
+.status-bar.transparent {
+  background: transparent;
+  color: #FFFFFF;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 }
 .status-icons {
   display: flex;
@@ -87,27 +108,52 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  border-bottom: 1px solid var(--card-border);
   flex-shrink: 0;
+  border-bottom: 1px solid var(--card-border);
+  z-index: 10;
+}
+.app-bar.scrim {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+  border-bottom: none;
+  color: #FFFFFF;
 }
 .app-bar-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
-  color: var(--on-surface);
   display: flex;
   align-items: center;
   gap: 12px;
+  letter-spacing: -0.2px;
 }
-.app-bar-btn {
-  background: transparent;
+.app-bar.scrim .app-bar-title {
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
   border: none;
-  color: var(--primary);
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  color: inherit;
   cursor: pointer;
+}
+.lang-badge {
+  font-size: 12px;
+  font-weight: 600;
   padding: 6px 12px;
-  border-radius: 20px;
-  border: 1px solid var(--primary);
+  border-radius: 16px;
+  background: var(--surface-variant);
+  color: var(--primary);
+  border: 1px solid var(--outline-variant);
+}
+.app-bar.scrim .lang-badge {
+  background: rgba(0,0,0,0.4);
+  color: #FFFFFF;
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
 /* Content Area */
@@ -117,162 +163,305 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 /* Cards */
 .card {
-  background: var(--surface-color);
-  border-radius: 16px;
+  background-color: var(--surface-color);
+  border-radius: 18px;
   padding: 16px;
   border: 1px solid var(--card-border);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .card-tonal {
-  background: var(--surface-variant);
-  border: none;
+  background-color: var(--surface-variant);
 }
 .card-primary {
-  background: var(--primary-container);
+  background-color: var(--primary-container);
   color: var(--on-primary-container);
   border: none;
 }
 .card-error {
-  background: var(--error-container);
+  background-color: var(--error-container);
   color: var(--on-error-container);
   border: none;
 }
 
 /* Typography */
-.title-lg { font-size: 20px; font-weight: 700; line-height: 1.3; }
-.title-md { font-size: 16px; font-weight: 600; line-height: 1.3; margin-bottom: 6px; }
-.body-md { font-size: 14px; line-height: 1.45; color: var(--on-surface-variant); }
-.body-sm { font-size: 12px; line-height: 1.4; color: var(--on-surface-variant); }
+.title-lg { font-size: 22px; font-weight: 700; }
+.title-md { font-size: 16px; font-weight: 600; }
+.body-md { font-size: 14px; line-height: 1.4; color: var(--on-surface-variant); }
+.body-sm { font-size: 12px; color: var(--on-surface-variant); }
 
 /* Buttons */
 .btn-primary {
-  background: var(--primary);
+  height: 48px;
+  background-color: var(--primary);
   color: var(--on-primary);
+  border-radius: 14px;
   border: none;
-  height: 52px;
-  border-radius: 26px;
   font-size: 15px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
   width: 100%;
 }
 .btn-outlined {
-  background: transparent;
+  height: 48px;
+  background-color: transparent;
   color: var(--primary);
   border: 1.5px solid var(--outline);
-  height: 50px;
-  border-radius: 25px;
-  font-size: 14px;
+  border-radius: 14px;
+  font-size: 15px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
   width: 100%;
 }
 
-/* Bottom Navigation */
+/* NavigationBar */
 .bottom-nav {
   height: 80px;
-  background: var(--nav-bg);
+  background-color: var(--nav-bg);
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  border-top: 1px solid var(--card-border);
+  justify-content: space-around;
   flex-shrink: 0;
-  padding-bottom: 8px;
+  border-top: 1px solid var(--card-border);
+  z-index: 10;
 }
 .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  cursor: pointer;
   color: var(--on-surface-variant);
   font-size: 12px;
   font-weight: 500;
-  cursor: pointer;
+  width: 64px;
 }
 .nav-item.active {
   color: var(--on-surface);
   font-weight: 700;
 }
 .nav-pill {
-  width: 64px;
+  width: 60px;
   height: 32px;
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
 }
 .nav-item.active .nav-pill {
-  background: var(--primary-container);
+  background-color: var(--primary-container);
   color: var(--on-primary-container);
 }
 
-/* Leaf SVG illustration */
-.leaf-svg {
+/* Full Bleed Camera Preview */
+.camera-viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 190px;
-  background: var(--surface-variant);
-  border-radius: 14px;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+.viewfinder-frame {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: 250px;
+  height: 250px;
+  border: 2px dashed rgba(255,255,255,0.7);
+  border-radius: 20px;
+  box-shadow: 0 0 0 2000px rgba(0,0,0,0.3);
+  z-index: 2;
+  pointer-events: none;
+}
+.vf-bracket {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: #A7F3B3;
+  border-style: solid;
+}
+.vf-tl { top: -3px; left: -3px; border-width: 4px 0 0 4px; border-top-left-radius: 20px; }
+.vf-tr { top: -3px; right: -3px; border-width: 4px 4px 0 0; border-top-right-radius: 20px; }
+.vf-bl { bottom: -3px; left: -3px; border-width: 0 0 4px 4px; border-bottom-left-radius: 20px; }
+.vf-br { bottom: -3px; right: -3px; border-width: 0 4px 4px 0; border-bottom-right-radius: 20px; }
+
+.guidance-chip {
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.capture-overlay {
+  position: absolute;
+  bottom: 80px; /* Above nav bar */
+  left: 0;
+  width: 100%;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
+  padding-bottom: 8px;
 }
-</style>
+
+.disclaimer-strip {
+  background: rgba(25, 28, 25, 0.88);
+  color: #E1E3DF;
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  max-width: 90%;
+}
+
+.control-panel {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 24px;
+}
+.control-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.btn-gallery {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+.shutter-outer {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 3.5px solid #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.shutter-inner {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.btn-help {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+/* Landscape Dock */
+.landscape-preview {
+  flex: 1;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.landscape-dock {
+  width: 130px;
+  height: 100%;
+  background: rgba(17, 20, 17, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 16px 0;
+  border-left: 1px solid rgba(255,255,255,0.12);
+  z-index: 10;
+}
+
+  </style>
 </head>
-<body>
-  <div class="status-bar">
-    <span>12:00</span>
-    <div class="status-icons">
-      <span>5G</span>
-      <span>100%</span>
-    </div>
-  </div>
+<body >
   
+    <div class="status-bar">
+      <span>12:00</span>
+      <div class="status-icons"><span>5G</span><span>100%</span></div>
+    </div>
+    
         <div class="app-bar">
           <div class="app-bar-title"> Welcome</div>
-          <button class="app-bar-btn">বাংলায় দেখুন</button>
+          <button class="lang-badge">বাংলা</button>
         </div>
         
-  <div class="content">
-    
+    <div class="content">
+      
     <div style="display: flex; flex-direction: column; gap: 16px;">
-      <div style="height: 180px; background: var(--surface-variant); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
-        <svg width="60" height="60" viewBox="0 0 24 24" fill="var(--primary)"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 12.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        <span class="body-sm" style="font-weight: 600;">Welcome to Offline Crop Care</span>
+      <div style="height: 180px; border-radius: 16px; background: var(--surface-variant); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px;">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="var(--primary)"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm8 3a5 5 0 100 10 5 5 0 000-10z"/></svg>
+        <span class="body-sm" style="font-weight: 600;">Offline Field Leaf Scanner</span>
       </div>
-      <div class="card card-tonal">
+      <div class="card card-tonal" style="border-left: 4px solid var(--primary);">
         <h3 class="title-md">Advisory Notice</h3>
-        <p class="body-md">This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action.</p>
+        <p class="body-sm">This tool provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action.</p>
       </div>
       <div class="card card-tonal">
-        <h3 class="title-md">Photo Guidelines</h3>
-        <ul style="padding-left: 18px;" class="body-md">
-          <li>Take photos in clear natural daylight.</li>
-          <li>Focus closely on the affected leaf area.</li>
-          <li>Ensure the leaf is centered in the camera frame.</li>
+        <h4 class="title-md">Photo Guidelines</h4>
+        <ul style="padding-left: 20px; font-size: 13px; color: var(--on-surface-variant); line-height: 1.6;">
+          <li>Take photos in good natural daylight</li>
+          <li>Focus clearly on the diseased leaf lesions</li>
+          <li>Position the rice leaf in the frame center</li>
         </ul>
       </div>
-      <div style="margin-top: 8px;">
-        <button class="btn-primary">Get Started</button>
-      </div>
+      <button class="btn-primary" style="margin-top: 8px;">Get Started</button>
     </div>
     
-  </div>
-  
+    </div>
+    
+    
 </body>
 </html>

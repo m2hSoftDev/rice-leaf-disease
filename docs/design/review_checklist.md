@@ -1,6 +1,6 @@
 # UI Design Review Checklist: Rice Leaf Disease Detection
 
-This checklist provides a structured yes/no evaluation framework for verifying the proposed UI design across all screens, states, safety rules, and accessibility guidelines prior to implementation approval.
+This checklist provides a structured yes/no evaluation framework for verifying the proposed UI design across all screens, states, safety rules, security policies, and accessibility guidelines prior to implementation approval.
 
 ---
 
@@ -17,13 +17,13 @@ This checklist provides a structured yes/no evaluation framework for verifying t
 
 ---
 
-## 2. Navigation Shell & Tab Structure (Section 9.1)
+## 2. Navigation Shell & Tab Structure (Section 9.1, D-23)
 
 | Check Item | Question | Yes / No | Notes / Reference |
 |---|---|---|---|
-| N-01 | Is the Bottom NavigationBar fixed at the bottom with exactly three destinations in order: **Scan**, **History**, **About**? | [ ] | M3 NavigationBar shell pattern. |
+| N-01 | Is the bottom navigation order strictly **Scan**, **History**, **About**? | [ ] | Mandatory per Decision **D-23**. |
 | N-02 | Are **Splash** and **Onboarding** positioned outside the shell (no bottom navigation bar visible)? | [ ] | Full-screen standalone entry flow. |
-| N-03 | Does the active tab display an M3 pill indicator using the `primaryContainer` color role? | [ ] | Material 3 tonal elevation contract. |
+| N-03 | Does the active tab display an M3 pill indicator using the `primaryContainer` color role with no badge in v1? | [ ] | Material 3 tonal elevation contract; no badges in v1. |
 | N-04 | Does the **Result** screen include a clear top app bar back arrow to pop back to Scan? | [ ] | Navigation stack requirement. |
 | N-05 | Is the tab switching transition smooth (200 ms cross-fade), and does it snap immediately when reduce-motion is enabled? | [ ] | Accessibility motion contract. |
 
@@ -35,7 +35,7 @@ This checklist provides a structured yes/no evaluation framework for verifying t
 | Check Item | Question | Yes / No | Notes / Reference |
 |---|---|---|---|
 | SP-01 | Does the splash screen display the app logo, full title, and offline descriptor? | [ ] | Branding contract. |
-| SP-02 | Is the loading progress indicator indeterminate and responsive? | [ ] | Circular indicator or 3-dot static fallback. |
+| SP-02 | Is the loading progress indicator indeterminate and responsive (static fallback on reduce-motion)? | [ ] | Circular indicator or 3-dot static fallback. |
 | SP-03 | Does the screen automatically navigate to Onboarding on first launch and Scan on subsequent launches? | [ ] | `onboarding_done` shared preference flag. |
 
 ### 3.2 Onboarding Screen
@@ -46,13 +46,16 @@ This checklist provides a structured yes/no evaluation framework for verifying t
 | ON-03 | Are clear photo capture guidelines provided (natural light, centered leaf, sharp focus)? | [ ] | Ensures input quality for mobile classifier. |
 | ON-04 | Does the "Get Started" button have a minimum height of at least 48 dp? | [ ] | Touch target accessibility. |
 
-### 3.3 Scan Screen (Home Tab)
+### 3.3 Scan Screen (Full-Screen Capture Page)
 | Check Item | Question | Yes / No | Notes / Reference |
 |---|---|---|---|
-| SC-01 | Is the viewfinder placeholder clearly indicated with a dashed boundary and centering instruction? | [ ] | Guides user to frame diseased rice leaf. |
-| SC-02 | Are both "Take Photo" (primary filled button) and "Choose from Gallery" (outlined button) easily distinguishable? | [ ] | F-01 (camera) and F-02 (gallery picker). |
-| SC-03 | Is the language switch button operational in the top app bar? | [ ] | Immediate locale toggle without restart. |
-| SC-04 | Is the permanent Advisory Notice card visible without requiring vertical scrolling on standard screens? | [ ] | F-08 requirement. |
+| SC-01 | Is the 72 dp shutter button fully visible without scrolling in both portrait (412×892 dp) and landscape (892×412 dp)? | [ ] | Viewport geometry guarantee; zero scrolling required. |
+| SC-02 | Is the 56 dp gallery button reachable with one thumb within the bottom control panel? | [ ] | Ergonomic reachability test for left/right thumb. |
+| SC-03 | Does the camera permission-denied state provide an "Open Settings" action and still allow gallery photo selection? | [ ] | Graceful degradation; gallery remains fully active. |
+| SC-04 | Is the disclaimer visible on the capture page as a compact strip that never covers or overlaps the shutter? | [ ] | F-08 notice strip anchored above control panel. |
+| SC-05 | Does the top app bar stay readable over the camera preview in light and dark with a gradient scrim? | [ ] | Contrast and legibility over live video preview. |
+| SC-06 | Does the photo selected state show clear "Analyze Leaf" and "Retake / Change" actions? | [ ] | Confirmation step before inference. |
+| SC-07 | Does the analyzing state display a responsive progress indicator and disable shutter interactions? | [ ] | Prevents duplicate taps during background isolate execution. |
 
 ### 3.4 Result Screen: Confident State ($\ge 60\%$)
 | Check Item | Question | Yes / No | Notes / Reference |
@@ -79,14 +82,14 @@ This checklist provides a structured yes/no evaluation framework for verifying t
 | Check Item | Question | Yes / No | Notes / Reference |
 |---|---|---|---|
 | HI-01 | Does the empty state display a friendly illustration, title, description, and "Start First Scan" call to action? | [ ] | F-09 empty state handling. |
-| HI-02 | In the populated list, does each scan card display a thumbnail, condition name, timestamp, and confidence %? | [ ] | F-09 list format. |
+| HI-02 | In the populated list, does each scan card display a thumbnail, condition name, timestamp, and confidence %? | [ ] | F-09 list format using lazy `ListView.builder`. |
 | HI-03 | Are uncertain scans visually distinguished in the history list (e.g. error icon / muted color)? | [ ] | Distinguishes uncertain records from confident ones. |
-| HI-04 | Is there a bulk "Clear All" or individual swipe-to-delete action? | [ ] | History management. |
+| HI-04 | Is there a bulk "Clear All" action protected behind a modal confirmation dialog? | [ ] | Prevents accidental data deletion. |
 
 ### 3.7 About Screen
 | Check Item | Question | Yes / No | Notes / Reference |
 |---|---|---|---|
-| AB-01 | Does the top card state the app name, version (1.0.0), and final-year project attribution? | [ ] | Academic attribution. |
+| AB-01 | Does the top card state the app name, version (1.0.0), and final-year project attribution to developer Mehedi Hasan? | [ ] | Academic attribution. |
 | AB-02 | Is the MIT License (D-01) and Noto Sans Bengali OFL 1.1 license explicitly noted? | [ ] | Software licensing compliance. |
 | AB-03 | Does the About screen show the full dataset credit with DOI, CC BY 4.0 link, and modification statement? | [ ] | Expected: yes (Decision D-29 compliance). |
 | AB-03b | Does any other screen (Scan, Result, History, Splash, Onboarding, Bottom Navigation) show dataset credit? | [ ] | Expected: no (D-29: credit appears on About, README, dataset card, and store listing only). |
@@ -101,5 +104,16 @@ This checklist provides a structured yes/no evaluation framework for verifying t
 | LA-01 | Are the Bangla disease condition names and UI labels readable and rendered with proper conjuncts (যুক্তাক্ষর) using Noto Sans Bengali? | [ ] | Verified in T-061 font embedding; proper conjunct rendering. |
 | LA-02 | Does every interactive touch target satisfy the minimum 48×48 dp dimension? | [ ] | Android Accessibility standard. |
 | LA-03 | Does the UI maintain WCAG AA contrast ratio (at least 4.5:1 for normal text, 3:1 for large text) across both Light and Dark themes? | [ ] | Material 3 tonal contrast check. |
-| LA-04 | Does the layout adapt gracefully when OS system text scaling (up to 1.3×) is active without clipping text? | [ ] | Accessibility text scaling test. |
+| LA-04 | Does any text clip at 200% font scale in English and Bangla? | [ ] | Expected: no (containers wrap dynamically without fixed heights). |
 | LA-05 | When "Reduce Motion" is enabled in system settings, are all animations disabled or replaced with instant transitions? | [ ] | Reduce-motion accessibility contract. |
+
+---
+
+## 5. Security, Privacy & Offline Architecture
+
+| Check Item | Question | Yes / No | Notes / Reference |
+|---|---|---|---|
+| SEC-01 | Are there any network or analytics references in the design, mockups, or specification? | [ ] | Expected: no (strictly 100% offline, zero network calls, zero tracking). |
+| SEC-02 | Are camera and gallery permissions requested exclusively just-in-time upon user tap? | [ ] | No startup or onboarding permission prompts. |
+| SEC-03 | Are captured images stored solely in app-private storage, with zero data-sharing screens? | [ ] | Sandbox storage only; user can wipe from History. |
+| SEC-04 | Does the user interface strictly avoid displaying raw file paths, device IDs, or model internals? | [ ] | Prevents internal information leakage. |

@@ -2,175 +2,196 @@
 
 ## 1. Overview and Architectural Scope
 
-This specification defines the visual hierarchy, layout geometry, interactive behavior, color roles, and accessibility contracts for the Android mobile application (`com.m2hsoftdev.ricedisease`).
+This specification defines the visual hierarchy, layout geometry, interactive behavior, color roles, performance contracts, security rules, and accessibility standards for the Android mobile application (`com.m2hsoftdev.ricedisease`).
 
 ### Key Architectural Guidelines
-- **Shell Structure**: The application uses a bottom navigation shell containing three top-level destinations: **Scan**, **History**, and **About**. **Splash** and **Onboarding** sit outside this shell. **Result** is pushed onto the navigation stack from Scan with a back navigation arrow.
+- **Shell Structure**: The application uses a bottom navigation shell containing three top-level destinations in strict order: **Scan**, **History**, and **About** (Decision D-23). **Splash** and **Onboarding** sit outside this shell. **Result** is pushed onto the navigation stack from Scan with a back navigation arrow.
 - **Wording Discipline**: In strict compliance with project safety rules, the application never uses the words *"diagnosis"* or *"cure"*. Identified conditions are referred to exclusively as *"likely condition"* (when top confidence $\ge 60\%$) or *"possible condition"* (when top confidence $< 60\%$).
 - **D-11 Compliance**: In the uncertain state (top confidence $< 60\%$), no treatment advice or field advisory text is rendered.
-- **Color Roles**: Elements are specified using Material Design 3 semantic color roles (`primary`, `onPrimary`, `surface`, `surfaceVariant`, `onSurface`, `errorContainer`, `onErrorContainer`, `outline`, etc.), not hardcoded hex values.
-- **Accessibility & Motion**: Minimum touch targets are 48×48 dp. All typography supports dynamic OS font scaling. When system reduce-motion is enabled, transitions and animated progress indicators snap to static states.
+- **D-29 Compliance**: Dataset credit appears on About, README, dataset card, and store listing only. It does not appear on Scan, Result, History, splash, onboarding, or navigation.
+- **Design Tokens**: All elements use semantic Material Design 3 tokens defined in `docs/design/tokens.md`. No raw hex codes are permitted in UI specifications.
 
 ---
 
-## 2. Global Components
+## 2. Performance, Scalability, and Security Architecture
 
-### 2.1 Bottom NavigationBar
-Mounted permanently at the bottom of the screen within the application shell.
+### 2.1 Performance & Hardware Budget
+The application must execute reliably in rural field conditions on low-cost Android hardware:
+* **Target Hardware**: Functional and responsive on low-end Android devices with **2 GB to 3 GB RAM** (e.g. Android 8.0+ / API 26+).
+* **Zero Animated Backgrounds**: Live views must not employ particle animations, video backgrounds, or continuous raster redraw loops.
+* **Camera Preview Optimization**: The live camera feed must run with **no live blur or heavy backdrop-filter effects**. Shaders and visual filters are prohibited on the live preview.
+* **Image Downscaling Budget**: No image larger than **1600 px** along its longest edge may be displayed or kept in memory. The camera stream and gallery pickers downsample previews immediately.
+* **Lazy History Rendering**: The History screen must implement a lazy-loading list (`ListView.builder`) with cached, downscaled 56×56 dp thumbnails to maintain 60 fps scrolling.
+* **Responsive Inference Contract**: Model execution runs in a background isolate (`Isolate.run`). The UI must immediately display an active **Analyzing Progress State**, never freezing the screen or blocking input threads.
 
-- **Region & Geometry**: Bottom of screen; full width (412 dp), height 80 dp.
-- **Element Type**: Material 3 NavigationBar (`nav item` container with pill selection indicators).
-- **Z-Index**: Elevated over page content (`elevation: 3 dp`).
+### 2.2 Scalability, Breakpoints & Modular Components
+The application scales seamlessly across mobile form factors and orientations:
+* **Breakpoint Grid**:
+  * **Compact (Portrait Phones, width < 600 dp)**: Standard single-column layout (e.g. 412×892 dp). Full-bleed capture preview with bottom control panel.
+  * **Medium / Landscape (Phone Landscape, height < 480 dp / width 600–840 dp)**: Horizontal division (e.g. 892×412 dp). Viewfinder occupies the left/center; camera controls (shutter, gallery, help) dock vertically on the right column. Shutter, gallery, and disclaimer remain 100% visible without scrolling.
+  * **Expanded (Small Tablets, width $\ge$ 600 dp)**: Centered container capped at 640 dp maximum content width to prevent awkward horizontal stretching.
+* **Reusable UI Components**:
+  * `PrimaryAppBar`: Top app bar supporting transparent scrim over camera and tonal surface tint on scroll.
+  * `PrimaryButton`: 48 dp minimum touch target filled button with consistent ripple.
+  * `ConfidenceBar`: Horizontal progress indicator with accessible text percentage.
+  * `DisclaimerCard`: Standardized collapsible advisory notice (F-08).
+  * `ResultBanner`: Standardized M3 banner (`primaryContainer` for confident, `errorContainer` for uncertain).
+* **Flexible Text Wrapping**: Containers and cards must never use hardcoded fixed heights. Multiline localized strings must expand dynamically to support system text scaling up to **200%** without text truncation or clipping.
 
-#### Navigation Items (Left to Right):
-1. **Scan Nav Item**:
-   - **Type**: `nav item`
-   - **Icon**: `Icons.camera_alt_outlined` (inactive), `Icons.camera_alt` (active)
-   - **Label English**: `"Scan"` [NEW]
-   - **Label Bangla**: `"স্ক্যান"` [NEW]
-   - **Color Role**: Active indicator: `primaryContainer`; Active icon/label: `onPrimaryContainer`; Inactive: `onSurfaceVariant`.
-   - **Behavior**: Tapping switches active shell tab to Scan screen. Tab transition: 200 ms cross-fade (instant snap if reduce-motion is on).
-2. **History Nav Item**:
-   - **Type**: `nav item`
-   - **Icon**: `Icons.history_outlined` (inactive), `Icons.history` (active)
-   - **Label English**: `"History"` (`historyTitle` / [NEW])
-   - **Label Bangla**: `"হিস্ট্রি"` (`historyTitle` / [NEW])
-   - **Color Role**: Active indicator: `primaryContainer`; Active icon/label: `onPrimaryContainer`; Inactive: `onSurfaceVariant`.
-   - **Behavior**: Tapping switches active shell tab to History screen.
-3. **About Nav Item**:
-   - **Type**: `nav item`
-   - **Icon**: `Icons.info_outline` (inactive), `Icons.info` (active)
-   - **Label English**: `"About"` (`aboutTitle` / [NEW])
-   - **Label Bangla**: `"সম্পর্কে"` (`aboutTitle` / [NEW])
-   - **Color Role**: Active indicator: `primaryContainer`; Active icon/label: `onPrimaryContainer`; Inactive: `onSurfaceVariant`.
-   - **Behavior**: Tapping switches active shell tab to About screen.
-
----
-
-## 3. Screen Specifications
-
-### 3.1 Splash Screen (Outside Shell)
-Displayed on cold start while initial preferences and assets are verified.
-
-- **Layout Structure**: Centered single column, vertical layout.
-
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top / Center | `image` (App Logo) | 120×120 dp | None (Semantic icon of rice stalk / leaf) | `primary` | Static vector logo. VoiceOver/TalkBack label: "Rice Leaf Disease Detection Logo". |
-| 2 | Center | `text` (Title) | Full width, ~32 dp height | `"Rice Leaf Disease Detection"` (`appTitle`) / `"ধানের পাতার রোগ শনাক্তকরণ"` (`appTitle`) | `onSurface` | `headlineMedium`, bold (700). |
-| 3 | Center | `text` (Subtitle) | Full width, ~24 dp height | `"Offline Agricultural Field Tool"` [NEW] / `"অফলাইন কৃষি সহায়ক টুল"` [NEW] | `onSurfaceVariant` | `bodyMedium`. |
-| 4 | Bottom (80 dp above edge) | `bar` (Progress Indicator) | 36×36 dp | None | `primary` | Indeterminate circular progress indicator. If reduce-motion is on, renders static 3-dot graphic. Automatically redirects after 1.2 s to Onboarding (first launch) or Scan (subsequent). |
+### 2.3 Security, Privacy & Permissions Policy
+* **Zero Network Traffic**: The app makes **zero network calls** and bundles **no third-party tracking, analytics, crash-reporting SDKs, or advertising libraries**. The application is 100% offline.
+* **Just-In-Time Permissions**: Camera and Gallery permissions are never requested on startup or during onboarding. They are requested exclusively at the exact moment the user taps the Shutter or Gallery button.
+* **App-Private Storage**: Captured field photos are stored solely in isolated app-private sandbox storage (`getApplicationDocumentsDirectory()`). Photos are never exported to public shared galleries without explicit user intent and can be deleted individually or wiped completely via "Clear All" in History.
+* **No Telemetry / Data Sharing**: Because zero telemetry is collected or transmitted, no privacy consent screens or data-sharing opt-ins are shown.
+* **Information Disclosure Prevention**: The user interface is strictly prohibited from displaying raw file system paths (`/data/user/0/...`), device serials, MAC addresses, IMEI, or internal neural network weight shapes.
 
 ---
 
-### 3.2 Onboarding Screen (Outside Shell)
-Shown only on first launch (`onboarding_done = false`) per requirement F-08 and Section 9.1.
+## 3. Global Navigation & Common App Bars
 
-- **Layout Structure**: Vertical scrollable column with pinned bottom action bar.
+### 3.1 Consistent Top App Bar
+All primary destinations within the application shell share a standardized Material 3 Top App Bar (56 dp height):
 
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"Welcome"` [NEW] / `"স্বাগতম"` [NEW] | `surface` (bg), `onSurface` (text) | Displays app title. Trailing: Language toggle button. |
-| 2 | Top right in App Bar | `button` (TextButton) | ~110×40 dp | `"বাংলায় দেখুন"` (`switchToBangla`) / `"View in English"` (`switchToEnglish`) | `primary` | Tapping toggles app locale immediately without restart. |
-| 3 | Upper Body | `image` (Hero Graphic) | Full width, 180 dp height | Vector illustration of rice field and phone scanner | `surfaceVariant` (bg), `primary` (accent) | Decorative visual header. |
-| 4 | Middle Body | `card` (Advisory Disclaimer) | Full width, ~160 dp height | Header: `"Advisory Notice"` (`disclaimerTitle`) / `"জরুরি সতর্কবার্তা"` (`disclaimerTitle`). Body: `"This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action."` (`disclaimerText`) / `app_bn.arb` | Card: `surfaceVariant`; Header: `onSurfaceVariant` (bold); Body: `onSurfaceVariant` | High-contrast notice card. TalkBack reads notice in full. |
-| 5 | Lower Body | `card` (Usage Guide) | Full width, ~120 dp height | Header: `"Photo Guidelines"` [NEW] / `"ছবি তোলার নিয়মাবলী"` [NEW]. Bullet 1: `"Take photo in good natural daylight"` [NEW] / `"দিনের আলোতে পরিষ্কার ছবি তুলুন"` [NEW]. Bullet 2: `"Focus clearly on diseased leaf area"` [NEW] / `"আক্রান্ত অংশের দিকে ক্যামেরা ফোকাস করুন"` [NEW]. | `surfaceVariant` | Instructional card ensuring quality input. |
-| 6 | Bottom Pinned | `button` (FilledButton) | Full width, 56 dp height | `"Get Started"` (`getStarted`) / `"শুরু করুন"` (`getStarted`) | `primary` (bg), `onPrimary` (text) | Sets `onboarding_done = true` in `SharedPreferences` and navigates to Scan screen. 48 dp minimum touch target. |
+| Screen | Title Specification | Leading Affordance | Trailing Action | Surface Tint Behavior |
+|---|---|---|---|---|
+| **Scan (Home)** | App Name: `"Rice Leaf Disease Detection"` (EN) / `"ধানের পাতার রোগ শনাক্তকরণ"` (BN) | None | Language Toggle icon button (`Icons.translate` / text badge) with 48×48 dp target and tooltip (`"Switch to Bangla"` / `"ইংরেজিতে দেখুন"`) | Transparent over camera preview with gradient scrim (`rgba(0,0,0,0.5)` to transparent); applies `surfaceTint` when scrolled |
+| **History** | Title: `"History"` (`"হিস্ট্রি"`) | None | Clear-All icon button (`Icons.delete_sweep_outlined`) visible only when history records exist; opens confirmation dialog | Standard M3 flat surface; applies `surfaceTint` upon vertical scroll |
+| **About** | Title: `"About"` (`"সম্পর্কে"`) | Back arrow (`Icons.arrow_back`) only if pushed from a nested route; otherwise none | None (clean and unencumbered) | Standard M3 flat surface; applies `surfaceTint` upon vertical scroll |
 
----
+* **Visual Variants**: Specified across Light and Dark themes, and English and Bangla localizations.
 
-### 3.3 Scan Screen (Inside Shell: Tab 1)
-The primary operational screen allowing farmers and extension officers to capture or select a rice leaf photo.
+### 3.2 Bottom NavigationBar
+Mounted permanently at the bottom of the screen within the application shell (80 dp height, elevation Level 2 / `surfaceContainer`):
+* **Order of Destinations**: Strictly **Scan**, **History**, **About** (Decision D-23).
+* **Destination Details**:
+  1. **Scan**: Icon `Icons.photo_camera_outlined` (inactive) / `Icons.photo_camera` (active); Label `"Scan"` / `"স্ক্যান"`.
+  2. **History**: Icon `Icons.history_outlined` (inactive) / `Icons.history` (active); Label `"History"` / `"হিস্ট্রি"`.
+  3. **About**: Icon `Icons.info_outlined` (inactive) / `Icons.info` (active); Label `"About"` / `"সম্পর্কে"`.
+* **Selection Indicator**: Active destination displays an M3 pill (`primaryContainer` background with `onPrimaryContainer` icon/text). Inactive destinations use `onSurfaceVariant`.
+* **Badges**: **No badges in version 1** (no unread badges, dots, or scan counts on navigation icons).
 
-- **Layout Structure**: Top App Bar, scrollable body with viewfinder placeholder / photo action buttons, and pinned advisory notice.
-
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"Rice Leaf Disease Detection"` (`appTitle`) / `"ধানের পাতার রোগ শনাক্তকরণ"` (`appTitle`) | `surface` (bg), `onSurface` (text) | Top app bar. Trailing action: Language toggle button. |
-| 2 | Top right in App Bar | `button` (TextButton) | ~110×40 dp | `"বাংলায় দেখুন"` (`switchToBangla`) / `"View in English"` (`switchToEnglish`) | `primary` | Tapping toggles locale between English and Bangla. |
-| 3 | Upper Body | `card` (Viewfinder / Guide) | Full width, 240 dp height | Center Icon: `Icons.filter_center_focus`; Text: `"Position diseased rice leaf in center"` [NEW] / `"পাতার আক্রান্ত অংশটি ফ্রেমের মাঝে রাখুন"` [NEW] | `surfaceVariant` (container), `onSurfaceVariant` (icon/text) | Viewfinder boundary guide with dashed corner borders. |
-| 4 | Middle Body | `button` (FilledButton.icon) | Full width, 54 dp height | Icon: `Icons.camera_alt`; Label: `"Take Photo"` (`takePhoto`) / `"ছবি তুলুন"` (`takePhoto`) | `primary` (bg), `onPrimary` (text) | Opens device camera (F-01). Triggers inference isolate upon capture. |
-| 5 | Middle Body | `button` (OutlinedButton.icon) | Full width, 54 dp height | Icon: `Icons.photo_library`; Label: `"Choose from Gallery"` (`chooseGallery`) / `"গ্যালারি থেকে বাছাই করুন"` (`chooseGallery`) | `outline` (border), `primary` (text/icon) | Opens photo picker for JPG/PNG up to 10 MB (F-02). |
-| 6 | Lower Body | `card` (Advisory Banner) | Full width, ~100 dp height | Header: `"Advisory Notice"` (`disclaimerTitle`) / `"জরুরি সতর্কবার্তা"`. Text: `"This tool provides advisory identification only. Consult an agricultural expert."` [NEW] / `"এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Permanent visible disclaimer on scan screen per requirement F-08. |
+### 3.3 BottomAppBar Architecture Option (Design Evaluation)
+* **Evaluated Option**: Replacing the NavigationBar with a `BottomAppBar` featuring a docked center floating capture button, eliminating the dedicated Scan tab.
+* **Trade-off Analysis**: A docked center capture button provides immediate single-tap camera access from any tab, but breaks standard Material 3 navigation patterns, occludes content, and creates floating button collision issues in landscape and tablet views.
+* **Decision Status**: **NOT IMPLEMENTED**. Decision D-23 locks the three-tab `NavigationBar` (Scan, History, About). Adopting a BottomAppBar would require a formal new Decision to supersede D-23.
 
 ---
 
-### 3.4 Result Screen: Confident State ($\ge 60\%$ Confidence)
-Rendered when model top prediction has confidence $\ge 60\%$. Displays condition name, confidence %, field advisory note, and compact disclaimer card.
+## 4. Screen Specifications
 
-- **Layout Structure**: Top App Bar with back arrow, vertical scrollable content.
+### 4.1 Splash Screen (Outside Shell)
+Displayed on cold launch while validating local storage and configuration.
+* **Layout**: Centered vertical column.
+* **Elements**: App Logo (120×120 dp), Headline `"Rice Leaf Disease Detection"` (`appTitle`), Subtitle `"Offline Agricultural Field Tool"`, Indeterminate progress indicator (36×36 dp; static 3-dot fallback under reduce-motion).
+* **Navigation**: Automatically routes to Onboarding (first run) or Scan (subsequent launches) after 1.2 s.
 
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"Scan Result"` [NEW] / `"ফলাফল"` [NEW]. Leading: Back icon (`Icons.arrow_back`). | `surface` (bg), `onSurface` (text) | Back arrow pops back to Scan screen. |
-| 2 | Upper Body | `image` (Captured Photo Preview) | Full width, 200 dp height | Thumbnail of analyzed leaf photo | `surfaceVariant` (border) | Displays image preview with subtle rounded corners (12 dp). |
-| 3 | Middle Body | `card` (Likely Condition Card) | Full width, ~140 dp height | Header: `"Likely Condition"` [NEW] / `"সম্ভাব্য রোগ / লক্ষণ"` [NEW]. Title: Disease Name (e.g., `"Brown Spot"` (`diseaseBrownSpot`) / `"বাদামি দাগ রোগ"`). Subtitle: Alternate language name. | Card: `primaryContainer`; Title: `onPrimaryContainer` (bold 22sp); Subtitle: `onPrimaryContainer` (14sp) | High-prominence card identifying the likely condition. |
-| 4 | Inside Condition Card | `bar` (Confidence Bar) + `text` | Height 8 dp bar + 20 dp text | `"Confidence: 87.4% (Likely)"` (`confidenceLabel` + [NEW]) / `"নির্ভরযোগ্যতা: ৮৭.৪% (সম্ভাব্য)"` | Progress: `primary`; Track: `surfaceVariant`; Text: `onPrimaryContainer` | Horizontal progress bar showing confidence percentage. If reduce-motion is enabled, renders filled bar without fill animation. |
-| 5 | Lower Body | `card` (Field Advisory Card) | Full width, ~160 dp height | Header: `"Field Advisory"` (`advisoryTitle`) / `"মাঠ পর্যায়ের পরামর্শ"`. Body: Recommended agricultural management practices from local JSON. Footer: `"Consult an upazila agricultural extension officer before taking chemical measures."` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Displays non-prescriptive advisory note (F-06). Prohibited terms like "diagnosis" and "cure" strictly omitted. |
-| 6 | Lower Body | `card` (Compact Disclaimer Card) | Full width, ~70 dp height | Header: `"Advisory Notice"` (`disclaimerTitle`) / `"জরুরি সতর্কবার্তা"`. Text: `"This tool provides advisory identification only. Consult an agricultural expert before taking action."` [NEW] / `"এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Compact disclaimer card (F-08) rendered permanently. |
-| 7 | Bottom Body | `button` (OutlinedButton) | Full width, 50 dp height | Icon: `Icons.replay`; Label: `"Scan Another Leaf"` [NEW] / `"আরেকটি পাতা পরীক্ষা করুন"` [NEW] | `outline` (border), `primary` (text/icon) | Clears state and returns to Scan screen. |
+### 4.2 Onboarding Screen (Outside Shell)
+Shown only on first launch (`onboarding_done = false`) per requirement F-08.
+* **Layout**: Scrollable vertical column with pinned bottom action button.
+* **Elements**: Top bar with language toggle, Hero illustration (rice field scanner), Advisory Disclaimer card (F-08 notice), Photo capture guidelines card (lighting, focus, framing), and 56 dp primary button `"Get Started"` (`"শুরু করুন"`).
 
----
+### 4.3 Scan Screen: Full-Screen Capture Page (Inside Shell: Tab 1)
+The primary operational interface. Uses a **full-bleed viewport layout** instead of a small card:
 
-### 3.5 Result Screen: Uncertain State ($< 60\%$ Confidence)
-Rendered when model top prediction has confidence $< 60\%$ (D-11, F-05). Displays warning banner and weak guess; **strictly omits field advisory / treatment section**; includes next steps directing user to Upazila Agriculture Office (DAE) and compact disclaimer card.
+```
+┌─────────────────────────────────────────────────────────────┐
+│ [App Title: Rice Leaf Disease Detection]   [Language Toggle]│ ◄── Top App Bar with gradient scrim
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                    ┌───────────────────┐                    │
+│                    │ ┌               ┐ │                    │
+│                    │   [Viewfinder]    │ │ ◄── Centered viewfinder frame
+│                    │ └               ┘ │       with corner brackets
+│                    └───────────────────┘                    │
+│              [Position diseased rice leaf in center]        │ ◄── Guidance chip
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│   [ ⚠️ Advisory notice: Not formal advice. Tap details ]    │ ◄── Compact expandable disclaimer strip
+├─────────────────────────────────────────────────────────────┤
+│        [Gallery]            (( Shutter ))           [Flash] │ ◄── Bottom control panel
+│         (56 dp)                (72 dp)              (56 dp) │     (inside SafeArea, above Nav)
+├─────────────────────────────────────────────────────────────┤
+│       [  Scan (Active)  |  History  |  About  ]             │ ◄── Fixed M3 NavigationBar
+└─────────────────────────────────────────────────────────────┘
+```
 
-- **Layout Structure**: Top App Bar with back arrow, vertical scrollable content.
+#### Detailed Element Geometry:
+1. **Top Scrim & App Bar**: Semi-transparent top bar (`linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)`). App title on left in white (`#FFFFFF`) with subtle shadow; 48×48 dp language toggle button on right with localized tooltip.
+2. **Camera Preview Area**: Full-bleed camera feed (aspect ratio 4:3 or native sensor filled). Center features a 260×260 dp viewfinder frame with rounded corner-bracket guides (`border: 2px dashed rgba(255,255,255,0.7); border-radius: 16px;`). A semi-transparent guidance chip (`"Position diseased rice leaf in center"` / `"পাতার আক্রান্ত অংশটি ফ্রেমের মাঝে রাখুন"`) floats below the frame.
+3. **Compact Disclaimer Strip (F-08)**: Positioned above the control panel:
+   * A compact one-line strip: `"⚠️ Advisory notice: Not formal diagnosis or extension advice. Tap for details."` (EN) / `"⚠️ জরুরি সতর্কবার্তা: এটি কোনো চূড়ান্ত সিদ্ধান্ত নয়। বিস্তারিত দেখতে ট্যাপ করুন।"` (BN).
+   * Tap expands the full advisory card in a modal bottom sheet without obstructing the shutter.
+   * **Rule**: Must never overlap or cover the shutter button.
+4. **Bottom Control Panel**:
+   * **Gallery Picker Button (Left)**: Circular 56×56 dp touch target (`Icons.photo_library`) with label `"Gallery"` / `"গ্যালারি"` underneath. Placed within immediate reach of left thumb.
+   * **Camera Shutter Button (Center)**: **72×72 dp circular shutter** inside an 84×84 dp white tactile ring with an 80×80 dp minimum touch target. Filled with solid white (or `primaryContainer` in dark mode). Label `"Capture"` / `"ছবি তুলুন"` underneath. Accessible label: `"Capture leaf photo"`.
+   * **Flash / Help Button (Right)**: Circular 56×56 dp touch target (`Icons.flash_auto` or `Icons.help_outline`) with label `"Flash"` / `"Help"` underneath. Placed within reach of right thumb.
+5. **Landscape Viewport Geometry (892×412 dp)**:
+   * Viewfinder remains centered in left/middle preview area.
+   * Controls dock vertically on the right: Gallery (top), 72 dp Shutter (center), Help (bottom).
+   * Disclaimer strip remains visible along the bottom edge of the preview.
+   * **Verification**: In both 412×892 portrait and 892×412 landscape viewports, the shutter, gallery button, and disclaimer are **100% visible without scrolling**.
 
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"Scan Result"` [NEW] / `"ফলাফল"` [NEW]. Leading: Back icon (`Icons.arrow_back`). | `surface` (bg), `onSurface` (text) | Returns to Scan screen. |
-| 2 | Upper Body | `image` (Captured Photo Preview) | Full width, 200 dp height | Thumbnail of analyzed leaf photo | `surfaceVariant` (border) | Displays image preview with subtle rounded corners (12 dp). |
-| 3 | Middle Body | `banner` / `card` (Uncertain Warning Banner) | Full width, ~180 dp height | Icon: `Icons.warning_amber_rounded` (36 dp). Title: `"Uncertain Result"` (`uncertainTitle`) / `"অনিশ্চিত ফলাফল"`. Body: `"Confidence is low. Please consult an agricultural expert for guidance."` (`uncertainDescription`) / `app_bn.arb`. | Container: `errorContainer`; Title & Icon: `onErrorContainer` (bold 20sp); Body: `onErrorContainer` (14sp) | High-visibility warning container. Informs farmer that AI confidence is below safety threshold (D-11). |
-| 4 | Inside Banner | `card` (Weak Guess Pill) | Full width, ~50 dp height | `"Possible condition: Brown Spot (52.0%)"` (`weakGuessPrefix` + [NEW]) / `"সম্ভাব্য লক্ষণ: বাদামি দাগ রোগ (৫২.০%)"` | Container: `surface` (50% opacity); Text: `onErrorContainer` (medium 14sp) | Reports top class strictly as an unconfirmed weak guess. |
-| 5 | Hidden Section | **NO ADVISORY CARD** | 0 dp height | None | N/A | **Enforces Rule D-11**: The field advisory section is entirely hidden. No spray, fertilizer, or cultural treatment advice is displayed. |
-| 6 | Lower Body | `card` (Next Steps Card) | Full width, ~110 dp height | Header: `"Recommended Next Step"` [NEW] / `"করণীয়"` [NEW]. Text: `"Take this leaf sample to your nearest Upazila Agriculture Office (DAE) for expert evaluation."` [NEW] / `"পাতাটি আপনার নিকটস্থ উপজেলা কৃষি অফিসে (ডিএই) নিয়ে যান এবং কৃষি কর্মকর্তার পরামর্শ গ্রহণ করুন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Directs farmer to Upazila Agriculture Office (DAE). |
-| 7 | Lower Body | `card` (Compact Disclaimer Card) | Full width, ~70 dp height | Header: `"Advisory Notice"` (`disclaimerTitle`) / `"জরুরি সতর্কবার্তা"`. Text: `"This tool provides advisory identification only. Consult an agricultural expert before taking action."` [NEW] / `"এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Compact disclaimer card (F-08) rendered permanently. |
-| 8 | Bottom Body | `button` (FilledButton) | Full width, 50 dp height | Icon: `Icons.camera_alt`; Label: `"Retake Photo in Better Light"` [NEW] / `"ভালো আলোতে পুনরায় ছবি তুলুন"` [NEW] | `primary` (bg), `onPrimary` (text) | Encourages retaking photo with better lighting or focus. |
-| 9 | Bottom Body | `button` (OutlinedButton) | Full width, 50 dp height | Icon: `Icons.arrow_back`; Label: `"Back to Scan"` [NEW] / `"স্ক্যানে ফিরে যান"` [NEW] | `outline` (border), `primary` (text/icon) | Returns to Scan screen. |
-
----
-
-### 3.6 History Screen (Inside Shell: Tab 2)
-
-#### 3.6.1 Empty State (0 Saved Scans)
-- **Layout Structure**: Centered column.
-
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"Scan History"` (`historyTitle` / [NEW]) / `"স্ক্যান হিস্ট্রি"` [NEW] | `surface` (bg), `onSurface` (text) | App bar. |
-| 2 | Center | `icon` (Empty Graphic) | 80×80 dp | `Icons.history_toggle_off` | `outline` | Large muted history icon. |
-| 3 | Center | `text` (Empty Title) | Full width, ~28 dp height | `"No past scans yet."` (`historyEmpty`) / `"এখনো কোনো পূর্ববর্তী তথ্য সংরক্ষিত নেই।"` (`historyEmpty`) | `onSurface` (bold 18sp) | Primary empty state text. |
-| 4 | Center | `text` (Empty Description) | Full width, ~40 dp height | `"Leaf scans you perform will appear here offline for future reference."` [NEW] / `"আপনার পূর্ববর্তী সকল স্ক্যান অফলাইনে এখানে সংরক্ষিত থাকবে।"` [NEW] | `onSurfaceVariant` (14sp) | Explanatory text. |
-| 5 | Center | `button` (FilledButton) | ~180×48 dp | Icon: `Icons.camera_alt`; Label: `"Start First Scan"` [NEW] / `"প্রথম স্ক্যান শুরু করুন"` [NEW] | `primary` (bg), `onPrimary` (text) | Switches to Scan tab. |
-
-#### 3.6.2 List Layout (Populated History)
-- **Layout Structure**: Vertical scrollable list of Material 3 scan cards.
-
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"Scan History (4)"` [NEW] / `"স্ক্যান হিস্ট্রি (৪)"` [NEW] | `surface` (bg), `onSurface` (text) | App bar. Action button: Clear history icon (`Icons.delete_sweep_outlined`). |
-| 2..N | Body List | `card` (History Scan Item) | Full width, 84 dp height per item | Leading: 56×56 dp thumbnail. Title: Condition name (e.g., `"Brown Spot"`). Subtitle: `"Yesterday • 87.4% confidence"` [NEW] / `"গতকাল • ৮৭.৪% নির্ভরযোগ্যতা"`. Trailing: Chevron (`Icons.chevron_right`). | Container: `surfaceVariant`; Title: `onSurfaceVariant` (bold); Subtitle: `onSurfaceVariant` (muted) | Tapping item opens historical Result view. Long press allows deleting individual record. |
-
----
-
-### 3.7 About Screen (Inside Shell: Tab 3)
-Contains app identification, academic credits, third-party licenses, dataset credit, and official disclaimer. Dataset credit appears on About, README, dataset card, and store listing only (Decision D-29).
-
-- **Layout Structure**: Vertical scrollable column.
-
-| Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
-|---|---|---|---|---|---|---|
-| 1 | Top | `app bar` | Full width, 56 dp height | Title: `"About & Credits"` (`aboutTitle` / [NEW]) / `"অ্যাপ পরিচিতি ও স্বীকৃতি"` [NEW] | `surface` (bg), `onSurface` (text) | App bar. |
-| 2 | Top Body | `card` (App Identity Card) | Full width, ~100 dp height | App Name: `"Rice Leaf Disease Detection"` (`appTitle`). Version: `"Version 1.0.0 (Build 1)"` (`versionLabel` + [NEW]). Researcher: `"Academic final-year project by Mehedi Hasan."` [NEW] | Container: `primaryContainer`; Text: `onPrimaryContainer` | Identifies application and academic project attribution (distinct from dataset authorship). |
-| 3 | Middle Body | `card` (Software License) | Full width, ~80 dp height | Header: `"Software License"` (`licenseTitle`). Body: `"Released under the MIT License (D-01)."` (`licenseText`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Software open-source license declaration. |
-| 4 | Middle Body | `card` (Dataset Credit) | Full width, ~170 dp height | Header: `"Dataset credit"` [NEW] / `"ডেটাসেট কৃতিত্ব"` [NEW, to be reviewed by a native speaker before release]. Body (EN): `"Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: images were re-oriented according to EXIF data and re-encoded for training."` Body (BN): [NEW, translation to be reviewed by a native speaker before release] `"ধানের পাতার ছবি: হাসান, এম. প্রমুখ (২০২৩), মেন্ডেলে ডেটা, DOI 10.17632/hx6f852hw4.2, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) লাইসেন্সের অধীন। পরিবর্তন: EXIF ডেটা অনুযায়ী ছবির ওরিয়েন্টেশন সংশোধন করা হয়েছে এবং প্রশিক্ষণের জন্য পুনরায় এনকোড করা হয়েছে।"` | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Placed after version & MIT rows, before font license. Tappable link opens CC BY 4.0 license page in browser. Complies with D-29. |
-| 5 | Middle Body | `card` (Font License) | Full width, ~80 dp height | Header: `"Font License"` [NEW]. Body: `"Embedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1)."` (`docs/licenses_third_party.md`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Embedded font licensing compliance. |
-| 6 | Lower Body | `card` (Advisory Notice) | Full width, ~130 dp height | Header: `"Advisory Disclaimer"` (`disclaimerTitle`). Body: `"This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action."` (`disclaimerText`). | Card: `surfaceVariant`; Text: `onSurfaceVariant` | Mandatory visible legal disclaimer (F-08). |
+#### Capture Page States:
+* **State 1: Capture Idle**: Live preview active, guidance chip visible, 72 dp shutter enabled, gallery button active, disclaimer strip visible.
+* **State 2: Camera Permission Denied**: Camera feed darkened; centered M3 dialog with camera-off icon (`Icons.no_photography`), explanation that permission is required to shoot photos, primary button `"Open Settings"`, and prominent note that `"You can still select photos from your gallery"`. The Gallery button remains fully functional and highlighted; shutter button is disabled (`opacity: 0.38`).
+* **State 3: Photo Selected**: Captured or gallery photo frozen in viewfinder. Overlay panel presents `"Photo Selected"` title with two clear buttons: `"Analyze Leaf"` (filled primary button, 50 dp) and `"Retake / Change"` (outlined button, 50 dp).
+* **State 4: Analyzing**: Inference isolate running. Viewfinder is subtly dimmed; center displays an indeterminate circular progress indicator with title `"Analyzing Rice Leaf..."` (`"পাতা বিশ্লেষণ করা হচ্ছে..."`) and subtitle `"Running on-device neural network (MobileNetV2)..."`. Shutter and controls are disabled (`pointer-events: none`).
 
 ---
 
-## 4. State & Transition Matrix
+### 4.4 Result Screen: Confident State ($\ge 60\%$ Confidence)
+Pushed from Scan when top prediction confidence is $\ge 60\%$.
+* **Layout**: Top app bar with back navigation arrow (`Icons.arrow_back`), scrollable content column.
+* **Elements**:
+  1. Top App Bar: Title `"Scan Result"` / `"ফলাফল"`.
+  2. Photo Preview: Captured leaf photo (200 dp height, 12 dp rounded corners).
+  3. Likely Condition Card: `primaryContainer` background; Header `"Likely Condition"` / `"সম্ভাব্য রোগ / লক্ষণ"`; Title: Disease Name (e.g. `"Brown Spot"` / `"বাদামি দাগ রোগ"`); Subtitle in alternate language.
+  4. Confidence Bar: Horizontal progress bar indicating exact confidence percentage (e.g. `87.4% (Likely)`).
+  5. Field Advisory Card: Agronomic management practices from local verified repository; footnote directing user to consult Upazila Agriculture Office (DAE). (Prohibited words "diagnosis" and "cure" strictly omitted).
+  6. Compact Disclaimer Card (F-08): Permanent advisory notice.
+  7. Outlined Button: `"Scan Another Leaf"` / `"আরেকটি পাতা পরীক্ষা করুন"`.
+
+---
+
+### 4.5 Result Screen: Uncertain State ($< 60\%$ Confidence, D-11)
+Pushed from Scan when top prediction confidence is $< 60\%$.
+* **Layout**: Top app bar with back navigation arrow, scrollable content column.
+* **Elements**:
+  1. Top App Bar: Title `"Scan Result"` / `"ফলাফল"`.
+  2. Photo Preview: Captured leaf photo (200 dp height).
+  3. Uncertain Warning Banner: `errorContainer` container; Warning icon (`Icons.warning_amber_rounded`); Title `"Uncertain Result"` (`"অনিশ্চিত ফলাফল"`); Body text advising user that confidence is low.
+  4. Weak Guess Pill: Top class displayed strictly as an unconfirmed weak guess (e.g. `"Possible condition: Brown Spot (52.0%)"`).
+  5. **D-11 Enforcement**: Field advisory / treatment section is **completely absent**. Zero chemical, spray, or cultural treatment advice is shown.
+  6. Recommended Next Steps Card: Prominently directs farmer: `"Take this leaf sample to your nearest Upazila Agriculture Office (DAE) for expert evaluation."`
+  7. Compact Disclaimer Card (F-08): Permanent advisory notice.
+  8. Filled Primary Button: `"Retake Photo in Better Light"` (`"ভালো আলোতে পুনরায় ছবি তুলুন"`).
+  9. Outlined Button: `"Back to Scan"` (`"স্ক্যানে ফিরে যান"`).
+
+---
+
+### 4.6 History Screen (Inside Shell: Tab 2)
+* **Empty State**: Centered illustration, title `"No past scans yet."`, description explaining offline local storage, and filled button `"Start First Scan"`.
+* **Populated List**: Lazy-loading list (`ListView.builder`) of scan cards. Each card displays a 56×56 dp thumbnail, condition name, timestamp, and confidence %. Uncertain scans display a warning indicator. Top app bar features Clear-All action icon with a confirmation modal dialog (`"Clear all past scans?"`).
+
+---
+
+### 4.7 About Screen (Inside Shell: Tab 3)
+Contains app identification, licenses, dataset attribution, and official legal notice (complies with Decision D-29):
+1. Top App Bar: Title `"About & Credits"` / `"অ্যাপ পরিচিতি ও স্বীকৃতি"`.
+2. App Identity Card: App name, Version 1.0.0 (Build 1), Developer credit: `"Academic final-year project by Mehedi Hasan."`
+3. Software License Card: `"Released under the MIT License (D-01)."`
+4. Dataset Credit Card (Decision D-29):
+   * Title: `"Dataset credit"` (EN) / `"ডেটাসেট কৃতিত্ব"` [NEW, to be reviewed by a native speaker before release].
+   * Body (EN): `"Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: images were re-oriented according to EXIF data and re-encoded for training."`
+   * Body (BN): `"ধানের পাতার ছবি: হাসান, এম. প্রমুখ (২০২৩), মেন্ডেলে ডেটা, DOI 10.17632/hx6f852hw4.2, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) লাইসেন্সের অধীন। পরিবর্তন: EXIF ডেটা অনুযায়ী ছবির ওরিয়েন্টেশন সংশোধন করা হয়েছে এবং প্রশিক্ষণের জন্য পুনরায় এনকোড করা হয়েছে।"` [NEW, translation to be reviewed by a native speaker before release]
+   * Behavior: Tappable hyperlink opens CC BY 4.0 license page in browser.
+5. Font License Card: Embedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1).
+6. Advisory Disclaimer Card (F-08): Full legal notice.
+
+---
+
+## 5. State & Transition Matrix
 
 ```
        [ Cold Launch ]
@@ -185,23 +206,25 @@ Contains app identification, academic credits, third-party licenses, dataset cre
      │                                                                                 │
      │   [ BottomNavigationBar: Scan (Active) | History (Inactive) | About (Inactive)] │
      │                                                                                 │
-     │   [ Tab 1: Scan Screen ] ◄──┐                                                   │
-     │             │               │                                                   │
-     │             │ (Capture/Pick)│ (Back/Retake)                                     │
-     │             ▼               │                                                   │
-     │     [ Inference Isolate ]   │                                                   │
-     │             │               │                                                   │
-     │     ┌───────┴───────────────┴────────┐                                          │
-     │     ▼                                ▼                                          │
-     │ [ Result: Confident ]      [ Result: Uncertain ]                                │
-     │  - Likely condition card    - Warning banner (D-11)                             │
-     │  - Confidence %             - Weak guess (no treatment)                         │
-     │  - Field advisory           - Expert consult advice (DAE)                       │
-     │  - Compact disclaimer card  - Compact disclaimer card                           │
+     │   [ Tab 1: Scan Screen (Full-Screen Capture Page) ] ◄──┐                        │
+     │         ├─ State A: Idle Viewfinder (72 dp Shutter, Gallery, Disclaimer Strip) │
+     │         ├─ State B: Camera Permission Denied (Open Settings, Gallery Active)   │
+     │         ├─ State C: Photo Selected (Analyze / Retake)                          │
+     │         └─ State D: Analyzing (Progress spinner, Isolate inference)            │
+     │                         │                                                       │
+     │                         │ (Inference Finished)                                  │
+     │                         ▼                                                       │
+     │             ┌───────────────────────┐                                           │
+     │             ▼                       ▼                                           │
+     │     [ Result: Confident ]   [ Result: Uncertain ] (D-11)                        │
+     │      - Likely condition      - Warning banner                                   │
+     │      - Confidence bar        - Weak guess only (no treatment)                   │
+     │      - Field advisory        - Upazila Agriculture Office (DAE)                 │
+     │      - Disclaimer card       - Disclaimer card                                  │
      │                                                                                 │
      │   [ Tab 2: History Screen ]                                                     │
      │     - State A: Empty State (0 scans)                                            │
-     │     - State B: List Layout (thumbnails, dates, condition, confidence)           │
+     │     - State B: Populated Lazy List (Thumbnails, timestamps, confidence)         │
      │                                                                                 │
      │   [ Tab 3: About Screen ]                                                       │
      │     - Version & Author                                                          │
@@ -212,37 +235,44 @@ Contains app identification, academic credits, third-party licenses, dataset cre
      └─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-
 ---
 
-## 5. Mockups & Wireframes Inventory (Count Reconciliation)
+## 6. Mockups & Wireframes Inventory (Count Reconciliation)
 
-The proposed design includes exactly **22 standalone HTML wireframes** and **22 rendered PNG screenshots** covering 8 screens/states across light/dark themes and localizations:
+The proposed design includes **standalone Material 3 HTML wireframes** in `docs/design/mockups/` and **rendered PNG screenshots** in `docs/screenshots/design_proposal/`:
 
-| # | Screen / Feature | Theme & Locale | HTML Wireframe (`docs/design/mockups/`) | Rendered PNG (`docs/screenshots/design_proposal/`) |
-|---|---|---|---|---|
-| 1 | Splash Screen | Light (Default) | `splash_light.html` | `splash_light.png` |
-| 2 | Splash Screen | Dark | `splash_dark.html` | `splash_dark.png` |
-| 3 | Onboarding Screen | Light (EN/BN toggleable) | `onboarding_light.html` | `onboarding_light.png` |
-| 4 | Onboarding Screen | Dark (EN/BN toggleable) | `onboarding_dark.html` | `onboarding_dark.png` |
-| 5 | Scan Screen (Home Tab) | Light, English | `scan_light_en.html` | `scan_light_en.png` |
-| 6 | Scan Screen (Home Tab) | Dark, English | `scan_dark_en.html` | `scan_dark_en.png` |
-| 7 | Scan Screen (Home Tab) | Light, Bangla | `scan_light_bn.html` | `scan_light_bn.png` |
-| 8 | Scan Screen (Home Tab) | Dark, Bangla | `scan_dark_bn.html` | `scan_dark_bn.png` |
-| 9 | Result: Confident State ($\ge 60\%$) | Light, English | `result_confident_light_en.html` | `result_confident_light_en.png` |
-| 10 | Result: Confident State ($\ge 60\%$) | Dark, English | `result_confident_dark_en.html` | `result_confident_dark_en.png` |
-| 11 | Result: Confident State ($\ge 60\%$) | Light, Bangla | `result_confident_light_bn.html` | `result_confident_light_bn.png` |
-| 12 | Result: Confident State ($\ge 60\%$) | Dark, Bangla | `result_confident_dark_bn.html` | `result_confident_dark_bn.png` |
-| 13 | Result: Uncertain State ($< 60\%$) | Light, English | `result_uncertain_light_en.html` | `result_uncertain_light_en.png` |
-| 14 | Result: Uncertain State ($< 60\%$) | Dark, English | `result_uncertain_dark_en.html` | `result_uncertain_dark_en.png` |
-| 15 | Result: Uncertain State ($< 60\%$) | Light, Bangla | `result_uncertain_light_bn.html` | `result_uncertain_light_bn.png` |
-| 16 | Result: Uncertain State ($< 60\%$) | Dark, Bangla | `result_uncertain_dark_bn.html` | `result_uncertain_dark_bn.png` |
-| 17 | History: Empty State | Light | `history_empty_light.html` | `history_empty_light.png` |
-| 18 | History: Empty State | Dark | `history_empty_dark.html` | `history_empty_dark.png` |
-| 19 | History: List Layout | Light | `history_list_light.html` | `history_list_light.png` |
-| 20 | History: List Layout | Dark | `history_list_dark.html` | `history_list_dark.png` |
-| 21 | About Screen | Light | `about_light.html` | `about_light.png` |
-| 22 | About Screen | Dark | `about_dark.html` | `about_dark.png` |
+| # | Screen / Feature | State & Theme / Locale | Viewport (dp) | HTML Wireframe (`docs/design/mockups/`) | Rendered PNG (`docs/screenshots/design_proposal/`) |
+|---|---|---|---|---|---|
+| 1 | Splash Screen | Light | 412×892 | `splash_light.html` | `splash_light.png` |
+| 2 | Splash Screen | Dark | 412×892 | `splash_dark.html` | `splash_dark.png` |
+| 3 | Onboarding Screen | Light (EN/BN toggleable) | 412×892 | `onboarding_light.html` | `onboarding_light.png` |
+| 4 | Onboarding Screen | Dark (EN/BN toggleable) | 412×892 | `onboarding_dark.html` | `onboarding_dark.png` |
+| 5 | Capture Page: Idle | Light, English | 412×892 | `scan_idle_light_en.html` | `scan_idle_light_en.png` |
+| 6 | Capture Page: Idle | Dark, English | 412×892 | `scan_idle_dark_en.html` | `scan_idle_dark_en.png` |
+| 7 | Capture Page: Idle | Light, Bangla | 412×892 | `scan_idle_light_bn.html` | `scan_idle_light_bn.png` |
+| 8 | Capture Page: Idle | Dark, Bangla | 412×892 | `scan_idle_dark_bn.html` | `scan_idle_dark_bn.png` |
+| 9 | Capture Page: Landscape | Light (English) | 892×412 | `scan_landscape_light.html` | `scan_landscape_light.png` |
+| 10 | Capture Page: Landscape | Dark (English) | 892×412 | `scan_landscape_dark.html` | `scan_landscape_dark.png` |
+| 11 | Capture: Permission Denied | Light | 412×892 | `scan_permission_light.html` | `scan_permission_light.png` |
+| 12 | Capture: Permission Denied | Dark | 412×892 | `scan_permission_dark.html` | `scan_permission_dark.png` |
+| 13 | Capture: Photo Selected | Light | 412×892 | `scan_selected_light.html` | `scan_selected_light.png` |
+| 14 | Capture: Photo Selected | Dark | 412×892 | `scan_selected_dark.html` | `scan_selected_dark.png` |
+| 15 | Capture: Analyzing State | Light | 412×892 | `scan_analyzing_light.html` | `scan_analyzing_light.png` |
+| 16 | Capture: Analyzing State | Dark | 412×892 | `scan_analyzing_dark.html` | `scan_analyzing_dark.png` |
+| 17 | Result: Confident ($\ge 60\%$) | Light, English | 412×892 | `result_confident_light_en.html` | `result_confident_light_en.png` |
+| 18 | Result: Confident ($\ge 60\%$) | Dark, English | 412×892 | `result_confident_dark_en.html` | `result_confident_dark_en.png` |
+| 19 | Result: Confident ($\ge 60\%$) | Light, Bangla | 412×892 | `result_confident_light_bn.html` | `result_confident_light_bn.png` |
+| 20 | Result: Confident ($\ge 60\%$) | Dark, Bangla | 412×892 | `result_confident_dark_bn.html` | `result_confident_dark_bn.png` |
+| 21 | Result: Uncertain ($< 60\%$) | Light, English | 412×892 | `result_uncertain_light_en.html` | `result_uncertain_light_en.png` |
+| 22 | Result: Uncertain ($< 60\%$) | Dark, English | 412×892 | `result_uncertain_dark_en.html` | `result_uncertain_dark_en.png` |
+| 23 | Result: Uncertain ($< 60\%$) | Light, Bangla | 412×892 | `result_uncertain_light_bn.html` | `result_uncertain_light_bn.png` |
+| 24 | Result: Uncertain ($< 60\%$) | Dark, Bangla | 412×892 | `result_uncertain_dark_bn.html` | `result_uncertain_dark_bn.png` |
+| 25 | History: Empty State | Light | 412×892 | `history_empty_light.html` | `history_empty_light.png` |
+| 26 | History: Empty State | Dark | 412×892 | `history_empty_dark.html` | `history_empty_dark.png` |
+| 27 | History: Populated List | Light | 412×892 | `history_list_light.html` | `history_list_light.png` |
+| 28 | History: Populated List | Dark | 412×892 | `history_list_dark.html` | `history_list_dark.png` |
+| 29 | About Screen | Light | 412×892 | `about_light.html` | `about_light.png` |
+| 30 | About Screen | Dark | 412×892 | `about_dark.html` | `about_dark.png` |
 
-- **True Counts**: 22 HTML wireframes and 22 PNG screenshots.
-- **Folder Size**: `docs/screenshots/design_proposal/` total size is 0.61 MB (well below the 2.0 MB ceiling).
+* **Total Screenshots Directory Size**: Under 2.0 MB budget.
+* **Ergonomics & Viewport Guarantee**: In both portrait (412×892 dp) and landscape (892×412 dp), the 72 dp shutter button, 56 dp gallery button, and compact disclaimer are completely visible without scrolling.

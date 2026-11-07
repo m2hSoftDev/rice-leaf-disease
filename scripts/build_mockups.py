@@ -527,7 +527,7 @@ def build_capture_screen(theme="light", state="idle", is_bn=False, is_landscape=
     app_title = "ধানের পাতার রোগ শনাক্তকরণ" if is_bn else "Rice Leaf Disease Detection"
     lang_btn = "English" if is_bn else "বাংলা"
     tooltip = "ইংরেজিতে দেখুন" if is_bn else "Switch to Bangla"
-    disclaimer = "⚠️ জরুরি সতর্কবার্তা: এটি কোনো চূড়ান্ত সিদ্ধান্ত নয়। বিস্তারিত দেখতে ট্যাপ করুন।" if is_bn else "⚠️ Advisory notice: Not formal diagnosis. Tap for details."
+    disclaimer = "⚠️ জরুরি সতর্কবার্তা: এটি কেবল তথ্য ও পরামর্শের জন্য। বিস্তারিত দেখতে ট্যাপ করুন।" if is_bn else "⚠️ Advisory notice: Advisory tool only. Tap for details."
     guide_text = "পাতার আক্রান্ত অংশটি ফ্রেমের মাঝে রাখুন" if is_bn else "Position diseased rice leaf in center"
     shutter_label = "ছবি তুলুন" if is_bn else "Capture"
     gallery_label = "গ্যালারি" if is_bn else "Gallery"
@@ -624,7 +624,7 @@ def build_capture_screen(theme="light", state="idle", is_bn=False, is_landscape=
           <div class="card" style="text-align: center; max-width: 300px; padding: 24px; box-shadow: 0 12px 32px rgba(0,0,0,0.5);">
             <div style="width: 44px; height: 44px; border: 4px solid var(--primary-container); border-top: 4px solid var(--primary); border-radius: 50%; margin: 0 auto 14px auto; animation: spin 1s linear infinite;"></div>
             <h3 class="title-md" style="font-size: 17px; margin-bottom: 4px;">Analyzing Rice Leaf...</h3>
-            <p class="body-sm">Running on-device neural network (MobileNetV2)...</p>
+            <p class="body-sm">Running on-device AI model (MobileNetV2)...</p>
           </div>
         </div>
         <style>@keyframes spin {{ 0% {{ transform: rotate(0deg); }} 100% {{ transform: rotate(360deg); }} }}</style>
@@ -696,8 +696,6 @@ for theme in ["light", "dark"]:
         lang_suffix = "bn" if is_bn else "en"
         html = build_capture_screen(theme=theme, state="idle", is_bn=is_bn, is_landscape=False)
         (MOCKUPS_DIR / f"scan_idle_{theme}_{lang_suffix}.html").write_text(html, encoding="utf-8")
-        # Keep alias for backward compatibility
-        (MOCKUPS_DIR / f"scan_{theme}_{lang_suffix}.html").write_text(html, encoding="utf-8")
 
 # 2.2 Landscape Viewports (Light & Dark)
 for theme in ["light", "dark"]:
@@ -1005,6 +1003,14 @@ for theme in ["light", "dark"]:
       </div>
 
       <div class="card card-tonal">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <h4 class="title-md" style="margin: 0;">Privacy Policy</h4>
+          <span style="font-size: 11px; font-weight: 700; background: var(--surface-color); color: var(--primary); padding: 2px 8px; border-radius: 8px; border: 1px solid var(--primary);">PROPOSED</span>
+        </div>
+        <p class="body-sm">100% offline application. Zero personal data, device identifiers, or leaf photos are collected, tracked, or shared.<br><br><a href="../privacy.html" style="color: var(--primary); text-decoration: underline;">Read Privacy Policy</a></p>
+      </div>
+
+      <div class="card card-tonal">
         <h4 class="title-md">Advisory Disclaimer</h4>
         <p class="body-sm">This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action.</p>
       </div>
@@ -1080,19 +1086,6 @@ for html_name, png_name, w, h in screenshots_to_render:
         img_p.save(png_path, "PNG", optimize=True)
     size_kb = png_path.stat().st_size / 1024
     print(f"  - Rendered: {png_name} ({w}x{h}, {size_kb:.1f} KB)")
-
-# Also create aliases for older scan_light_en.png etc so nothing is broken
-aliases = [
-    ("scan_idle_light_en.png", "scan_light_en.png"),
-    ("scan_idle_dark_en.png", "scan_dark_en.png"),
-    ("scan_idle_light_bn.png", "scan_light_bn.png"),
-    ("scan_idle_dark_bn.png", "scan_dark_bn.png"),
-]
-for src, dst in aliases:
-    src_p = SCREENSHOTS_DIR / src
-    dst_p = SCREENSHOTS_DIR / dst
-    if src_p.exists():
-        dst_p.write_bytes(src_p.read_bytes())
 
 total_size_bytes = sum(f.stat().st_size for f in SCREENSHOTS_DIR.glob("*.png"))
 total_size_mb = total_size_bytes / (1024 * 1024)

@@ -43,7 +43,7 @@ The application scales seamlessly across mobile form factors and orientations:
 * **Just-In-Time Permissions**: Camera and Gallery permissions are never requested on startup or during onboarding. They are requested exclusively at the exact moment the user taps the Shutter or Gallery button.
 * **App-Private Storage**: Captured field photos are stored solely in isolated app-private sandbox storage (`getApplicationDocumentsDirectory()`). Photos are never exported to public shared galleries without explicit user intent and can be deleted individually or wiped completely via "Clear All" in History.
 * **No Telemetry / Data Sharing**: Because zero telemetry is collected or transmitted, no privacy consent screens or data-sharing opt-ins are shown.
-* **Information Disclosure Prevention**: The user interface is strictly prohibited from displaying raw file system paths (`/data/user/0/...`), device serials, MAC addresses, IMEI, or internal neural network weight shapes.
+* **Information Disclosure Prevention**: The user interface is strictly prohibited from displaying raw file system paths (`/data/user/0/...`), device serials, MAC addresses, IMEI, or internal model weight shapes.
 
 ---
 
@@ -119,7 +119,7 @@ The primary operational interface. Uses a **full-bleed viewport layout** instead
 1. **Top Scrim & App Bar**: Semi-transparent top bar (`linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)`). App title on left in white (`#FFFFFF`) with subtle shadow; 48×48 dp language toggle button on right with localized tooltip.
 2. **Camera Preview Area**: Full-bleed camera feed (aspect ratio 4:3 or native sensor filled). Center features a 260×260 dp viewfinder frame with rounded corner-bracket guides (`border: 2px dashed rgba(255,255,255,0.7); border-radius: 16px;`). A semi-transparent guidance chip (`"Position diseased rice leaf in center"` / `"পাতার আক্রান্ত অংশটি ফ্রেমের মাঝে রাখুন"`) floats below the frame.
 3. **Compact Disclaimer Strip (F-08)**: Positioned above the control panel:
-   * A compact one-line strip: `"⚠️ Advisory notice: Not formal diagnosis or extension advice. Tap for details."` (EN) / `"⚠️ জরুরি সতর্কবার্তা: এটি কোনো চূড়ান্ত সিদ্ধান্ত নয়। বিস্তারিত দেখতে ট্যাপ করুন।"` (BN).
+   * A compact one-line strip: `"⚠️ Advisory notice: Advisory tool only; not extension advice. Tap for details."` (EN) / `"⚠️ জরুরি সতর্কবার্তা: এটি কেবল তথ্য ও পরামর্শের জন্য। বিস্তারিত দেখতে ট্যাপ করুন।"` (BN).
    * Tap expands the full advisory card in a modal bottom sheet without obstructing the shutter.
    * **Rule**: Must never overlap or cover the shutter button.
 4. **Bottom Control Panel**:
@@ -136,7 +136,7 @@ The primary operational interface. Uses a **full-bleed viewport layout** instead
 * **State 1: Capture Idle**: Live preview active, guidance chip visible, 72 dp shutter enabled, gallery button active, disclaimer strip visible.
 * **State 2: Camera Permission Denied**: Camera feed darkened; centered M3 dialog with camera-off icon (`Icons.no_photography`), explanation that permission is required to shoot photos, primary button `"Open Settings"`, and prominent note that `"You can still select photos from your gallery"`. The Gallery button remains fully functional and highlighted; shutter button is disabled (`opacity: 0.38`).
 * **State 3: Photo Selected**: Captured or gallery photo frozen in viewfinder. Overlay panel presents `"Photo Selected"` title with two clear buttons: `"Analyze Leaf"` (filled primary button, 50 dp) and `"Retake / Change"` (outlined button, 50 dp).
-* **State 4: Analyzing**: Inference isolate running. Viewfinder is subtly dimmed; center displays an indeterminate circular progress indicator with title `"Analyzing Rice Leaf..."` (`"পাতা বিশ্লেষণ করা হচ্ছে..."`) and subtitle `"Running on-device neural network (MobileNetV2)..."`. Shutter and controls are disabled (`pointer-events: none`).
+* **State 4: Analyzing**: Inference isolate running. Viewfinder is subtly dimmed; center displays an indeterminate circular progress indicator with title `"Analyzing Rice Leaf..."` (`"পাতা বিশ্লেষণ করা হচ্ছে..."`) and subtitle `"Running on-device AI model (MobileNetV2)..."`. Shutter and controls are disabled (`pointer-events: none`).
 
 ---
 
@@ -187,7 +187,12 @@ Contains app identification, licenses, dataset attribution, and official legal n
    * Body (BN): `"ধানের পাতার ছবি: হাসান, এম. প্রমুখ (২০২৩), মেন্ডেলে ডেটা, DOI 10.17632/hx6f852hw4.2, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) লাইসেন্সের অধীন। পরিবর্তন: EXIF ডেটা অনুযায়ী ছবির ওরিয়েন্টেশন সংশোধন করা হয়েছে এবং প্রশিক্ষণের জন্য পুনরায় এনকোড করা হয়েছে।"` [NEW, translation to be reviewed by a native speaker before release]
    * Behavior: Tappable hyperlink opens CC BY 4.0 license page in browser.
 5. Font License Card: Embedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1).
-6. Advisory Disclaimer Card (F-08): Full legal notice.
+6. Privacy Policy Row [PROPOSED]:
+   * Title: `"Privacy Policy"` (EN) / `"গোপনীয়তা নীতি"` (BN)
+   * Subtitle: `"100% offline. Zero personal data or photos collected or shared."` (EN) / `"সম্পূর্ণ অফলাইন। কোনো ব্যক্তিগত তথ্য বা ছবি সংরক্ষণ বা আদান-প্রদান করা হয় না।"` (BN)
+   * Action: Tappable row opening privacy policy documentation / web link.
+   * Status: Marked `[PROPOSED]` (pending store submission).
+7. Advisory Disclaimer Card (F-08): Full legal notice.
 
 ---
 
@@ -231,6 +236,7 @@ Contains app identification, licenses, dataset attribution, and official legal n
      │     - MIT Software License                                                      │
      │     - Dataset Credit (Hasan, M. et al., DOI, CC BY 4.0, Changes) (D-29)         │
      │     - Font License (Noto Sans Bengali OFL 1.1)                                  │
+     │     - Privacy Policy Row [PROPOSED]                                             │
      │     - Advisory Disclaimer (F-08)                                                │
      └─────────────────────────────────────────────────────────────────────────────────┘
 ```

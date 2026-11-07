@@ -88,7 +88,8 @@ This checklist provides a structured yes/no evaluation framework for verifying t
 |---|---|---|---|
 | AB-01 | Does the top card state the app name, version (1.0.0), and final-year project attribution? | [ ] | Academic attribution. |
 | AB-02 | Is the MIT License (D-01) and Noto Sans Bengali OFL 1.1 license explicitly noted? | [ ] | Software licensing compliance. |
-| AB-03 | Is dataset credit **excluded** from the About screen and kept only in `README.md` and `docs/dataset_card.md`? | [ ] | Dataset attribution policy compliance. |
+| AB-03 | Does the About screen show the full dataset credit with DOI, CC BY 4.0 link, and modification statement? | [ ] | Expected: yes (Decision D-29 compliance). |
+| AB-03b | Does any other screen (Scan, Result, History, Splash, Onboarding, Bottom Navigation) show dataset credit? | [ ] | Expected: no (D-29: credit appears on About, README, dataset card, and store listing only). |
 | AB-04 | Is the full Advisory Notice disclaimer displayed? | [ ] | Section 15 legal notice. |
 
 ---

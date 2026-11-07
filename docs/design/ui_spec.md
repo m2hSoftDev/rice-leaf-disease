@@ -155,16 +155,18 @@ Rendered when model top prediction has confidence $< 60\%$ (D-11, F-05). Display
 ---
 
 ### 3.7 About Screen (Inside Shell: Tab 3)
-Contains app identification, academic credits, third-party licenses, and official disclaimer. Verbatim dataset attribution is excluded per project policy (retained only in `README.md` and `docs/dataset_card.md`).
+Contains app identification, academic credits, third-party licenses, dataset credit, and official disclaimer. Dataset credit appears on About, README, dataset card, and store listing only (Decision D-29).
 
 - **Layout Structure**: Vertical scrollable column.
 
 | Order (Top to Bottom) | Region | Element Type | Dimensions (approx) | Text (English / Bangla) | Color Role | Behavior & Accessibility |
 |---|---|---|---|---|---|---|
 | 1 | Top | `app bar` | Full width, 56 dp height | Title: `"About & Credits"` (`aboutTitle` / [NEW]) / `"অ্যাপ পরিচিতি ও স্বীকৃতি"` [NEW] | `surface` (bg), `onSurface` (text) | App bar. |
-| 2 | Top Body | `card` (App Identity Card) | Full width, ~100 dp height | App Name: `"Rice Leaf Disease Detection"` (`appTitle`). Version: `"Version 1.0.0 (Build 1)"` (`versionLabel` + [NEW]). Researcher: `"Mehedi Hasan — B.Sc. Final Year Project"` [NEW] | Container: `primaryContainer`; Text: `onPrimaryContainer` | Identifies application and academic project attribution. |
-| 3 | Middle Body | `card` (Open Source & License) | Full width, ~140 dp height | Header: `"License Information"` (`licenseTitle`). Body: `"Released under the MIT License (D-01).\nEmbedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1)."` (`licenseText` / `docs/licenses_third_party.md`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Legal license declaration. |
-| 4 | Lower Body | `card` (Advisory Notice) | Full width, ~130 dp height | Header: `"Advisory Disclaimer"` (`disclaimerTitle`). Body: `"This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action."` (`disclaimerText`). | Card: `surfaceVariant`; Text: `onSurfaceVariant` | Mandatory visible legal disclaimer (F-08). |
+| 2 | Top Body | `card` (App Identity Card) | Full width, ~100 dp height | App Name: `"Rice Leaf Disease Detection"` (`appTitle`). Version: `"Version 1.0.0 (Build 1)"` (`versionLabel` + [NEW]). Researcher: `"Academic final-year project by Mehedi Hasan."` [NEW] | Container: `primaryContainer`; Text: `onPrimaryContainer` | Identifies application and academic project attribution (distinct from dataset authorship). |
+| 3 | Middle Body | `card` (Software License) | Full width, ~80 dp height | Header: `"Software License"` (`licenseTitle`). Body: `"Released under the MIT License (D-01)."` (`licenseText`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Software open-source license declaration. |
+| 4 | Middle Body | `card` (Dataset Credit) | Full width, ~170 dp height | Header: `"Dataset credit"` [NEW] / `"ডেটাসেট কৃতিত্ব"` [NEW, to be reviewed by a native speaker before release]. Body (EN): `"Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: images were re-oriented according to EXIF data and re-encoded for training."` Body (BN): [NEW, translation to be reviewed by a native speaker before release] `"ধানের পাতার ছবি: হাসান, এম. প্রমুখ (২০২৩), মেন্ডেলে ডেটা, DOI 10.17632/hx6f852hw4.2, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) লাইসেন্সের অধীন। পরিবর্তন: EXIF ডেটা অনুযায়ী ছবির ওরিয়েন্টেশন সংশোধন করা হয়েছে এবং প্রশিক্ষণের জন্য পুনরায় এনকোড করা হয়েছে।"` | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Placed after version & MIT rows, before font license. Tappable link opens CC BY 4.0 license page in browser. Complies with D-29. |
+| 5 | Middle Body | `card` (Font License) | Full width, ~80 dp height | Header: `"Font License"` [NEW]. Body: `"Embedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1)."` (`docs/licenses_third_party.md`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Embedded font licensing compliance. |
+| 6 | Lower Body | `card` (Advisory Notice) | Full width, ~130 dp height | Header: `"Advisory Disclaimer"` (`disclaimerTitle`). Body: `"This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action."` (`disclaimerText`). | Card: `surfaceVariant`; Text: `onSurfaceVariant` | Mandatory visible legal disclaimer (F-08). |
 
 ---
 
@@ -203,10 +205,13 @@ Contains app identification, academic credits, third-party licenses, and officia
      │                                                                                 │
      │   [ Tab 3: About Screen ]                                                       │
      │     - Version & Author                                                          │
-     │     - MIT License & Noto Sans Bengali OFL 1.1                                   │
+     │     - MIT Software License                                                      │
+     │     - Dataset Credit (Hasan, M. et al., DOI, CC BY 4.0, Changes) (D-29)         │
+     │     - Font License (Noto Sans Bengali OFL 1.1)                                  │
      │     - Advisory Disclaimer (F-08)                                                │
      └─────────────────────────────────────────────────────────────────────────────────┘
 ```
+
 
 ---
 

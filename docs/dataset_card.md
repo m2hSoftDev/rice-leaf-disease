@@ -2,7 +2,7 @@
 
 > **Status:** DRAFT (Task T-005)  
 > **Last Updated:** 2026-11-03  
-> **Governing Decisions:** D-14 (4 classes for v1), D-15 (single source for v1), D-16 (exclusion of unknown licenses)
+> **Governing Decisions:** D-14 (4 classes for v1), D-15 (single source for v1), D-16 (exclusion of unknown licenses), D-24 (EXIF upright processing), D-29 (dataset credit placement)
 
 ---
 
@@ -20,9 +20,15 @@ The primary public dataset for training and initial benchmark evaluation in vers
 
 ## 2. Licensing & Legal Terms
 
-* **License:** Creative Commons Attribution 4.0 International (CC BY 4.0)
+* **License:** [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+* **Full Attribution & Citation (Decision D-29):**
+  > Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: images were re-oriented according to EXIF data and re-encoded for training.
 * **Exact Quoted License Text:**
   > *"Creative Commons Attribution 4.0 International (CC BY 4.0): You can share, copy and modify this dataset so long as you give appropriate credit, provide a link to the CC BY license, and indicate if changes were made, but you may not do so in a way that suggests the rights holder has endorsed you or your use of the dataset. Note that further permission may be required for any content within the dataset that is identified as belonging to a third party."*
+* **Modification Statement (CC BY 4.0 compliance & Decision D-24):**
+  Images were modified from their original archive state: orientation tag 6 images were transposed $90^\circ$ clockwise into native upright portrait rasters (`ImageOps.exif_transpose`) and re-encoded at quality=95 with 4:4:4 subsampling (`subsampling=0`) in `data/processed/hasan_upright/`.
+* **Attribution Scope (Decision D-29):**
+  Dataset credit appears on the About screen, README.md, docs/dataset_card.md, and the Play Store listing. It does not appear on Scan, Result, History, splash, onboarding, or navigation.
 * **License Audit:**
   * Non-Commercial (NC) restriction: **None** (commercial use permissible with credit).
   * Share-Alike (SA) restriction: **None** (derivative works do not require CC copyleft).

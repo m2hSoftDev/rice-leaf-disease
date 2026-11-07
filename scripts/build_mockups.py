@@ -644,8 +644,18 @@ for theme in ["light", "dark"]:
       </div>
 
       <div class="card card-tonal">
-        <h4 class="title-md">License Information</h4>
-        <p class="body-sm">Released under the MIT License (D-01).<br>Embedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1).</p>
+        <h4 class="title-md">Software License</h4>
+        <p class="body-sm">Released under the MIT License (D-01).</p>
+      </div>
+
+      <div class="card card-tonal">
+        <h4 class="title-md">Dataset credit</h4>
+        <p class="body-sm">Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="color: var(--primary); text-decoration: underline;">CC BY 4.0</a>.<br><br>Changes: images were re-oriented according to EXIF data and re-encoded for training.</p>
+      </div>
+
+      <div class="card card-tonal">
+        <h4 class="title-md">Font License</h4>
+        <p class="body-sm">Embedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1).</p>
       </div>
 
       <div class="card card-tonal">

@@ -1,7 +1,7 @@
 """
 scripts/build_mockups.py
 
-Generates 20 standalone Material 3 HTML wireframes in docs/design/mockups/,
+Generates 22 standalone Material 3 HTML wireframes in docs/design/mockups/,
 renders them to PNG in docs/screenshots/design_proposal/ using Chrome headless,
 optimizes PNGs under 2 MB, and creates docs/design/index.html.
 """
@@ -457,7 +457,10 @@ for theme in ["light", "dark"]:
       <div class="card card-tonal">
         <h3 class="title-md">Field Advisory</h3>
         <p class="body-md">Apply balanced fertilizer (NPK); use certified disease-free seeds; ensure field drainage. Consult an agricultural extension officer before taking action.</p>
-        <p class="body-sm" style="margin-top: 8px; font-style: italic;">Advisory only. Not a formal diagnosis.</p>
+      </div>
+      <div class="card card-tonal" style="border-left: 4px solid var(--primary); padding: 10px 14px;">
+        <h4 class="title-md" style="font-size: 13px; margin-bottom: 2px;">Advisory Notice</h4>
+        <p class="body-sm">This tool provides advisory identification only. Consult an agricultural expert before taking action.</p>
       </div>
       <button class="btn-outlined">Scan Another Leaf</button>
     </div>
@@ -484,7 +487,10 @@ for theme in ["light", "dark"]:
       <div class="card card-tonal">
         <h3 class="title-md">মাঠ পর্যায়ের পরামর্শ</h3>
         <p class="body-md">সুষম সার (এনপিকে) প্রয়োগ করুন; বীজ শোধন করুন; জমিতে পরিমিত পানি নিষ্কাশন নিশ্চিত করুন। ব্যবস্থা নেওয়ার পূর্বে কৃষি কর্মকর্তার পরামর্শ নিন।</p>
-        <p class="body-sm" style="margin-top: 8px; font-style: italic;">কেবল পরামর্শের জন্য। চূড়ান্ত সিদ্ধান্ত নয়।</p>
+      </div>
+      <div class="card card-tonal" style="border-left: 4px solid var(--primary); padding: 10px 14px;">
+        <h4 class="title-md" style="font-size: 13px; margin-bottom: 2px;">জরুরি সতর্কবার্তা</h4>
+        <p class="body-sm">এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।</p>
       </div>
       <button class="btn-outlined">আরেকটি পাতা পরীক্ষা করুন</button>
     </div>
@@ -513,7 +519,11 @@ for theme in ["light", "dark"]:
       <!-- D-11 STRICT RULE: NO ADVISORY TEXT OR TREATMENT IS SHOWN -->
       <div class="card card-tonal">
         <h3 class="title-md">Recommended Next Step</h3>
-        <p class="body-md">Take this leaf sample to your nearest Upazila Agriculture Extension Office (DAE) or consult a local sub-assistant agriculture officer for expert evaluation.</p>
+        <p class="body-md">Take this leaf sample to your nearest Upazila Agriculture Office (DAE) for expert evaluation.</p>
+      </div>
+      <div class="card card-tonal" style="border-left: 4px solid var(--primary); padding: 10px 14px;">
+        <h4 class="title-md" style="font-size: 13px; margin-bottom: 2px;">Advisory Notice</h4>
+        <p class="body-sm">This tool provides advisory identification only. Consult an agricultural expert before taking action.</p>
       </div>
       <button class="btn-primary">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
@@ -542,7 +552,11 @@ for theme in ["light", "dark"]:
       <!-- D-11 STRICT RULE: NO ADVISORY TEXT OR TREATMENT IS SHOWN -->
       <div class="card card-tonal">
         <h3 class="title-md">করণীয়</h3>
-        <p class="body-md">পাতাটি আপনার নিকটস্থ উপজেলা কৃষি অফিসে নিয়ে যান অথবা উপসহকারী কৃষি কর্মকর্তার সরাসরি পরামর্শ গ্রহণ করুন।</p>
+        <p class="body-md">পাতাটি আপনার নিকটস্থ উপজেলা কৃষি অফিসে (ডিএই) নিয়ে যান এবং কৃষি কর্মকর্তার পরামর্শ গ্রহণ করুন।</p>
+      </div>
+      <div class="card card-tonal" style="border-left: 4px solid var(--primary); padding: 10px 14px;">
+        <h4 class="title-md" style="font-size: 13px; margin-bottom: 2px;">জরুরি সতর্কবার্তা</h4>
+        <p class="body-sm">এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।</p>
       </div>
       <button class="btn-primary">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
@@ -635,11 +649,6 @@ for theme in ["light", "dark"]:
       </div>
 
       <div class="card card-tonal">
-        <h4 class="title-md">Dataset Attribution</h4>
-        <p class="body-sm">Trained on public rice leaf dataset by Mehedi Hasan, Sonia Khatun, Md. Abu Raihan, Abdul Hasib Uddin (Khwaja Yunus Ali University, Sirajganj, Bangladesh).<br>Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).<br>DOI: 10.17632/hx6f852hw4.2</p>
-      </div>
-
-      <div class="card card-tonal">
         <h4 class="title-md">Advisory Disclaimer</h4>
         <p class="body-sm">This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action.</p>
       </div>
@@ -648,7 +657,7 @@ for theme in ["light", "dark"]:
     html = generate_html(f"About ({theme})", theme, about_content, app_bar_title="About & Credits", active_tab="about")
     (MOCKUPS_DIR / f"about_{theme}.html").write_text(html, encoding="utf-8")
 
-print(f"All 20 HTML files generated successfully in {MOCKUPS_DIR}")
+print(f"All 22 HTML files generated successfully in {MOCKUPS_DIR}")
 
 # ==============================================================================
 # 9. RENDER PNGs VIA CHROME HEADLESS

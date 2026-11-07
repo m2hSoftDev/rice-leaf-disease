@@ -96,7 +96,7 @@ The primary operational screen allowing farmers and extension officers to captur
 ---
 
 ### 3.4 Result Screen: Confident State ($\ge 60\%$ Confidence)
-Rendered when model top prediction has confidence $\ge 60\%$. Displays condition name, confidence %, and field advisory note.
+Rendered when model top prediction has confidence $\ge 60\%$. Displays condition name, confidence %, field advisory note, and compact disclaimer card.
 
 - **Layout Structure**: Top App Bar with back arrow, vertical scrollable content.
 
@@ -106,13 +106,14 @@ Rendered when model top prediction has confidence $\ge 60\%$. Displays condition
 | 2 | Upper Body | `image` (Captured Photo Preview) | Full width, 200 dp height | Thumbnail of analyzed leaf photo | `surfaceVariant` (border) | Displays image preview with subtle rounded corners (12 dp). |
 | 3 | Middle Body | `card` (Likely Condition Card) | Full width, ~140 dp height | Header: `"Likely Condition"` [NEW] / `"সম্ভাব্য রোগ / লক্ষণ"` [NEW]. Title: Disease Name (e.g., `"Brown Spot"` (`diseaseBrownSpot`) / `"বাদামি দাগ রোগ"`). Subtitle: Alternate language name. | Card: `primaryContainer`; Title: `onPrimaryContainer` (bold 22sp); Subtitle: `onPrimaryContainer` (14sp) | High-prominence card identifying the likely condition. |
 | 4 | Inside Condition Card | `bar` (Confidence Bar) + `text` | Height 8 dp bar + 20 dp text | `"Confidence: 87.4% (Likely)"` (`confidenceLabel` + [NEW]) / `"নির্ভরযোগ্যতা: ৮৭.৪% (সম্ভাব্য)"` | Progress: `primary`; Track: `surfaceVariant`; Text: `onPrimaryContainer` | Horizontal progress bar showing confidence percentage. If reduce-motion is enabled, renders filled bar without fill animation. |
-| 5 | Lower Body | `card` (Field Advisory Card) | Full width, ~160 dp height | Header: `"Field Advisory"` (`advisoryTitle`) / `"মাঠ পর্যায়ের পরামর্শ"`. Body: Recommended agricultural management practices from local JSON. Footer: `"Consult an upazila agricultural extension officer before taking chemical measures."` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Displays non-prescriptive advisory note (F-06). |
-| 6 | Bottom Body | `button` (OutlinedButton) | Full width, 50 dp height | Icon: `Icons.replay`; Label: `"Scan Another Leaf"` [NEW] / `"আরেকটি পাতা পরীক্ষা করুন"` [NEW] | `outline` (border), `primary` (text/icon) | Clears state and returns to Scan screen. |
+| 5 | Lower Body | `card` (Field Advisory Card) | Full width, ~160 dp height | Header: `"Field Advisory"` (`advisoryTitle`) / `"মাঠ পর্যায়ের পরামর্শ"`. Body: Recommended agricultural management practices from local JSON. Footer: `"Consult an upazila agricultural extension officer before taking chemical measures."` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Displays non-prescriptive advisory note (F-06). Prohibited terms like "diagnosis" and "cure" strictly omitted. |
+| 6 | Lower Body | `card` (Compact Disclaimer Card) | Full width, ~70 dp height | Header: `"Advisory Notice"` (`disclaimerTitle`) / `"জরুরি সতর্কবার্তা"`. Text: `"This tool provides advisory identification only. Consult an agricultural expert before taking action."` [NEW] / `"এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Compact disclaimer card (F-08) rendered permanently. |
+| 7 | Bottom Body | `button` (OutlinedButton) | Full width, 50 dp height | Icon: `Icons.replay`; Label: `"Scan Another Leaf"` [NEW] / `"আরেকটি পাতা পরীক্ষা করুন"` [NEW] | `outline` (border), `primary` (text/icon) | Clears state and returns to Scan screen. |
 
 ---
 
 ### 3.5 Result Screen: Uncertain State ($< 60\%$ Confidence)
-Rendered when model top prediction has confidence $< 60\%$ (D-11, F-05). Displays warning banner and weak guess; **strictly omits field advisory / treatment section**.
+Rendered when model top prediction has confidence $< 60\%$ (D-11, F-05). Displays warning banner and weak guess; **strictly omits field advisory / treatment section**; includes next steps directing user to Upazila Agriculture Office (DAE) and compact disclaimer card.
 
 - **Layout Structure**: Top App Bar with back arrow, vertical scrollable content.
 
@@ -123,8 +124,10 @@ Rendered when model top prediction has confidence $< 60\%$ (D-11, F-05). Display
 | 3 | Middle Body | `banner` / `card` (Uncertain Warning Banner) | Full width, ~180 dp height | Icon: `Icons.warning_amber_rounded` (36 dp). Title: `"Uncertain Result"` (`uncertainTitle`) / `"অনিশ্চিত ফলাফল"`. Body: `"Confidence is low. Please consult an agricultural expert for guidance."` (`uncertainDescription`) / `app_bn.arb`. | Container: `errorContainer`; Title & Icon: `onErrorContainer` (bold 20sp); Body: `onErrorContainer` (14sp) | High-visibility warning container. Informs farmer that AI confidence is below safety threshold (D-11). |
 | 4 | Inside Banner | `card` (Weak Guess Pill) | Full width, ~50 dp height | `"Possible condition: Brown Spot (52.0%)"` (`weakGuessPrefix` + [NEW]) / `"সম্ভাব্য লক্ষণ: বাদামি দাগ রোগ (৫২.০%)"` | Container: `surface` (50% opacity); Text: `onErrorContainer` (medium 14sp) | Reports top class strictly as an unconfirmed weak guess. |
 | 5 | Hidden Section | **NO ADVISORY CARD** | 0 dp height | None | N/A | **Enforces Rule D-11**: The field advisory section is entirely hidden. No spray, fertilizer, or cultural treatment advice is displayed. |
-| 6 | Lower Body | `card` (Next Steps Card) | Full width, ~110 dp height | Header: `"Recommended Next Step"` [NEW] / `"করণীয়"` [NEW]. Text: `"Show this leaf sample to your local Upazila Agriculture Office (DAE) or sub-assistant agriculture officer."` [NEW] / `"এই পাতাটি আপনার স্থানীয় উপসহকারী কৃষি কর্মকর্তাকে দেখান।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Directs farmer to local human expert. |
-| 7 | Bottom Body | `button` (FilledButton) | Full width, 50 dp height | Icon: `Icons.camera_alt`; Label: `"Retake Photo in Better Light"` [NEW] / `"ভালো আলোতে পুনরায় ছবি তুলুন"` [NEW] | `primary` (bg), `onPrimary` (text) | Encourages retaking photo with better lighting or focus. |
+| 6 | Lower Body | `card` (Next Steps Card) | Full width, ~110 dp height | Header: `"Recommended Next Step"` [NEW] / `"করণীয়"` [NEW]. Text: `"Take this leaf sample to your nearest Upazila Agriculture Office (DAE) for expert evaluation."` [NEW] / `"পাতাটি আপনার নিকটস্থ উপজেলা কৃষি অফিসে (ডিএই) নিয়ে যান এবং কৃষি কর্মকর্তার পরামর্শ গ্রহণ করুন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Directs farmer to Upazila Agriculture Office (DAE). |
+| 7 | Lower Body | `card` (Compact Disclaimer Card) | Full width, ~70 dp height | Header: `"Advisory Notice"` (`disclaimerTitle`) / `"জরুরি সতর্কবার্তা"`. Text: `"This tool provides advisory identification only. Consult an agricultural expert before taking action."` [NEW] / `"এই অ্যাপটি কেবল পরামর্শমূলক। ব্যবস্থা নেওয়ার আগে কৃষি কর্মকর্তার পরামর্শ নিন।"` [NEW] | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Compact disclaimer card (F-08) rendered permanently. |
+| 8 | Bottom Body | `button` (FilledButton) | Full width, 50 dp height | Icon: `Icons.camera_alt`; Label: `"Retake Photo in Better Light"` [NEW] / `"ভালো আলোতে পুনরায় ছবি তুলুন"` [NEW] | `primary` (bg), `onPrimary` (text) | Encourages retaking photo with better lighting or focus. |
+| 9 | Bottom Body | `button` (OutlinedButton) | Full width, 50 dp height | Icon: `Icons.arrow_back`; Label: `"Back to Scan"` [NEW] / `"স্ক্যানে ফিরে যান"` [NEW] | `outline` (border), `primary` (text/icon) | Returns to Scan screen. |
 
 ---
 
@@ -152,7 +155,7 @@ Rendered when model top prediction has confidence $< 60\%$ (D-11, F-05). Display
 ---
 
 ### 3.7 About Screen (Inside Shell: Tab 3)
-Contains app identification, academic credits, third-party licenses, and official disclaimer.
+Contains app identification, academic credits, third-party licenses, and official disclaimer. Verbatim dataset attribution is excluded per project policy (retained only in `README.md` and `docs/dataset_card.md`).
 
 - **Layout Structure**: Vertical scrollable column.
 
@@ -161,8 +164,7 @@ Contains app identification, academic credits, third-party licenses, and officia
 | 1 | Top | `app bar` | Full width, 56 dp height | Title: `"About & Credits"` (`aboutTitle` / [NEW]) / `"অ্যাপ পরিচিতি ও স্বীকৃতি"` [NEW] | `surface` (bg), `onSurface` (text) | App bar. |
 | 2 | Top Body | `card` (App Identity Card) | Full width, ~100 dp height | App Name: `"Rice Leaf Disease Detection"` (`appTitle`). Version: `"Version 1.0.0 (Build 1)"` (`versionLabel` + [NEW]). Researcher: `"Mehedi Hasan — B.Sc. Final Year Project"` [NEW] | Container: `primaryContainer`; Text: `onPrimaryContainer` | Identifies application and academic project attribution. |
 | 3 | Middle Body | `card` (Open Source & License) | Full width, ~140 dp height | Header: `"License Information"` (`licenseTitle`). Body: `"Released under the MIT License (D-01).\nEmbedded font Noto Sans Bengali licensed under SIL Open Font License, Version 1.1 (OFL-1.1)."` (`licenseText` / `docs/licenses_third_party.md`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Legal license declaration. |
-| 4 | Middle Body | `card` (Dataset Attribution) | Full width, ~180 dp height | Header: `"Dataset Credits (Hasan et al.)"` (`creditsTitle`). Body: `"Trained on public rice leaf disease dataset by Mehedi Hasan, Sonia Khatun, Md. Abu Raihan, Abdul Hasib Uddin (Khwaja Yunus Ali University, Sirajganj, Bangladesh).\nLicensed under Creative Commons Attribution 4.0 International (CC BY 4.0).\nDOI: 10.17632/hx6f852hw4.2"` (`data/metadata/licenses.md`). | `surfaceVariant` (bg), `onSurfaceVariant` (text) | Exact academic attribution mandated by CC BY 4.0 and Section 12. |
-| 5 | Lower Body | `card` (Advisory Notice) | Full width, ~130 dp height | Header: `"Advisory Disclaimer"` (`disclaimerTitle`). Body: `"This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action."` (`disclaimerText`). | Card: `surfaceVariant`; Text: `onSurfaceVariant` | Mandatory visible legal disclaimer (F-08). |
+| 4 | Lower Body | `card` (Advisory Notice) | Full width, ~130 dp height | Header: `"Advisory Disclaimer"` (`disclaimerTitle`). Body: `"This tool is advisory only and provides leaf condition identification from photos. It does not replace professional agricultural advice. Please consult an agricultural extension officer before taking action."` (`disclaimerText`). | Card: `surfaceVariant`; Text: `onSurfaceVariant` | Mandatory visible legal disclaimer (F-08). |
 
 ---
 
@@ -192,7 +194,8 @@ Contains app identification, academic credits, third-party licenses, and officia
      │ [ Result: Confident ]      [ Result: Uncertain ]                                │
      │  - Likely condition card    - Warning banner (D-11)                             │
      │  - Confidence %             - Weak guess (no treatment)                         │
-     │  - Field advisory           - Expert consult advice                             │
+     │  - Field advisory           - Expert consult advice (DAE)                       │
+     │  - Compact disclaimer card  - Compact disclaimer card                           │
      │                                                                                 │
      │   [ Tab 2: History Screen ]                                                     │
      │     - State A: Empty State (0 scans)                                            │
@@ -201,7 +204,40 @@ Contains app identification, academic credits, third-party licenses, and officia
      │   [ Tab 3: About Screen ]                                                       │
      │     - Version & Author                                                          │
      │     - MIT License & Noto Sans Bengali OFL 1.1                                   │
-     │     - Hasan et al. CC BY 4.0 Citation & DOI                                     │
      │     - Advisory Disclaimer (F-08)                                                │
      └─────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 5. Mockups & Wireframes Inventory (Count Reconciliation)
+
+The proposed design includes exactly **22 standalone HTML wireframes** and **22 rendered PNG screenshots** covering 8 screens/states across light/dark themes and localizations:
+
+| # | Screen / Feature | Theme & Locale | HTML Wireframe (`docs/design/mockups/`) | Rendered PNG (`docs/screenshots/design_proposal/`) |
+|---|---|---|---|---|
+| 1 | Splash Screen | Light (Default) | `splash_light.html` | `splash_light.png` |
+| 2 | Splash Screen | Dark | `splash_dark.html` | `splash_dark.png` |
+| 3 | Onboarding Screen | Light (EN/BN toggleable) | `onboarding_light.html` | `onboarding_light.png` |
+| 4 | Onboarding Screen | Dark (EN/BN toggleable) | `onboarding_dark.html` | `onboarding_dark.png` |
+| 5 | Scan Screen (Home Tab) | Light, English | `scan_light_en.html` | `scan_light_en.png` |
+| 6 | Scan Screen (Home Tab) | Dark, English | `scan_dark_en.html` | `scan_dark_en.png` |
+| 7 | Scan Screen (Home Tab) | Light, Bangla | `scan_light_bn.html` | `scan_light_bn.png` |
+| 8 | Scan Screen (Home Tab) | Dark, Bangla | `scan_dark_bn.html` | `scan_dark_bn.png` |
+| 9 | Result: Confident State ($\ge 60\%$) | Light, English | `result_confident_light_en.html` | `result_confident_light_en.png` |
+| 10 | Result: Confident State ($\ge 60\%$) | Dark, English | `result_confident_dark_en.html` | `result_confident_dark_en.png` |
+| 11 | Result: Confident State ($\ge 60\%$) | Light, Bangla | `result_confident_light_bn.html` | `result_confident_light_bn.png` |
+| 12 | Result: Confident State ($\ge 60\%$) | Dark, Bangla | `result_confident_dark_bn.html` | `result_confident_dark_bn.png` |
+| 13 | Result: Uncertain State ($< 60\%$) | Light, English | `result_uncertain_light_en.html` | `result_uncertain_light_en.png` |
+| 14 | Result: Uncertain State ($< 60\%$) | Dark, English | `result_uncertain_dark_en.html` | `result_uncertain_dark_en.png` |
+| 15 | Result: Uncertain State ($< 60\%$) | Light, Bangla | `result_uncertain_light_bn.html` | `result_uncertain_light_bn.png` |
+| 16 | Result: Uncertain State ($< 60\%$) | Dark, Bangla | `result_uncertain_dark_bn.html` | `result_uncertain_dark_bn.png` |
+| 17 | History: Empty State | Light | `history_empty_light.html` | `history_empty_light.png` |
+| 18 | History: Empty State | Dark | `history_empty_dark.html` | `history_empty_dark.png` |
+| 19 | History: List Layout | Light | `history_list_light.html` | `history_list_light.png` |
+| 20 | History: List Layout | Dark | `history_list_dark.html` | `history_list_dark.png` |
+| 21 | About Screen | Light | `about_light.html` | `about_light.png` |
+| 22 | About Screen | Dark | `about_dark.html` | `about_dark.png` |
+
+- **True Counts**: 22 HTML wireframes and 22 PNG screenshots.
+- **Folder Size**: `docs/screenshots/design_proposal/` total size is 0.61 MB (well below the 2.0 MB ceiling).

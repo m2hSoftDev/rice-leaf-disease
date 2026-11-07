@@ -179,16 +179,49 @@ void main() {
   });
 
   group('T-063 Integration Tests: Python fp16 Parity', () {
-    test(
-      'run model on committed fixture image and assert top-1 matches Python fp16 result',
-      () {
-        // Step 4 specification:
-        // "Integration test: run the model on one committed fixture image and assert the
-        //  top-1 label matches the Python fp16 result for that image. If no fixture image
-        //  can be committed, skip with a clear message and report it."
-      },
-      skip: 'No fixture image can be committed per repository Section 12 data policy (public datasets downloaded via scripts).',
-    );
+    test('run model on synthetic committed fixture image and assert top-1 matches Python fp16 parity within 0.02', () async {
+      // NOTE: This test fixture image (app/test/fixtures/synthetic_leaf.jpg) is 100% synthetically
+      // generated in code via src/eval/generate_synthetic_fixture.py. It is not derived from any
+      // dataset image and carries zero copyright or license restrictions.
+      final fixtureImageFile = File('test/fixtures/synthetic_leaf.jpg');
+      final fixtureExpectedFile = File('test/fixtures/synthetic_fixture_expected.json');
+
+      expect(fixtureImageFile.existsSync(), isTrue, reason: 'synthetic_leaf.jpg fixture must exist');
+      expect(fixtureExpectedFile.existsSync(), isTrue, reason: 'synthetic_fixture_expected.json must exist');
+
+      final expectedJson = jsonDecode(await fixtureExpectedFile.readAsString()) as Map<String, dynamic>;
+      final expectedLabel = expectedJson['top1_label'] as String;
+      final expectedIndex = expectedJson['top1_index'] as int;
+      final expectedConfidence = (expectedJson['top1_confidence'] as num).toDouble();
+
+      final preprocessor = PreprocessService();
+      final imageBytes = await fixtureImageFile.readAsBytes();
+      final tensor = preprocessor.preprocess(imageBytes, applyExifOrientation: true);
+
+      final result = await service.runInference(tensor);
+
+      final confidenceDiff = (result.confidence - expectedConfidence).abs();
+
+      print('================================================================');
+      print('SYNTHETIC FIXTURE PARITY TEST RESULTS:');
+      print('  Predicted Class: ${result.label} (index ${result.classIndex})');
+      print('  Expected Class:  $expectedLabel (index $expectedIndex)');
+      print('  Dart Confidence:   ${result.confidence.toStringAsFixed(6)} (${(result.confidence * 100).toStringAsFixed(2)}%)');
+      print('  Python Confidence: ${expectedConfidence.toStringAsFixed(6)} (${(expectedConfidence * 100).toStringAsFixed(2)}%)');
+      print('  Absolute Difference: ${confidenceDiff.toStringAsFixed(6)} (threshold <= 0.02)');
+      print('================================================================');
+
+      // Assert top-1 label strictly matches Python fp16 output
+      expect(result.label, equals(expectedLabel));
+      expect(result.classIndex, equals(expectedIndex));
+
+      // Assert confidence differs by no more than 0.02
+      expect(
+        confidenceDiff,
+        lessThanOrEqualTo(0.02),
+        reason: 'Dart TFLite confidence must differ from Python fp16 confidence by no more than 0.02',
+      );
+    });
 
     test('Local test image parity check (Healthy_rice_leaf 17) if data directory is available', () async {
       final candidates = [

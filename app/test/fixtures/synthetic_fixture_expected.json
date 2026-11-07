@@ -1,0 +1,25 @@
+{
+  "description": "Synthetic 224x224 test fixture image for TFLite inference parity verification. Created purely in code (no dataset image; no license restrictions).",
+  "filename": "synthetic_leaf.jpg",
+  "image_size": [
+    224,
+    224,
+    3
+  ],
+  "model_file": "model_fp16_seed43.tflite",
+  "top1_label": "brown_spot",
+  "top1_index": 1,
+  "top1_confidence": 0.869379,
+  "class_probabilities": [
+    0.003116,
+    0.869379,
+    0.050398,
+    0.077107
+  ],
+  "probabilities_by_class": {
+    "bacterial_leaf_blight": 0.003116,
+    "brown_spot": 0.869379,
+    "healthy": 0.050398,
+    "leaf_blast": 0.077107
+  }
+}

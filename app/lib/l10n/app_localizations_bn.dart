@@ -118,4 +118,131 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get versionLabel => 'সংস্করণ';
+
+  @override
+  String get navScan => 'স্ক্যান';
+
+  @override
+  String get navHistory => 'হিস্ট্রি';
+
+  @override
+  String get navAbout => 'সম্পর্কে';
+
+  @override
+  String get viewfinderInstruction => 'পাতার আক্রান্ত অংশটি ফ্রেমের মাঝে রাখুন';
+
+  @override
+  String get shutterLabel => 'ছবি তুলুন';
+
+  @override
+  String get shutterSemantics => 'পাতার ছবি তুলুন';
+
+  @override
+  String get galleryLabel => 'গ্যালারি';
+
+  @override
+  String get helpLabel => 'সাহায্য';
+
+  @override
+  String get disclaimerStrip =>
+      '⚠️ জরুরি সতর্কবার্তা: এটি কেবল তথ্য ও পরামর্শের জন্য। বিস্তারিত দেখতে ট্যাপ করুন।';
+
+  @override
+  String get permissionDeniedTitle => 'ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন';
+
+  @override
+  String get permissionDeniedMessage =>
+      'সরাসরি ছবি তোলার জন্য ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন। আপনি এখনো গ্যালারি থেকে ছবি বাছাই করতে পারেন।';
+
+  @override
+  String get openSettings => 'সেটিংস খুলুন';
+
+  @override
+  String get photoSelectedTitle => 'ছবি নির্বাচন করা হয়েছে';
+
+  @override
+  String get analyzeLeaf => 'পাতা বিশ্লেষণ করুন';
+
+  @override
+  String get retakeChange => 'পুনরায় তুলুন / পরিবর্তন';
+
+  @override
+  String get analyzingTitle => 'পাতা বিশ্লেষণ করা হচ্ছে...';
+
+  @override
+  String get analyzingSubtitle =>
+      'ডিভাইসে এআই মডেল (MobileNetV2) দিয়ে বিশ্লেষণ চলছে...';
+
+  @override
+  String get scanResultTitle => 'ফলাফল';
+
+  @override
+  String get likelyCondition => 'সম্ভাব্য রোগ / লক্ষণ';
+
+  @override
+  String get likelyTag => 'সম্ভাব্য';
+
+  @override
+  String get scanAnother => 'আরেকটি পাতা পরীক্ষা করুন';
+
+  @override
+  String get retakeBetterLight => 'ভালো আলোতে পুনরায় ছবি তুলুন';
+
+  @override
+  String get backToScan => 'স্ক্যানে ফিরে যান';
+
+  @override
+  String get extensionOfficeAdvisory =>
+      'সঠিক রোগ শনাক্তকরণ ও পরামর্শের জন্য স্থানীয় উপজেলা কৃষি অফিসে (ডিএই) যোগাযোগ করুন।';
+
+  @override
+  String get nextStepsTitle => 'পরবর্তী করণীয়';
+
+  @override
+  String get nextStepsText =>
+      'সঠিক মূল্যায়নের জন্য পাতার এই নমুনাটি আপনার নিকটস্থ উপজেলা কৃষি অফিসে (ডিএই) নিয়ে যান।';
+
+  @override
+  String get startFirstScan => 'প্রথম স্ক্যান শুরু করুন';
+
+  @override
+  String get historyEmptyDesc =>
+      'ফলাফল এই ডিভাইসে অফলাইনে সংরক্ষিত থাকে যাতে সময়ের সাথে সাথে ফসলের অবস্থা পর্যবেক্ষণ করা যায়।';
+
+  @override
+  String get clearAll => 'সব মুছুন';
+
+  @override
+  String get clearAllConfirmTitle => 'সকল পূর্ববর্তী তথ্য মুছে ফেলবেন?';
+
+  @override
+  String get clearAllConfirmMessage =>
+      'এটি ডিভাইসে সংরক্ষিত সকল পূর্ববর্তী স্ক্যানের ইতিহাস মুছে ফেলবে। এটি পুনরুদ্ধার করা সম্ভব নয়।';
+
+  @override
+  String get cancel => 'বাতিল';
+
+  @override
+  String get delete => 'মুছে ফেলুন';
+
+  @override
+  String get aboutAndCredits => 'অ্যাপ পরিচিতি ও স্বীকৃতি';
+
+  @override
+  String get developerCredit =>
+      'মেহেদী হাসান কর্তৃক স্নাতক চূড়ান্ত বর্ষের শিক্ষায়তনিক প্রকল্প হিসেবে প্রস্তুতকৃত।';
+
+  @override
+  String get datasetCreditTitle => 'ডেটাসেট কৃতিত্ব';
+
+  @override
+  String get datasetCreditText =>
+      'ধানের পাতার ছবি: হাসান, এম. প্রমুখ (২০২৩), মেন্ডেলে ডেটা, DOI 10.17632/hx6f852hw4.2, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/) লাইসেন্সের অধীন। পরিবর্তন: EXIF ডেটা অনুযায়ী ছবির ওরিয়েন্টেশন সংশোধন করা হয়েছে এবং প্রশিক্ষণের জন্য পুনরায় এনকোড করা হয়েছে।';
+
+  @override
+  String get privacyPolicyTitle => 'গোপনীয়তা নীতি';
+
+  @override
+  String get privacyPolicySubtitle =>
+      'সম্পূর্ণ অফলাইন। কোনো ব্যক্তিগত তথ্য বা ছবি সংগ্রহ বা আদান-প্রদান করা হয় না।';
 }

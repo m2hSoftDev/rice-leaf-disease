@@ -307,6 +307,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get versionLabel;
+
+  /// Navigation destination label for Scan
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get navScan;
+
+  /// Navigation destination label for History
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get navHistory;
+
+  /// Navigation destination label for About
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get navAbout;
+
+  /// One-line guidance instruction below camera viewfinder
+  ///
+  /// In en, this message translates to:
+  /// **'Position diseased rice leaf in center'**
+  String get viewfinderInstruction;
+
+  /// Label for camera shutter button
+  ///
+  /// In en, this message translates to:
+  /// **'Capture'**
+  String get shutterLabel;
+
+  /// Accessible label for camera shutter button
+  ///
+  /// In en, this message translates to:
+  /// **'Capture leaf photo'**
+  String get shutterSemantics;
+
+  /// Label for gallery picker button
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get galleryLabel;
+
+  /// Label for capture help button
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get helpLabel;
+
+  /// Compact expandable disclaimer strip on capture page (F-08)
+  ///
+  /// In en, this message translates to:
+  /// **'⚠️ Advisory notice: Advisory tool only; not extension advice. Tap for details.'**
+  String get disclaimerStrip;
+
+  /// Title when camera permission is denied
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Access Needed'**
+  String get permissionDeniedTitle;
+
+  /// Message explaining camera permission requirement with gallery fallback
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission is required to capture photos directly. You can still select photos from your gallery.'**
+  String get permissionDeniedMessage;
+
+  /// Button to open application settings
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// Title in photo selected state
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Selected'**
+  String get photoSelectedTitle;
+
+  /// Button to initiate on-device model inference
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze Leaf'**
+  String get analyzeLeaf;
+
+  /// Button to retake or choose different leaf photo
+  ///
+  /// In en, this message translates to:
+  /// **'Retake / Change'**
+  String get retakeChange;
+
+  /// Title shown during model analysis isolate execution
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing Rice Leaf...'**
+  String get analyzingTitle;
+
+  /// Subtitle indicating offline MobileNetV2 inference
+  ///
+  /// In en, this message translates to:
+  /// **'Running on-device AI model (MobileNetV2)...'**
+  String get analyzingSubtitle;
+
+  /// App bar title for result screen
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Result'**
+  String get scanResultTitle;
+
+  /// Header for confident disease prediction (>= 60%)
+  ///
+  /// In en, this message translates to:
+  /// **'Likely Condition'**
+  String get likelyCondition;
+
+  /// Tag indicator on confidence bar
+  ///
+  /// In en, this message translates to:
+  /// **'Likely'**
+  String get likelyTag;
+
+  /// Button to return to scan screen from result
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Another Leaf'**
+  String get scanAnother;
+
+  /// Button to retake photo when result is uncertain
+  ///
+  /// In en, this message translates to:
+  /// **'Retake Photo in Better Light'**
+  String get retakeBetterLight;
+
+  /// Button to return to scan page
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Scan'**
+  String get backToScan;
+
+  /// Advisory note directing farmer to DAE extension office
+  ///
+  /// In en, this message translates to:
+  /// **'For official identification and management advice, consult your local Upazila Agriculture Office (DAE).'**
+  String get extensionOfficeAdvisory;
+
+  /// Card title for next steps in uncertain result state
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Next Steps'**
+  String get nextStepsTitle;
+
+  /// Guidance directing farmer to DAE when confidence is uncertain
+  ///
+  /// In en, this message translates to:
+  /// **'Take this leaf sample to your nearest Upazila Agriculture Office (DAE) for expert evaluation.'**
+  String get nextStepsText;
+
+  /// Button in history empty state to start first scan
+  ///
+  /// In en, this message translates to:
+  /// **'Start First Scan'**
+  String get startFirstScan;
+
+  /// Description in history empty state explaining offline local storage
+  ///
+  /// In en, this message translates to:
+  /// **'Scans are stored offline on this device so you can track conditions over time.'**
+  String get historyEmptyDesc;
+
+  /// Action to clear all past scans from history
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get clearAll;
+
+  /// Title of clear all confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all past scans?'**
+  String get clearAllConfirmTitle;
+
+  /// Message of clear all confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'This will delete all saved scan history on this device. This action cannot be undone.'**
+  String get clearAllConfirmMessage;
+
+  /// Cancel button label in dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Delete confirmation button label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Title for about screen
+  ///
+  /// In en, this message translates to:
+  /// **'About & Credits'**
+  String get aboutAndCredits;
+
+  /// Developer attribution statement
+  ///
+  /// In en, this message translates to:
+  /// **'Academic final-year project by Mehedi Hasan.'**
+  String get developerCredit;
+
+  /// Title for D-29 dataset credit card
+  ///
+  /// In en, this message translates to:
+  /// **'Dataset Credit'**
+  String get datasetCreditTitle;
+
+  /// Exact approved D-29 dataset attribution statement with CC BY 4.0 link and modification note
+  ///
+  /// In en, this message translates to:
+  /// **'Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: images were re-oriented according to EXIF data and re-encoded for training.'**
+  String get datasetCreditText;
+
+  /// Title for privacy policy row on About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
+
+  /// Subtitle describing offline privacy guarantee
+  ///
+  /// In en, this message translates to:
+  /// **'100% offline. Zero personal data or photos collected or shared.'**
+  String get privacyPolicySubtitle;
 }
 
 class _AppLocalizationsDelegate

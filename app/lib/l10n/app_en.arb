@@ -139,5 +139,161 @@
   "versionLabel": "Version",
   "@versionLabel": {
     "description": "App version label"
+  },
+  "navScan": "Scan",
+  "@navScan": {
+    "description": "Navigation destination label for Scan"
+  },
+  "navHistory": "History",
+  "@navHistory": {
+    "description": "Navigation destination label for History"
+  },
+  "navAbout": "About",
+  "@navAbout": {
+    "description": "Navigation destination label for About"
+  },
+  "viewfinderInstruction": "Position diseased rice leaf in center",
+  "@viewfinderInstruction": {
+    "description": "One-line guidance instruction below camera viewfinder"
+  },
+  "shutterLabel": "Capture",
+  "@shutterLabel": {
+    "description": "Label for camera shutter button"
+  },
+  "shutterSemantics": "Capture leaf photo",
+  "@shutterSemantics": {
+    "description": "Accessible label for camera shutter button"
+  },
+  "galleryLabel": "Gallery",
+  "@galleryLabel": {
+    "description": "Label for gallery picker button"
+  },
+  "helpLabel": "Help",
+  "@helpLabel": {
+    "description": "Label for capture help button"
+  },
+  "disclaimerStrip": "⚠️ Advisory notice: Advisory tool only; not extension advice. Tap for details.",
+  "@disclaimerStrip": {
+    "description": "Compact expandable disclaimer strip on capture page (F-08)"
+  },
+  "permissionDeniedTitle": "Camera Access Needed",
+  "@permissionDeniedTitle": {
+    "description": "Title when camera permission is denied"
+  },
+  "permissionDeniedMessage": "Camera permission is required to capture photos directly. You can still select photos from your gallery.",
+  "@permissionDeniedMessage": {
+    "description": "Message explaining camera permission requirement with gallery fallback"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Button to open application settings"
+  },
+  "photoSelectedTitle": "Photo Selected",
+  "@photoSelectedTitle": {
+    "description": "Title in photo selected state"
+  },
+  "analyzeLeaf": "Analyze Leaf",
+  "@analyzeLeaf": {
+    "description": "Button to initiate on-device model inference"
+  },
+  "retakeChange": "Retake / Change",
+  "@retakeChange": {
+    "description": "Button to retake or choose different leaf photo"
+  },
+  "analyzingTitle": "Analyzing Rice Leaf...",
+  "@analyzingTitle": {
+    "description": "Title shown during model analysis isolate execution"
+  },
+  "analyzingSubtitle": "Running on-device AI model (MobileNetV2)...",
+  "@analyzingSubtitle": {
+    "description": "Subtitle indicating offline MobileNetV2 inference"
+  },
+  "scanResultTitle": "Scan Result",
+  "@scanResultTitle": {
+    "description": "App bar title for result screen"
+  },
+  "likelyCondition": "Likely Condition",
+  "@likelyCondition": {
+    "description": "Header for confident disease prediction (>= 60%)"
+  },
+  "likelyTag": "Likely",
+  "@likelyTag": {
+    "description": "Tag indicator on confidence bar"
+  },
+  "scanAnother": "Scan Another Leaf",
+  "@scanAnother": {
+    "description": "Button to return to scan screen from result"
+  },
+  "retakeBetterLight": "Retake Photo in Better Light",
+  "@retakeBetterLight": {
+    "description": "Button to retake photo when result is uncertain"
+  },
+  "backToScan": "Back to Scan",
+  "@backToScan": {
+    "description": "Button to return to scan page"
+  },
+  "extensionOfficeAdvisory": "For official identification and management advice, consult your local Upazila Agriculture Office (DAE).",
+  "@extensionOfficeAdvisory": {
+    "description": "Advisory note directing farmer to DAE extension office"
+  },
+  "nextStepsTitle": "Recommended Next Steps",
+  "@nextStepsTitle": {
+    "description": "Card title for next steps in uncertain result state"
+  },
+  "nextStepsText": "Take this leaf sample to your nearest Upazila Agriculture Office (DAE) for expert evaluation.",
+  "@nextStepsText": {
+    "description": "Guidance directing farmer to DAE when confidence is uncertain"
+  },
+  "startFirstScan": "Start First Scan",
+  "@startFirstScan": {
+    "description": "Button in history empty state to start first scan"
+  },
+  "historyEmptyDesc": "Scans are stored offline on this device so you can track conditions over time.",
+  "@historyEmptyDesc": {
+    "description": "Description in history empty state explaining offline local storage"
+  },
+  "clearAll": "Clear All",
+  "@clearAll": {
+    "description": "Action to clear all past scans from history"
+  },
+  "clearAllConfirmTitle": "Clear all past scans?",
+  "@clearAllConfirmTitle": {
+    "description": "Title of clear all confirmation dialog"
+  },
+  "clearAllConfirmMessage": "This will delete all saved scan history on this device. This action cannot be undone.",
+  "@clearAllConfirmMessage": {
+    "description": "Message of clear all confirmation dialog"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label in dialogs"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete confirmation button label"
+  },
+  "aboutAndCredits": "About & Credits",
+  "@aboutAndCredits": {
+    "description": "Title for about screen"
+  },
+  "developerCredit": "Academic final-year project by Mehedi Hasan.",
+  "@developerCredit": {
+    "description": "Developer attribution statement"
+  },
+  "datasetCreditTitle": "Dataset Credit",
+  "@datasetCreditTitle": {
+    "description": "Title for D-29 dataset credit card"
+  },
+  "datasetCreditText": "Rice leaf images: Hasan, M. et al. (2023), Mendeley Data, DOI 10.17632/hx6f852hw4.2, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Changes: images were re-oriented according to EXIF data and re-encoded for training.",
+  "@datasetCreditText": {
+    "description": "Exact approved D-29 dataset attribution statement with CC BY 4.0 link and modification note"
+  },
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": {
+    "description": "Title for privacy policy row on About screen"
+  },
+  "privacyPolicySubtitle": "100% offline. Zero personal data or photos collected or shared.",
+  "@privacyPolicySubtitle": {
+    "description": "Subtitle describing offline privacy guarantee"
   }
 }

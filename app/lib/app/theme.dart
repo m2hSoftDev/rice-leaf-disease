@@ -1,100 +1,286 @@
 import 'package:flutter/material.dart';
 
-/// App theme implementation adhering to Material 3, high-contrast accessibility,
-/// minimum 48 dp touch target size, and system-scaled typography.
+/// App theme and design tokens adhering strictly to docs/design/tokens.md
+/// and Material 3 specifications.
 class AppTheme {
   static const String banglaFontFamily = 'NotoSansBengali';
 
-  // High-contrast primary colors (contrast ratio >= 7:1 against light surfaces)
-  static const Color primary = Color(0xFF134E17);
-  static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color primaryContainer = Color(0xFFB7F397);
-  static const Color onPrimaryContainer = Color(0xFF042100);
+  // Seed Color: Material Green 800 (#2E7D32)
+  static const Color seedColor = Color(0xFF2E7D32);
 
-  static const Color secondary = Color(0xFF1E3A8A);
-  static const Color onSecondary = Color(0xFFFFFFFF);
+  // Spacing tokens (dp)
+  static const double spaceXxs = 4.0;
+  static const double spaceXs = 8.0;
+  static const double spaceSm = 12.0;
+  static const double spaceMd = 16.0;
+  static const double spaceLg = 20.0;
+  static const double spaceXl = 24.0;
+  static const double space2Xl = 32.0;
+  static const double space3Xl = 40.0;
+  static const double space4Xl = 48.0;
+  static const double spaceShutter = 72.0;
 
-  static const Color surface = Color(0xFFFFFFFF);
-  static const Color onSurface = Color(0xFF111111);
-  static const Color surfaceContainerHighest = Color(0xFFE2E7DE);
-  static const Color onSurfaceVariant = Color(0xFF1F241E);
+  // Touch target & geometry tokens
+  static const double minTouchTarget = 48.0;
+  static const double shutterDiameter = 72.0;
+  static const double controlButtonDiameter = 56.0;
 
-  static const Color error = Color(0xFFB00020);
-  static const Color onError = Color(0xFFFFFFFF);
+  // Radii tokens
+  static const double radiusCard = 16.0;
+  static const double radiusButton = 12.0;
+  static const double radiusChip = 8.0;
 
-  /// Returns localized theme with Noto Sans Bengali font for Bangla locale,
-  /// and system default font for English locale.
-  static ThemeData getTheme(Locale locale) {
+  // Motion tokens
+  static const Duration motionShort = Duration(milliseconds: 200);
+  static const Duration motionStandard = Duration(milliseconds: 300);
+  static const Duration motionEmphasized = Duration(milliseconds: 350);
+
+  /// Returns 0 ms when reduce-motion is enabled in system settings;
+  /// otherwise returns the requested standard duration.
+  static Duration motionDuration(BuildContext context, Duration duration) {
+    final disableAnimations = MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    if (disableAnimations) {
+      return Duration.zero;
+    }
+    return duration;
+  }
+
+  /// Builds TextTheme matching tokens.md M3 type scale.
+  static TextTheme _buildTextTheme(String? fontFamily) {
+    return TextTheme(
+      displayLarge: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 57,
+        fontWeight: FontWeight.w400,
+        height: 64 / 57,
+        letterSpacing: -0.25,
+      ),
+      displayMedium: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 45,
+        fontWeight: FontWeight.w400,
+        height: 52 / 45,
+      ),
+      headlineLarge: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 32,
+        fontWeight: FontWeight.w700,
+        height: 40 / 32,
+      ),
+      headlineMedium: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 28,
+        fontWeight: FontWeight.w600,
+        height: 36 / 28,
+      ),
+      headlineSmall: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 24,
+        fontWeight: FontWeight.w500,
+        height: 32 / 24,
+      ),
+      titleLarge: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 22,
+        fontWeight: FontWeight.w700,
+        height: 28 / 22,
+      ),
+      titleMedium: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        height: 24 / 16,
+        letterSpacing: 0.15,
+      ),
+      titleSmall: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        height: 20 / 14,
+        letterSpacing: 0.1,
+      ),
+      bodyLarge: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        height: 24 / 16,
+        letterSpacing: 0.5,
+      ),
+      bodyMedium: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        height: 20 / 14,
+        letterSpacing: 0.25,
+      ),
+      bodySmall: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 16 / 12,
+        letterSpacing: 0.4,
+      ),
+      labelLarge: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        height: 20 / 14,
+        letterSpacing: 0.1,
+      ),
+      labelMedium: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        height: 16 / 12,
+        letterSpacing: 0.5,
+      ),
+      labelSmall: TextStyle(
+        fontFamily: fontFamily,
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+        height: 16 / 11,
+        letterSpacing: 0.5,
+      ),
+    );
+  }
+
+  /// Returns localized ThemeData for light or dark mode.
+  /// Bangla locale uses bundled Noto Sans Bengali font; English uses system font.
+  static ThemeData getTheme(
+    Locale locale, {
+    Brightness brightness = Brightness.light,
+  }) {
     final String? fontFamily = locale.languageCode == 'bn' ? banglaFontFamily : null;
 
-    final colorScheme = ColorScheme(
-      brightness: Brightness.light,
-      primary: primary,
-      onPrimary: onPrimary,
-      primaryContainer: primaryContainer,
-      onPrimaryContainer: onPrimaryContainer,
-      secondary: secondary,
-      onSecondary: onSecondary,
-      surface: surface,
-      onSurface: onSurface,
-      surfaceContainerHighest: surfaceContainerHighest,
-      onSurfaceVariant: onSurfaceVariant,
-      error: error,
-      onError: onError,
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness,
     );
+
+    final textTheme = _buildTextTheme(fontFamily);
 
     return ThemeData(
       useMaterial3: true,
       fontFamily: fontFamily,
       colorScheme: colorScheme,
+      brightness: brightness,
+      textTheme: textTheme,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
-      scaffoldBackgroundColor: surface,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: primary,
-        foregroundColor: onPrimary,
+      scaffoldBackgroundColor: colorScheme.surface,
+      appBarTheme: AppBarTheme(
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
+        surfaceTintColor: colorScheme.surfaceTint,
         elevation: 0,
+        scrolledUnderElevation: 2,
         centerTitle: false,
+        titleTextStyle: textTheme.titleLarge?.copyWith(
+          color: colorScheme.onSurface,
+        ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        height: 80,
+        backgroundColor: colorScheme.surfaceContainer,
+        indicatorColor: colorScheme.primaryContainer,
+        elevation: 2,
+        labelTextStyle: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return textTheme.labelMedium?.copyWith(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w600,
+            );
+          }
+          return textTheme.labelMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          );
+        }),
+        iconTheme: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.selected)) {
+            return IconThemeData(
+              color: colorScheme.onPrimaryContainer,
+              size: 24,
+            );
+          }
+          return IconThemeData(
+            color: colorScheme.onSurfaceVariant,
+            size: 24,
+          );
+        }),
+      ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: colorScheme.surfaceContainer,
+        indicatorColor: colorScheme.primaryContainer,
+        elevation: 2,
+        labelType: NavigationRailLabelType.all,
+        selectedLabelTextStyle: textTheme.labelMedium?.copyWith(
+          color: colorScheme.onSurface,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelTextStyle: textTheme.labelMedium?.copyWith(
+          color: colorScheme.onSurfaceVariant,
+        ),
+        selectedIconTheme: IconThemeData(
+          color: colorScheme.onPrimaryContainer,
+          size: 24,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: colorScheme.onSurfaceVariant,
+          size: 24,
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size(48, 48), // Section 9.4 touch target
+          minimumSize: const Size(minTouchTarget, minTouchTarget),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          foregroundColor: onPrimary,
-          backgroundColor: primary,
+          foregroundColor: colorScheme.onPrimary,
+          backgroundColor: colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusButton),
+          ),
           tapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          minimumSize: const Size(48, 48),
+          minimumSize: const Size(minTouchTarget, minTouchTarget),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          foregroundColor: primary,
+          foregroundColor: colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusButton),
+          ),
+          side: BorderSide(color: colorScheme.outline, width: 1.5),
           tapTargetSize: MaterialTapTargetSize.padded,
-          side: const BorderSide(color: primary, width: 2),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          minimumSize: const Size(48, 48),
+          minimumSize: const Size(minTouchTarget, minTouchTarget),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          foregroundColor: primary,
+          foregroundColor: colorScheme.primary,
           tapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
-          minimumSize: const Size(48, 48),
+          minimumSize: const Size(minTouchTarget, minTouchTarget),
           tapTargetSize: MaterialTapTargetSize.padded,
         ),
       ),
       cardTheme: CardThemeData(
-        color: surface,
-        elevation: 2,
+        color: colorScheme.surface,
+        elevation: 1,
+        surfaceTintColor: colorScheme.surfaceTint,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: surfaceContainerHighest, width: 1),
+          borderRadius: BorderRadius.circular(radiusCard),
+          side: BorderSide(color: colorScheme.outlineVariant, width: 1),
         ),
+      ),
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusCard),
+        ),
+        backgroundColor: colorScheme.surfaceContainer,
       ),
     );
   }

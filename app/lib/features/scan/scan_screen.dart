@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ricedisease/app/providers.dart';
 import 'package:ricedisease/app/theme.dart';
 import 'package:ricedisease/core/constants.dart';
 import 'package:ricedisease/core/locale_provider.dart';
 import 'package:ricedisease/l10n/app_localizations.dart';
+import 'package:ricedisease/services/inference_service.dart';
+import 'package:ricedisease/services/preprocess_service.dart';
 import 'package:ricedisease/widgets/disclaimer_card.dart';
 
 // TODO(T-063): Wire live camera controller using camera package when camera permissions and lifecycle handling are finalized in M6.
@@ -20,10 +24,14 @@ enum CaptureState {
 /// and docs/design/ui_spec.md Section 4.3.
 class ScanScreen extends ConsumerStatefulWidget {
   final CaptureState initialState;
+  final PreprocessService? preprocessService;
+  final InferenceService? inferenceService;
 
   const ScanScreen({
     super.key,
     this.initialState = CaptureState.idle,
+    this.preprocessService,
+    this.inferenceService,
   });
 
   @override
@@ -32,6 +40,12 @@ class ScanScreen extends ConsumerStatefulWidget {
 
 class _ScanScreenState extends ConsumerState<ScanScreen> {
   late CaptureState _currentState;
+
+  PreprocessService get _preprocessService =>
+      widget.preprocessService ?? ref.read(preprocessServiceProvider);
+
+  InferenceService get _inferenceService =>
+      widget.inferenceService ?? ref.read(inferenceServiceProvider);
 
   @override
   void initState() {
@@ -44,32 +58,121 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
         _currentState == CaptureState.analyzing) {
       return;
     }
-    // Simulate capturing a photo
-    setState(() {
-      _currentState = CaptureState.photoSelected;
-    });
+    // TODO(T-063): Camera live preview and capture integration pending camera package in M6.
+    // The shutter must not show a fake result (T-060c).
+    final isBn = Localizations.localeOf(context).languageCode == 'bn';
+    final msg = isBn
+        ? 'ক্যামেরা ক্যাপচার পরবর্তী আপডেটে যুক্ত করা হবে। অনুগ্রহ করে গ্যালারি থেকে ছবি নির্বাচন করুন।'
+        : 'Camera capture will be available in an upcoming update. Please select a photo from your gallery.';
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          msg,
+          key: const Key('shutter_todo_message'),
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
-  void _onGalleryTap() {
-    // Gallery picker is always available, even in permission-denied state
-    setState(() {
-      _currentState = CaptureState.photoSelected;
-    });
+  Future<void> _onGalleryTap() async {
+    if (_currentState == CaptureState.analyzing) {
+      return;
+    }
+
+    try {
+      final xFile =
+          await _preprocessService.pickImage(source: ImageSource.gallery);
+      if (xFile == null) {
+        return;
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.analyzing;
+      });
+
+      final bytes = await xFile.readAsBytes();
+      final inputTensor = _preprocessService.preprocess(bytes);
+      final result = await _inferenceService.runInference(inputTensor);
+
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+
+      Navigator.of(context).pushNamed(
+        AppRoutes.result,
+        arguments: result,
+      );
+    } on ImageTooLargeException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    } on InvalidImageFormatException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    } on ImageDecodeException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    }
+  }
+
+  String _getLocalizedErrorMessage(Object error) {
+    final isBn = Localizations.localeOf(context).languageCode == 'bn';
+    if (error is ImageTooLargeException) {
+      return isBn
+          ? 'ছবির সাইজ ১০ মেগাবাইটের বেশি। অনুগ্রহ করে ১০ মেগাবাইটের কম সাইজের ছবি নির্বাচন করুন।'
+          : error.message;
+    }
+    if (error is InvalidImageFormatException) {
+      return isBn
+          ? 'অসমর্থিত ফাইল ফরম্যাট। শুধুমাত্র JPG এবং PNG ছবি সমর্থিত।'
+          : error.message;
+    }
+    if (error is ImageDecodeException) {
+      return isBn
+          ? 'ছবি ডিকোড করতে ব্যর্থ হয়েছে। অনুগ্রহ করে পরিষ্কার ছবি নির্বাচন করুন।'
+          : error.message;
+    }
+    return isBn
+        ? 'ছবি প্রক্রিয়া করতে ত্রুটি হয়েছে: ${error.toString()}'
+        : 'Error processing image: ${error.toString()}';
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          key: const Key('scan_error_snackbar_text'),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 4),
+      ),
+    );
   }
 
   void _onAnalyzeTap() {
     setState(() {
-      _currentState = CaptureState.analyzing;
-    });
-    // In production, InferenceService isolate runs here.
-    // For navigation flow, navigate to ResultScreen after brief processing.
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted) {
-        setState(() {
-          _currentState = CaptureState.idle;
-        });
-        Navigator.of(context).pushNamed(AppRoutes.result);
-      }
+      _currentState = CaptureState.idle;
     });
   }
 
@@ -503,7 +606,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                 ),
                 const SizedBox(width: 12),
                 FilledButton(
-                  key: const Key('nav_result_button'),
+                  key: const Key('scan_analyze_button'),
                   onPressed: _onAnalyzeTap,
                   child: Text(l10n?.analyzeLeaf ?? 'Analyze Leaf'),
                 ),

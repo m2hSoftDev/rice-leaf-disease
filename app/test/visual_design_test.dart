@@ -1,8 +1,12 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ricedisease/app/app.dart';
+import 'package:ricedisease/app/providers.dart';
+import 'package:ricedisease/app/router.dart';
 import 'package:ricedisease/app/theme.dart';
 import 'package:ricedisease/core/constants.dart';
 import 'package:ricedisease/core/locale_provider.dart';
@@ -13,6 +17,8 @@ import 'package:ricedisease/features/result/result_screen.dart';
 import 'package:ricedisease/features/scan/scan_screen.dart';
 import 'package:ricedisease/l10n/app_localizations.dart';
 import 'package:ricedisease/services/inference_service.dart';
+import 'package:ricedisease/services/preprocess_service.dart';
+import 'mock_services.dart';
 
 Widget createTestAppWithPrefs({
   required SharedPreferences prefs,
@@ -219,7 +225,7 @@ void main() {
       expect(reducedDuration, equals(Duration.zero));
     });
 
-    // 6. Permission-denied state still shows gallery button
+    // 6. Permission-denied state still shows gallery button and allows flow
     testWidgets('Camera permission-denied state still shows active gallery button',
         (WidgetTester tester) async {
       SharedPreferences.setMockInitialValues({
@@ -228,10 +234,41 @@ void main() {
       });
       final prefs = await SharedPreferences.getInstance();
 
+      final mockPreprocess = MockPreprocessService(
+        onPickImage: ({required source}) async => XFile.fromData(
+          Uint8List.fromList([0xFF, 0xD8, 0xFF, 0xE0]),
+          name: 'leaf.jpg',
+        ),
+        onPreprocess: (_) => Float32List(PreprocessService.outputElementCount),
+      );
+      final mockInference = MockInferenceService(
+        onRunInference: (_) async => const InferenceResult(
+          classIndex: 3,
+          label: 'leaf_blast',
+          displayNameEn: 'Leaf Blast',
+          displayNameBn: 'পাতা ব্লাস্ট',
+          confidence: 0.90,
+          allConfidences: [0.03, 0.03, 0.04, 0.90],
+          isUncertain: false,
+          advisoryEn: 'Monitor humidity',
+          advisoryBn: 'আর্দ্রতা পর্যবেক্ষণ করুন',
+        ),
+      );
+
       await tester.pumpWidget(
-        createTestAppWithPrefs(
-          prefs: prefs,
-          home: const ScanScreen(initialState: CaptureState.permissionDenied),
+        ProviderScope(
+          overrides: [
+            sharedPreferencesProvider.overrideWithValue(prefs),
+            preprocessServiceProvider.overrideWithValue(mockPreprocess),
+            inferenceServiceProvider.overrideWithValue(mockInference),
+          ],
+          child: MaterialApp(
+            locale: const Locale('en'),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            onGenerateRoute: AppRouter.onGenerateRoute,
+            home: const ScanScreen(initialState: CaptureState.permissionDenied),
+          ),
         ),
       );
       await tester.pumpAndSettle();
@@ -241,13 +278,15 @@ void main() {
       expect(find.text('Open Settings'), findsOneWidget);
 
       // Gallery button remains available and tappable
-      final galleryButtonFinder = find.byKey(const Key('choose_gallery_button'));
+      final galleryButtonFinder =
+          find.byKey(const Key('choose_gallery_button'));
       expect(galleryButtonFinder, findsOneWidget);
       await tester.tap(galleryButtonFinder);
       await tester.pumpAndSettle();
 
-      // State transitions to photo selected
-      expect(find.text('Photo Selected'), findsOneWidget);
+      // Gallery flow runs and opens ResultScreen with prediction
+      expect(find.byType(ResultScreen), findsOneWidget);
+      expect(find.text('Leaf Blast'), findsOneWidget);
     });
 
     // 7. About shows dataset credit and no other screen does (D-29)

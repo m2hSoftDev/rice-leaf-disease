@@ -4,6 +4,7 @@ import 'package:ricedisease/features/about/about_screen.dart';
 import 'package:ricedisease/features/history/history_screen.dart';
 import 'package:ricedisease/features/home/home_screen.dart';
 import 'package:ricedisease/features/onboarding/onboarding_screen.dart';
+import 'package:ricedisease/features/privacy/privacy_screen.dart';
 import 'package:ricedisease/features/result/result_screen.dart';
 import 'package:ricedisease/features/splash/splash_screen.dart';
 
@@ -40,6 +41,11 @@ class AppRouter {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => const AboutScreen(),
+        );
+      case AppRoutes.privacy:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const PrivacyScreen(),
         );
       default:
         return MaterialPageRoute(

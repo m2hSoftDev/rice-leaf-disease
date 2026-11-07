@@ -35,6 +35,7 @@ flutter:
     - assets/labels.json
     - assets/preprocess_config.json
     - assets/fonts/
+    - assets/privacy/
 
   fonts:
     - family: NotoSansBengali

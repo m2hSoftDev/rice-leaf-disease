@@ -4,8 +4,10 @@
 **Package Name**: `com.m2hsoftdev.ricedisease`  
 **Developer**: Mehedi Hasan  
 **Target Release**: v1.0.0 (M7 Release, Task T-082)  
-**Status**: DRAFT / READY FOR CONSOLE ENTRY  
-**Open Placeholders**: `[DEVELOPER_EMAIL]`, `[PRIVACY_POLICY_URL]`
+**Status**: READY FOR CONSOLE ENTRY  
+**Contact Email**: m2hsoftdev@gmail.com  
+**Developer Address**: Sylhet, Bangladesh  
+**Open Placeholders**: None (All details filled)
 
 This document provides the exact questionnaire responses required by the Google Play Console **Data safety** declaration section.
 
@@ -62,5 +64,6 @@ The application declares the following permissions in Android:
 ## 4. Privacy Policy URL for Play Console Store Listing
 
 * **Field in Play Console**: App content -> Privacy policy -> URL
-* **Target URL**: `[PRIVACY_POLICY_URL]` (e.g., `https://m2hsoftdev.github.io/rice-leaf-disease/privacy.html`)
+* **Target URL**: https://m2hsoftdev.github.io/rice-leaf-disease/privacy.html
 * **Verification Status**: Pending public GitHub Pages publication before production track submission (Gate 5).
+

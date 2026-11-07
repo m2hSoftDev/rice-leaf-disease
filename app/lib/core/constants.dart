@@ -6,6 +6,7 @@ class AppRoutes {
   static const String result = '/result';
   static const String history = '/history';
   static const String about = '/about';
+  static const String privacy = '/privacy';
 }
 
 class PrefKeys {

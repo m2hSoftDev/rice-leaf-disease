@@ -1,10 +1,10 @@
 # Privacy Policy: Rice Leaf Disease Detection
 
-**Last Updated / Effective Date**: November 7, 2026 (Placeholder: `[EFFECTIVE_DATE]`)  
+**Last Updated / Effective Date**: 2026-11-07  
 **Application**: Rice Leaf Disease Detection (`com.m2hsoftdev.ricedisease`)  
 **Developer**: Mehedi Hasan  
-**Contact Email**: `[DEVELOPER_EMAIL]` (Placeholder — to be configured before public release)  
-**Hosted URL**: `[PRIVACY_POLICY_URL]` (Placeholder — e.g., `https://m2hsoftdev.github.io/rice-leaf-disease/privacy.html`)
+**Contact Email**: m2hsoftdev@gmail.com  
+**Hosted URL**: https://m2hsoftdev.github.io/rice-leaf-disease/privacy.html
 
 ---
 
@@ -70,7 +70,7 @@ The application does not collect any data from anyone, including children under 
 
 ## 7. Changes to This Privacy Policy
 
-If we modify our privacy policy in future versions of the application (e.g., if new features are added in v2), we will update the "Last Updated" date at the top of this document and publish the revised policy at `[PRIVACY_POLICY_URL]`.
+If we modify our privacy policy in future versions of the application (e.g., if new features are added in v2), we will update the "Last Updated" date at the top of this document and publish the revised policy at https://m2hsoftdev.github.io/rice-leaf-disease/privacy.html.
 
 ---
 
@@ -79,6 +79,7 @@ If we modify our privacy policy in future versions of the application (e.g., if 
 If you have questions, concerns, or inquiries regarding this Privacy Policy or the data practices of the application, please contact:
 
 * **Developer**: Mehedi Hasan
-* **Email**: `[DEVELOPER_EMAIL]`
+* **Email**: m2hsoftdev@gmail.com
 * **Project Repository**: https://github.com/m2hSoftDev/rice-leaf-disease
-* **Physical Address / Institutional Affiliation**: `[PHYSICAL_ADDRESS_OR_ORGANIZATION]` (Placeholder)
+* **Address**: Sylhet, Bangladesh
+

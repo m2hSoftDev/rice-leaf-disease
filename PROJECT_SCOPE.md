@@ -436,6 +436,8 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 - D-27: Canonical model selection for deterministic upright pipeline by validation macro F1 under D-19: Seed 43 is selected as the canonical model (val macro F1 = 0.8697; test macro F1 = 0.7627, test accuracy = 75.36%, kappa = 0.6622, BS->LB errors = 7). Checkpoint: results/checkpoints/m1_det_seed43_best.keras (SHA-256: 1041038f95c65132cb802d769ce15944ff7d69e7daca0fe6fd38dce2cc4f4787). Test scores were not used for selection. Gate 2 on 5-seed mean (0.7756 ± 0.0339, range [0.7417, 0.8094]) is NOT MET (APPROVED, 2026-11-05).
 - D-29: [SUPERSEDED on 2026-11-07] Dataset credit appears only in README.md and docs/dataset_card.md, and is excluded from the About screen and application UI.
 - D-29: Dataset credit (Hasan et al., Mendeley Data, DOI 10.17632/hx6f852hw4.2, CC BY 4.0) appears on the About screen, README.md, docs/dataset_card.md, and the Play Store listing. It does not appear on Scan, Result, History, splash, onboarding, or navigation. The About credit includes a statement that the images were modified (re-oriented and re-encoded), as CC BY 4.0 requires. Status: APPROVED by developer, 2026-11-07.
+- D-30: Live camera capture is added using the official camera package, pinned to an exact version. This supersedes the no-new-packages rule for this task only. Captured images are processed by the same PreprocessService and InferenceService path as gallery images. Status: APPROVED by developer, 2026-11-09.
+
 
 
 

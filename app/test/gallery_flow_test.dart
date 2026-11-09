@@ -22,6 +22,7 @@ Widget createGalleryTestApp({
   required SharedPreferences prefs,
   required MockPreprocessService preprocessService,
   required MockInferenceService inferenceService,
+  MockCameraCaptureService? cameraService,
   Locale locale = const Locale('en'),
 }) {
   return ProviderScope(
@@ -35,7 +36,7 @@ Widget createGalleryTestApp({
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      home: const ScanScreen(),
+      home: ScanScreen(cameraCaptureService: cameraService),
     ),
   );
 }
@@ -337,7 +338,7 @@ void main() {
     });
 
     testWidgets(
-        'Step 3: Shutter button shows informative notice and does NOT produce a fake result',
+        'Step 3: Shutter button captures photo and does NOT produce a fake result',
         (WidgetTester tester) async {
       SharedPreferences.setMockInitialValues({
         PrefKeys.onboardingDone: true,
@@ -347,12 +348,14 @@ void main() {
 
       final mockPreprocess = MockPreprocessService();
       final mockInference = MockInferenceService();
+      final mockCamera = MockCameraCaptureService(mockIsInitialized: true);
 
       await tester.pumpWidget(
         createGalleryTestApp(
           prefs: prefs,
           preprocessService: mockPreprocess,
           inferenceService: mockInference,
+          cameraService: mockCamera,
         ),
       );
       await tester.pumpAndSettle();
@@ -363,17 +366,11 @@ void main() {
       await tester.tap(shutterFinder);
       await tester.pumpAndSettle();
 
-      // Shutter notice is shown explaining camera wire-up is pending T-063 follow-up
-      expect(
-        find.byKey(const Key('shutter_todo_message')),
-        findsOneWidget,
-      );
-      expect(
-        find.textContaining('Camera capture will be available in an upcoming update'),
-        findsOneWidget,
-      );
+      // Photo selected state is shown with Analyze and Retake actions
+      expect(find.byKey(const Key('scan_analyze_button')), findsOneWidget);
+      expect(find.byKey(const Key('scan_retake_button')), findsOneWidget);
 
-      // Result screen was NOT opened with any fake result
+      // Result screen was NOT opened with any fake result (user must explicitly tap Analyze)
       expect(find.byType(ResultScreen), findsNothing);
     });
 

@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,12 +8,12 @@ import 'package:ricedisease/app/providers.dart';
 import 'package:ricedisease/app/theme.dart';
 import 'package:ricedisease/core/constants.dart';
 import 'package:ricedisease/core/locale_provider.dart';
+import 'package:ricedisease/features/scan/session_scan_record.dart';
 import 'package:ricedisease/l10n/app_localizations.dart';
+import 'package:ricedisease/services/camera_capture_service.dart';
 import 'package:ricedisease/services/inference_service.dart';
 import 'package:ricedisease/services/preprocess_service.dart';
 import 'package:ricedisease/widgets/disclaimer_card.dart';
-
-// TODO(T-063): Wire live camera controller using camera package when camera permissions and lifecycle handling are finalized in M6.
 
 /// Distinct states for the capture page.
 enum CaptureState {
@@ -20,18 +23,20 @@ enum CaptureState {
   analyzing,
 }
 
-/// Capture page (Scan) adhering to Material 3 full-bleed layout
-/// and docs/design/ui_spec.md Section 4.3.
+/// Capture page (Scan) adhering to Material 3 full-bleed layout,
+/// docs/design/ui_spec.md Section 4.3, and Decision D-30 live camera capture.
 class ScanScreen extends ConsumerStatefulWidget {
   final CaptureState initialState;
   final PreprocessService? preprocessService;
   final InferenceService? inferenceService;
+  final CameraCaptureService? cameraCaptureService;
 
   const ScanScreen({
     super.key,
     this.initialState = CaptureState.idle,
     this.preprocessService,
     this.inferenceService,
+    this.cameraCaptureService,
   });
 
   @override
@@ -40,6 +45,13 @@ class ScanScreen extends ConsumerStatefulWidget {
 
 class _ScanScreenState extends ConsumerState<ScanScreen> {
   late CaptureState _currentState;
+  CameraCaptureService? _internalCameraService;
+  Uint8List? _capturedBytes;
+  String? _capturedPath;
+
+  CameraCaptureService get _cameraService =>
+      widget.cameraCaptureService ??
+      (_internalCameraService ??= CameraCaptureService());
 
   PreprocessService get _preprocessService =>
       widget.preprocessService ?? ref.read(preprocessServiceProvider);
@@ -53,29 +65,74 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     _currentState = widget.initialState;
   }
 
-  void _onShutterTap() {
+  @override
+  void dispose() {
+    _internalCameraService?.dispose();
+    super.dispose();
+  }
+
+  /// Just-in-time camera initialization (Section 9.5).
+  /// Not called on startup; only invoked when user interacts with shutter or viewfinder.
+  Future<void> _initializeCamera() async {
+    try {
+      await _cameraService.initialize();
+      if (!mounted) return;
+      setState(() {});
+    } on CameraPermissionDeniedException {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.permissionDenied;
+      });
+    } on CameraServiceException catch (e) {
+      if (!mounted) return;
+      final isBn = Localizations.localeOf(context).languageCode == 'bn';
+      _showErrorSnackBar(e.getLocalizedMessage(isBn));
+    } catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar(e.toString());
+    }
+  }
+
+  /// Shutter tap handler.
+  /// If camera is not yet initialized, initializes it (just-in-time permission).
+  /// If camera is ready, captures raw photo and displays photo-selected state.
+  Future<void> _onShutterTap() async {
     if (_currentState == CaptureState.permissionDenied ||
         _currentState == CaptureState.analyzing) {
       return;
     }
-    // TODO(T-063): Camera live preview and capture integration pending camera package in M6.
-    // The shutter must not show a fake result (T-060c).
-    final isBn = Localizations.localeOf(context).languageCode == 'bn';
-    final msg = isBn
-        ? 'ক্যামেরা ক্যাপচার পরবর্তী আপডেটে যুক্ত করা হবে। অনুগ্রহ করে গ্যালারি থেকে ছবি নির্বাচন করুন।'
-        : 'Camera capture will be available in an upcoming update. Please select a photo from your gallery.';
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          msg,
-          key: const Key('shutter_todo_message'),
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+
+    if (!_cameraService.isInitialized) {
+      await _initializeCamera();
+      return;
+    }
+
+    try {
+      final capture = await _cameraService.takePicture();
+      if (!mounted) return;
+      setState(() {
+        _capturedBytes = capture.bytes;
+        _capturedPath = capture.path;
+        _currentState = CaptureState.photoSelected;
+      });
+    } on CameraServiceException catch (e) {
+      if (!mounted) return;
+      final isBn = Localizations.localeOf(context).languageCode == 'bn';
+      _showErrorSnackBar(e.getLocalizedMessage(isBn));
+    } catch (e) {
+      if (!mounted) return;
+      _showErrorSnackBar(e.toString());
+    }
   }
 
+  /// Tapping the preview placeholder area initializes camera just-in-time.
+  void _onPreviewTap() {
+    if (!_cameraService.isInitialized && _currentState == CaptureState.idle) {
+      _initializeCamera();
+    }
+  }
+
+  /// Gallery photo picker flow.
   Future<void> _onGalleryTap() async {
     if (_currentState == CaptureState.analyzing) {
       return;
@@ -96,6 +153,13 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       final bytes = await xFile.readAsBytes();
       final inputTensor = _preprocessService.preprocess(bytes);
       final result = await _inferenceService.runInference(inputTensor);
+
+      final record = SessionScanRecord.create(
+        filename: xFile.name,
+        bytes: bytes,
+        result: result,
+      );
+      SessionScanStore.addRecord(record);
 
       if (!mounted) return;
       setState(() {
@@ -131,6 +195,86 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       });
       _showErrorSnackBar(_getLocalizedErrorMessage(e));
     }
+  }
+
+  /// Analyze button tapped from Photo Selected state.
+  /// Runs preprocessing and inference on the captured bytes,
+  /// creates session record, and opens ResultScreen.
+  Future<void> _onAnalyzeTap() async {
+    if (_capturedBytes == null) {
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      return;
+    }
+
+    final bytes = _capturedBytes!;
+    final path = _capturedPath;
+
+    setState(() {
+      _currentState = CaptureState.analyzing;
+    });
+
+    try {
+      final inputTensor = _preprocessService.preprocess(bytes);
+      final result = await _inferenceService.runInference(inputTensor);
+
+      final filename = (path != null && path.isNotEmpty)
+          ? path.split(RegExp(r'[/\\]')).last
+          : 'camera_capture.jpg';
+
+      final record = SessionScanRecord.create(
+        filename: filename,
+        bytes: bytes,
+        result: result,
+      );
+      SessionScanStore.addRecord(record);
+
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+        _capturedBytes = null;
+        _capturedPath = null;
+      });
+
+      Navigator.of(context).pushNamed(
+        AppRoutes.result,
+        arguments: result,
+      );
+    } on ImageTooLargeException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    } on InvalidImageFormatException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    } on ImageDecodeException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      _showErrorSnackBar(_getLocalizedErrorMessage(e));
+    }
+  }
+
+  /// Retake button: discards captured photo and returns to live preview.
+  void _onRetakeTap() {
+    setState(() {
+      _capturedBytes = null;
+      _capturedPath = null;
+      _currentState = CaptureState.idle;
+    });
   }
 
   String _getLocalizedErrorMessage(Object error) {
@@ -170,18 +314,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     );
   }
 
-  void _onAnalyzeTap() {
-    setState(() {
-      _currentState = CaptureState.idle;
-    });
-  }
-
-  void _onRetakeTap() {
-    setState(() {
-      _currentState = CaptureState.idle;
-    });
-  }
-
   void _onHelpTap() {
     final l10n = AppLocalizations.of(context);
     showDialog<void>(
@@ -214,13 +346,15 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // 1. Full-bleed preview placeholder (static image/viewport, no live camera)
-          _buildPreviewPlaceholder(theme),
+          // 1. Preview Area: Frozen photo, CameraPreview, or Placeholder
+          _buildPreviewContent(theme),
 
           // 2. Viewfinder with corner brackets and guidance instruction
           if (_currentState != CaptureState.permissionDenied)
             Align(
-              alignment: isLandscape ? const Alignment(-0.3, 0) : const Alignment(0, -0.1),
+              alignment: isLandscape
+                  ? const Alignment(-0.3, 0)
+                  : const Alignment(0, -0.1),
               child: _buildViewfinder(theme, l10n),
             ),
 
@@ -242,7 +376,9 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           // 5. Photo Selected Action Card Overlay
           if (_currentState == CaptureState.photoSelected)
             Align(
-              alignment: isLandscape ? const Alignment(-0.3, 0.7) : const Alignment(0, 0.45),
+              alignment: isLandscape
+                  ? const Alignment(-0.3, 0.7)
+                  : const Alignment(0, 0.45),
               child: _buildPhotoSelectedCard(theme, l10n),
             ),
 
@@ -286,6 +422,35 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           ],
         ],
       ),
+    );
+  }
+
+  /// Builds preview content: frozen photo in photoSelected state,
+  /// live CameraPreview when controller is ready, or interactive placeholder.
+  Widget _buildPreviewContent(ThemeData theme) {
+    if (_currentState == CaptureState.photoSelected && _capturedBytes != null) {
+      return Image.memory(
+        _capturedBytes!,
+        key: const Key('frozen_captured_photo'),
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        errorBuilder: (context, error, stackTrace) =>
+            _buildPreviewPlaceholder(theme),
+      );
+    }
+
+    if (_cameraService.isInitialized && _cameraService.controller != null) {
+      return CameraPreview(
+        _cameraService.controller!,
+        key: const Key('camera_live_preview'),
+      );
+    }
+
+    return GestureDetector(
+      key: const Key('preview_placeholder_detector'),
+      onTap: _onPreviewTap,
+      child: _buildPreviewPlaceholder(theme),
     );
   }
 
@@ -567,6 +732,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
             ),
             const SizedBox(height: 20),
             FilledButton.icon(
+              key: const Key('open_settings_button'),
               onPressed: () {},
               icon: const Icon(Icons.settings),
               label: Text(l10n?.openSettings ?? 'Open Settings'),
@@ -577,7 +743,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     );
   }
 
-  /// Photo Selected Confirmation Card
+  /// Photo Selected Confirmation Card with Analyze and Retake actions.
   Widget _buildPhotoSelectedCard(ThemeData theme, AppLocalizations? l10n) {
     return Card(
       color: theme.colorScheme.surface,
@@ -601,6 +767,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 OutlinedButton(
+                  key: const Key('scan_retake_button'),
                   onPressed: _onRetakeTap,
                   child: Text(l10n?.retakeChange ?? 'Retake / Change'),
                 ),
@@ -612,6 +779,29 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                 ),
               ],
             ),
+            // Step 6: Debug information displayed exclusively behind kDebugMode (omitted in release)
+            if (kDebugMode && _capturedBytes != null) ...[
+              const SizedBox(height: 12),
+              const Divider(),
+              Text(
+                'Debug: ${_capturedPath?.split(RegExp(r"[/\\]")).last ?? "photo.jpg"} (${_capturedBytes!.lengthInBytes} B)',
+                key: const Key('debug_photo_info'),
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              Text(
+                'SHA-256: ${computeSha256(_capturedBytes!)}',
+                key: const Key('debug_photo_sha256'),
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  fontFamily: 'monospace',
+                  fontSize: 10,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ],
         ),
       ),

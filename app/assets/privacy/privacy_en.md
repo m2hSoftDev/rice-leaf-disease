@@ -36,9 +36,9 @@ We do not collect any of the following categories of data:
 The application requests only the minimum runtime permissions required to perform its core offline agricultural utility:
 
 ### 3.1 Camera Permission (`CAMERA`)
-* **Purpose**: Allows you to take a photo of a rice leaf displaying disease symptoms for local analysis.
-* **Timing**: Requested strictly **just-in-time** when you tap the camera capture button. It is never requested at startup or during onboarding.
-* **Data Flow**: Camera frames are processed strictly in temporary device memory. Photos taken are never uploaded or shared outside your device.
+* **Purpose**: Allows you to take a photo of a rice leaf displaying disease symptoms for local on-device analysis.
+* **Timing**: Requested when the app opens, after onboarding, on the Scan screen, with a short rationale screen shown before the Android system prompt (Decision D-31).
+* **Data Flow**: Camera frames and captured photos are processed strictly in temporary local device memory for on-device inference. Photos taken are used only for local leaf disease classification and are never uploaded, transmitted, or shared outside your device.
 
 ### 3.2 Photo Library / Storage Access (`READ_MEDIA_IMAGES` / `READ_EXTERNAL_STORAGE`)
 * **Purpose**: Allows you to select an existing rice leaf photo from your device gallery.

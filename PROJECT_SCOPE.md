@@ -213,8 +213,8 @@ data/
 - Accessibility: minimum touch target 48 dp, text scalable, high contrast.
 
 ### 9.5 Permissions
-- Camera (only when user taps Take Photo).
-- Storage or photo picker (only when user taps Choose from Gallery).
+- Camera: requested when the app opens, after onboarding, on the Scan screen, with a short rationale screen shown before the Android system prompt (D-31, superseding the just-in-time rule for camera permission only).
+- Storage or photo picker: on-demand, only when user taps Choose from Gallery.
 - No location, contacts, or network permissions in v1.
 
 ---
@@ -437,6 +437,7 @@ Each task has an ID. Use these IDs in TRACKING.md and commit messages.
 - D-29: [SUPERSEDED on 2026-11-07] Dataset credit appears only in README.md and docs/dataset_card.md, and is excluded from the About screen and application UI.
 - D-29: Dataset credit (Hasan et al., Mendeley Data, DOI 10.17632/hx6f852hw4.2, CC BY 4.0) appears on the About screen, README.md, docs/dataset_card.md, and the Play Store listing. It does not appear on Scan, Result, History, splash, onboarding, or navigation. The About credit includes a statement that the images were modified (re-oriented and re-encoded), as CC BY 4.0 requires. Status: APPROVED by developer, 2026-11-07.
 - D-30: Live camera capture is added using the official camera package, pinned to an exact version. This supersedes the no-new-packages rule for this task only. Captured images are processed by the same PreprocessService and InferenceService path as gallery images. Status: APPROVED by developer, 2026-11-09.
+- D-31: Camera permission is requested when the app opens, after onboarding, on the Scan screen, with a short rationale screen shown before the Android system prompt. This supersedes the just-in-time rule in Section 9.5 for the camera permission only. Gallery access stays on-demand, as before. Location, contacts, and network permissions remain absent. Status: APPROVED by developer, 2026-11-10.
 
 
 

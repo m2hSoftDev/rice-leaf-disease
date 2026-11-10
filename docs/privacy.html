@@ -112,7 +112,7 @@
     <h2>3. Device Permissions and Usage</h2>
     <p>The application requests only runtime permissions required for local leaf analysis:</p>
     <h3>3.1 Camera (<code>CAMERA</code>)</h3>
-    <p>Requested strictly just-in-time when you tap the camera shutter button to capture a leaf photo. Camera frames are processed in temporary local memory and never transmitted.</p>
+    <p>Requested when the app opens, after onboarding, on the Scan screen, with a short rationale screen shown before the system permission prompt (Decision D-31). Photos are used only for on-device analysis and are never uploaded, transmitted, or shared.</p>
     <h3>3.2 Photo Library (<code>READ_MEDIA_IMAGES</code>)</h3>
     <p>Requested only when you choose to select a leaf photo from your device gallery. Only the selected image is read by the app.</p>
 

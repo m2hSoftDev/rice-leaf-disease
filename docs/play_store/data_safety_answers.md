@@ -17,7 +17,7 @@ This document provides the exact questionnaire responses required by the Google 
 
 | Questionnaire Prompt | Google Play Console Answer | Technical Verification / Fact-Check |
 |---|---|---|
-| **Does your app collect or share any of the required user data types?** | **No** | Verified: Zero network calls. `android.permission.INTERNET` is omitted from `AndroidManifest.xml`. No analytics, ads, or tracking SDKs in `pubspec.yaml`. |
+| **Does your app collect or share any of the required user data types?** | **No** | Verified: Zero network calls. `android.permission.INTERNET` is omitted from `AndroidManifest.xml`. No analytics, ads, or tracking SDKs in `pubspec.yaml`. Camera permission requested at app open per D-31 for on-device analysis only. |
 | **Is all of the user data collected by your app encrypted in transit?** | **N/A** (disabled because no data is collected or transmitted) | The app does not transmit data over the network. |
 | **Do you provide a way for users to request that their data is deleted?** | **Yes** | Users can wipe all saved scan history and photos locally via the "Clear All" button in the History tab. Uninstalling the app completely purges the app-private directory. |
 | **Is your app's data safety form compliant with the Google Play Families policy?** | **Yes** | No personal data is collected or shared; target audience includes general users and families. |
@@ -53,6 +53,7 @@ The application declares the following permissions in Android:
 1. `android.permission.CAMERA`:
    - **Declared for**: Taking photos of diseased leaves for on-device analysis.
    - **Play Store Justification**: Core app functionality (leaf disease classification).
+   - **Timing (D-31)**: Requested when the app opens, after onboarding, on the Scan screen, preceded by a short rationale screen. Photos are used solely for on-device analysis.
    - **Data Handling**: Frames processed locally in device RAM via TensorFlow Lite; zero frames transmitted.
 2. `android.permission.READ_MEDIA_IMAGES` / `android.permission.READ_EXTERNAL_STORAGE`:
    - **Declared for**: Selecting a photo from the local device gallery.

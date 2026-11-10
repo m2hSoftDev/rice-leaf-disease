@@ -40,7 +40,7 @@ The application scales seamlessly across mobile form factors and orientations:
 
 ### 2.3 Security, Privacy & Permissions Policy
 * **Zero Network Traffic**: The app makes **zero network calls** and bundles **no third-party tracking, analytics, crash-reporting SDKs, or advertising libraries**. The application is 100% offline.
-* **Just-In-Time Permissions**: Camera and Gallery permissions are never requested on startup or during onboarding. They are requested exclusively at the exact moment the user taps the Shutter or Gallery button.
+* **Permissions Policy (D-31 & Section 9.5)**: Per Decision D-31, camera permission is requested when the app opens, after onboarding, on the Scan screen, preceded by a short rationale screen explaining why camera access is needed, that photos are analyzed entirely on the phone, and that nothing is uploaded. This supersedes the just-in-time rule in Section 9.5 for the camera permission only. Gallery access stays on-demand when the user selects a photo. Location, contacts, and network permissions remain completely absent.
 * **App-Private Storage**: Captured field photos are stored solely in isolated app-private sandbox storage (`getApplicationDocumentsDirectory()`). Photos are never exported to public shared galleries without explicit user intent and can be deleted individually or wiped completely via "Clear All" in History.
 * **No Telemetry / Data Sharing**: Because zero telemetry is collected or transmitted, no privacy consent screens or data-sharing opt-ins are shown.
 * **Information Disclosure Prevention**: The user interface is strictly prohibited from displaying raw file system paths (`/data/user/0/...`), device serials, MAC addresses, IMEI, or internal model weight shapes.
@@ -133,8 +133,9 @@ The primary operational interface. Uses a **full-bleed viewport layout** instead
    * **Verification**: In both 412×892 portrait and 892×412 landscape viewports, the shutter, gallery button, and disclaimer are **100% visible without scrolling**.
 
 #### Capture Page States:
-* **State 1: Capture Idle**: Live preview active, guidance chip visible, 72 dp shutter enabled, gallery button active, disclaimer strip visible.
-* **State 2: Camera Permission Denied**: Camera feed darkened; centered M3 dialog with camera-off icon (`Icons.no_photography`), explanation that permission is required to shoot photos, primary button `"Open Settings"`, and prominent note that `"You can still select photos from your gallery"`. The Gallery button remains fully functional and highlighted; shutter button is disabled (`opacity: 0.38`).
+* **State 0: Camera Permission Rationale (D-31)**: Displayed on the Scan screen when camera permission has not yet been granted. Centered M3 card presents an explanatory rationale (in English or Bangla) detailing why camera access is required, confirming that all analysis is performed locally on-device and nothing is uploaded, with a primary button to trigger the system permission prompt. The Gallery button remains fully functional and active.
+* **State 1: Capture Idle**: Live preview active, guidance chip visible, 72 dp shutter enabled, gallery button active, disclaimer strip visible. The camera controller initializes as soon as permission is granted.
+* **State 2: Camera Permission Denied**: Camera feed darkened; centered M3 dialog with camera-off icon (`Icons.no_photography`), explanation that permission is required to shoot photos, primary button `"Open Settings"`, and prominent note that `"You can still select photos from your gallery"`. The Gallery button remains fully functional and highlighted; shutter button is disabled (`opacity: 0.38`). Re-checked on resume to detect permission granted in system settings.
 * **State 3: Photo Selected**: Captured or gallery photo frozen in viewfinder. Overlay panel presents `"Photo Selected"` title with two clear buttons: `"Analyze Leaf"` (filled primary button, 50 dp) and `"Retake / Change"` (outlined button, 50 dp).
 * **State 4: Analyzing**: Inference isolate running. Viewfinder is subtly dimmed; center displays an indeterminate circular progress indicator with title `"Analyzing Rice Leaf..."` (`"পাতা বিশ্লেষণ করা হচ্ছে..."`) and subtitle `"Running on-device AI model (MobileNetV2)..."`. Shutter and controls are disabled (`pointer-events: none`).
 
@@ -212,6 +213,7 @@ Contains app identification, licenses, dataset attribution, and official legal n
      │   [ BottomNavigationBar: Scan (Active) | History (Inactive) | About (Inactive)] │
      │                                                                                 │
      │   [ Tab 1: Scan Screen (Full-Screen Capture Page) ] ◄──┐                        │
+     │         ├─ State 0: Camera Permission Rationale (Precedes system prompt, D-31) │
      │         ├─ State A: Idle Viewfinder (72 dp Shutter, Gallery, Disclaimer Strip) │
      │         ├─ State B: Camera Permission Denied (Open Settings, Gallery Active)   │
      │         ├─ State C: Photo Selected (Analyze / Retake)                          │

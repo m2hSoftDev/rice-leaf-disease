@@ -148,6 +148,16 @@ class AppLocalizationsBn extends AppLocalizations {
       '⚠️ জরুরি সতর্কবার্তা: এটি কেবল তথ্য ও পরামর্শের জন্য। বিস্তারিত দেখতে ট্যাপ করুন।';
 
   @override
+  String get cameraRationaleTitle => 'ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন';
+
+  @override
+  String get cameraRationaleBody =>
+      'ধানের পাতার রোগ শনাক্ত করতে ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন। ছবিগুলো সম্পূর্ণ আপনার ডিভাইসে বিশ্লেষণ করা হয় এবং কখনো কোথাও আপলোড বা শেয়ার করা হয় না।';
+
+  @override
+  String get cameraRationaleGrant => 'অনুমতি দিন';
+
+  @override
   String get permissionDeniedTitle => 'ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন';
 
   @override

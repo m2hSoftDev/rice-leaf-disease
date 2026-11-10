@@ -57,6 +57,9 @@ class MockCameraCaptureService extends CameraCaptureService {
   final Future<void> Function()? onInitialize;
   final Future<CameraCaptureResult> Function()? onTakePicture;
   final Future<void> Function()? onDispose;
+  final Future<CameraPermissionStatus> Function()? onCheckPermissionStatus;
+  final Future<void> Function()? onOpenAppSettings;
+  CameraPermissionStatus mockPermissionStatus;
   bool mockIsInitialized;
   CameraController? mockController;
 
@@ -64,9 +67,15 @@ class MockCameraCaptureService extends CameraCaptureService {
     this.onInitialize,
     this.onTakePicture,
     this.onDispose,
+    this.onCheckPermissionStatus,
+    this.onOpenAppSettings,
     this.mockIsInitialized = false,
+    CameraPermissionStatus? mockPermissionStatus,
     this.mockController,
-  });
+  })  : mockPermissionStatus = mockPermissionStatus ??
+            (mockIsInitialized
+                ? CameraPermissionStatus.granted
+                : CameraPermissionStatus.notGranted);
 
   @override
   bool get isInitialized => mockIsInitialized;
@@ -75,12 +84,28 @@ class MockCameraCaptureService extends CameraCaptureService {
   CameraController? get controller => mockController;
 
   @override
+  Future<CameraPermissionStatus> checkPermissionStatus() async {
+    if (onCheckPermissionStatus != null) {
+      return onCheckPermissionStatus!();
+    }
+    return mockPermissionStatus;
+  }
+
+  @override
+  Future<void> openAppSettings() async {
+    if (onOpenAppSettings != null) {
+      return onOpenAppSettings!();
+    }
+  }
+
+  @override
   Future<void> initialize() async {
     if (onInitialize != null) {
       await onInitialize!();
       return;
     }
     mockIsInitialized = true;
+    mockPermissionStatus = CameraPermissionStatus.granted;
   }
 
   @override

@@ -362,6 +362,24 @@ abstract class AppLocalizations {
   /// **'⚠️ Advisory notice: Advisory tool only; not extension advice. Tap for details.'**
   String get disclaimerStrip;
 
+  /// Title for camera permission rationale card shown before system prompt (D-31)
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Access Required'**
+  String get cameraRationaleTitle;
+
+  /// Explanation of offline on-device leaf analysis for camera permission rationale (D-31)
+  ///
+  /// In en, this message translates to:
+  /// **'To scan rice leaves for disease symptoms, this app needs access to your camera. Photos are analyzed entirely on your device and are never uploaded or shared.'**
+  String get cameraRationaleBody;
+
+  /// Button to trigger system camera permission prompt from rationale card
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Permission'**
+  String get cameraRationaleGrant;
+
   /// Title when camera permission is denied
   ///
   /// In en, this message translates to:

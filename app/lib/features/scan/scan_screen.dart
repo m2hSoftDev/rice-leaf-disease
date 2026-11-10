@@ -17,6 +17,7 @@ import 'package:ricedisease/widgets/disclaimer_card.dart';
 
 /// Distinct states for the capture page.
 enum CaptureState {
+  permissionRationale,
   idle,
   permissionDenied,
   photoSelected,
@@ -26,14 +27,14 @@ enum CaptureState {
 /// Capture page (Scan) adhering to Material 3 full-bleed layout,
 /// docs/design/ui_spec.md Section 4.3, and Decision D-30 live camera capture.
 class ScanScreen extends ConsumerStatefulWidget {
-  final CaptureState initialState;
+  final CaptureState? initialState;
   final PreprocessService? preprocessService;
   final InferenceService? inferenceService;
   final CameraCaptureService? cameraCaptureService;
 
   const ScanScreen({
     super.key,
-    this.initialState = CaptureState.idle,
+    this.initialState,
     this.preprocessService,
     this.inferenceService,
     this.cameraCaptureService,
@@ -43,7 +44,8 @@ class ScanScreen extends ConsumerStatefulWidget {
   ConsumerState<ScanScreen> createState() => _ScanScreenState();
 }
 
-class _ScanScreenState extends ConsumerState<ScanScreen> {
+class _ScanScreenState extends ConsumerState<ScanScreen>
+    with WidgetsBindingObserver {
   late CaptureState _currentState;
   CameraCaptureService? _internalCameraService;
   Uint8List? _capturedBytes;
@@ -62,22 +64,91 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   @override
   void initState() {
     super.initState();
-    _currentState = widget.initialState;
+    WidgetsBinding.instance.addObserver(this);
+    if (widget.initialState != null) {
+      _currentState = widget.initialState!;
+      if (_currentState == CaptureState.idle && !_cameraService.isInitialized) {
+        _initializeCamera();
+      }
+    } else {
+      _currentState = CaptureState.permissionRationale;
+      _checkInitialPermission();
+    }
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _internalCameraService?.dispose();
     super.dispose();
   }
 
-  /// Just-in-time camera initialization (Section 9.5).
-  /// Not called on startup; only invoked when user interacts with shutter or viewfinder.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _onAppResumed();
+    }
+  }
+
+  /// Checks initial camera permission on app open after onboarding (D-31).
+  Future<void> _checkInitialPermission() async {
+    final status = await _cameraService.checkPermissionStatus();
+    if (!mounted) return;
+
+    if (status == CameraPermissionStatus.granted) {
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
+      await _initializeCamera();
+    } else if (status == CameraPermissionStatus.permanentlyDenied) {
+      setState(() {
+        _currentState = CaptureState.permissionDenied;
+      });
+    } else {
+      setState(() {
+        _currentState = CaptureState.permissionRationale;
+      });
+    }
+  }
+
+  /// Re-checks camera permission when app resumes from background or settings (D-31).
+  Future<void> _onAppResumed() async {
+    final status = await _cameraService.checkPermissionStatus();
+    if (!mounted) return;
+
+    if (status == CameraPermissionStatus.granted) {
+      if (_currentState == CaptureState.permissionDenied ||
+          _currentState == CaptureState.permissionRationale) {
+        setState(() {
+          _currentState = CaptureState.idle;
+        });
+        await _initializeCamera();
+      }
+    } else if (status == CameraPermissionStatus.permanentlyDenied) {
+      if (_currentState != CaptureState.permissionDenied &&
+          _currentState != CaptureState.analyzing &&
+          _currentState != CaptureState.photoSelected) {
+        setState(() {
+          _currentState = CaptureState.permissionDenied;
+        });
+      }
+    } else if (status == CameraPermissionStatus.notGranted) {
+      if (_currentState == CaptureState.idle) {
+        setState(() {
+          _currentState = CaptureState.permissionRationale;
+        });
+      }
+    }
+  }
+
+  /// Initializes the camera controller as soon as permission is granted.
   Future<void> _initializeCamera() async {
     try {
       await _cameraService.initialize();
       if (!mounted) return;
-      setState(() {});
+      setState(() {
+        _currentState = CaptureState.idle;
+      });
     } on CameraPermissionDeniedException {
       if (!mounted) return;
       setState(() {
@@ -91,6 +162,10 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       if (!mounted) return;
       _showErrorSnackBar(e.toString());
     }
+  }
+
+  Future<void> _onGrantPermissionTap() async {
+    await _initializeCamera();
   }
 
   /// Shutter tap handler.
@@ -350,12 +425,19 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
           _buildPreviewContent(theme),
 
           // 2. Viewfinder with corner brackets and guidance instruction
-          if (_currentState != CaptureState.permissionDenied)
+          if (_currentState != CaptureState.permissionDenied &&
+              _currentState != CaptureState.permissionRationale)
             Align(
               alignment: isLandscape
                   ? const Alignment(-0.3, 0)
                   : const Alignment(0, -0.1),
               child: _buildViewfinder(theme, l10n),
+            ),
+
+          // 2b. Permission Rationale Card Overlay State (D-31)
+          if (_currentState == CaptureState.permissionRationale)
+            Center(
+              child: _buildRationaleCard(theme, l10n),
             ),
 
           // 3. Permission Denied Overlay State
@@ -440,10 +522,16 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
       );
     }
 
-    if (_cameraService.isInitialized && _cameraService.controller != null) {
-      return CameraPreview(
-        _cameraService.controller!,
+    if (_cameraService.isInitialized) {
+      if (_cameraService.controller != null) {
+        return CameraPreview(
+          _cameraService.controller!,
+          key: const Key('camera_live_preview'),
+        );
+      }
+      return Container(
         key: const Key('camera_live_preview'),
+        color: Colors.black,
       );
     }
 
@@ -695,6 +783,58 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     );
   }
 
+  /// Camera permission rationale card (D-31) shown before system prompt.
+  Widget _buildRationaleCard(ThemeData theme, AppLocalizations? l10n) {
+    return Card(
+      key: const Key('camera_rationale_card'),
+      color: theme.colorScheme.surface,
+      margin: const EdgeInsets.all(24),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppTheme.radiusCard),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.photo_camera_outlined,
+              size: 56,
+              color: theme.colorScheme.primary,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n?.cameraRationaleTitle ?? 'Camera Access Required',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n?.cameraRationaleBody ??
+                  'To scan rice leaves for disease symptoms, this app needs access to your camera. Photos are analyzed entirely on your device and are never uploaded or shared.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                height: 1.4,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              key: const Key('camera_rationale_grant_button'),
+              onPressed: _onGrantPermissionTap,
+              icon: const Icon(Icons.check_circle_outline),
+              label: Text(
+                l10n?.cameraRationaleGrant ?? 'Grant Permission',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   /// Permission denied dialog card.
   Widget _buildPermissionDeniedCard(ThemeData theme, AppLocalizations? l10n) {
     return Card(
@@ -733,7 +873,9 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
             const SizedBox(height: 20),
             FilledButton.icon(
               key: const Key('open_settings_button'),
-              onPressed: () {},
+              onPressed: () {
+                _cameraService.openAppSettings();
+              },
               icon: const Icon(Icons.settings),
               label: Text(l10n?.openSettings ?? 'Open Settings'),
             ),
@@ -875,7 +1017,8 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
                 size: AppTheme.controlButtonDiameter,
                 onTap: _onGalleryTap,
                 theme: theme,
-                isHighlighted: _currentState == CaptureState.permissionDenied,
+                isHighlighted: _currentState == CaptureState.permissionDenied ||
+                    _currentState == CaptureState.permissionRationale,
               ),
 
               // 72 dp central Shutter button
@@ -932,6 +1075,7 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   /// Circular 72 dp Shutter Button with accessible label.
   Widget _buildShutterButton(ThemeData theme, AppLocalizations? l10n) {
     final isDisabled = _currentState == CaptureState.permissionDenied ||
+        _currentState == CaptureState.permissionRationale ||
         _currentState == CaptureState.analyzing;
 
     return Semantics(

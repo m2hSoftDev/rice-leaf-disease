@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 /// Result of a successful camera photo capture.
@@ -59,6 +60,14 @@ class CameraCaptureException extends CameraServiceException {
   ]) : super(message, messageBn);
 }
 
+/// Permission statuses for camera access.
+enum CameraPermissionStatus {
+  notGranted,
+  granted,
+  permanentlyDenied,
+}
+
+typedef PermissionStatusChecker = Future<CameraPermissionStatus> Function();
 typedef CameraListProvider = Future<List<CameraDescription>> Function();
 typedef CameraControllerFactory = CameraController Function(
   CameraDescription description,
@@ -71,6 +80,7 @@ typedef CameraControllerFactory = CameraController Function(
 class CameraCaptureService with WidgetsBindingObserver {
   final CameraListProvider _cameraListProvider;
   final CameraControllerFactory _controllerFactory;
+  final PermissionStatusChecker? _permissionChecker;
 
   CameraController? _controller;
   bool _isInitialized = false;
@@ -80,13 +90,15 @@ class CameraCaptureService with WidgetsBindingObserver {
   CameraCaptureService({
     CameraListProvider? cameraListProvider,
     CameraControllerFactory? controllerFactory,
+    PermissionStatusChecker? permissionChecker,
   })  : _cameraListProvider = cameraListProvider ?? availableCameras,
         _controllerFactory = controllerFactory ??
             ((description, preset, {enableAudio = false}) => CameraController(
                   description,
                   preset,
                   enableAudio: enableAudio,
-                ));
+                )),
+        _permissionChecker = permissionChecker;
 
   CameraController? get controller => _controller;
 
@@ -94,6 +106,43 @@ class CameraCaptureService with WidgetsBindingObserver {
       _isInitialized &&
       _controller != null &&
       _controller!.value.isInitialized;
+
+  /// Checks whether camera permission is currently granted, not granted,
+  /// or permanently denied.
+  Future<CameraPermissionStatus> checkPermissionStatus() async {
+    if (_permissionChecker != null) {
+      return _permissionChecker!();
+    }
+    try {
+      const channel =
+          MethodChannel('com.m2hsoftdev.ricedisease/camera_permission');
+      final status =
+          await channel.invokeMethod<String>('checkCameraPermission');
+      if (status == 'granted') {
+        return CameraPermissionStatus.granted;
+      } else if (status == 'permanentlyDenied') {
+        return CameraPermissionStatus.permanentlyDenied;
+      }
+      return CameraPermissionStatus.notGranted;
+    } catch (_) {
+      // In non-Android or unit test environments without platform channel:
+      if (isInitialized) {
+        return CameraPermissionStatus.granted;
+      }
+      return CameraPermissionStatus.notGranted;
+    }
+  }
+
+  /// Opens application settings on Android so the user can grant permission.
+  Future<void> openAppSettings() async {
+    try {
+      const channel =
+          MethodChannel('com.m2hsoftdev.ricedisease/camera_permission');
+      await channel.invokeMethod<void>('openAppSettings');
+    } catch (_) {
+      // Ignore if unavailable
+    }
+  }
 
   /// Initializes the back camera using [ResolutionPreset.high] (1080p target).
   /// Registers [WidgetsBindingObserver] for app background/resume lifecycle handling.

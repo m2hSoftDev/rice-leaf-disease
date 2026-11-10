@@ -148,6 +148,16 @@ class AppLocalizationsEn extends AppLocalizations {
       '⚠️ Advisory notice: Advisory tool only; not extension advice. Tap for details.';
 
   @override
+  String get cameraRationaleTitle => 'Camera Access Required';
+
+  @override
+  String get cameraRationaleBody =>
+      'To scan rice leaves for disease symptoms, this app needs access to your camera. Photos are analyzed entirely on your device and are never uploaded or shared.';
+
+  @override
+  String get cameraRationaleGrant => 'Grant Permission';
+
+  @override
   String get permissionDeniedTitle => 'Camera Access Needed';
 
   @override

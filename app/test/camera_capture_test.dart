@@ -26,7 +26,7 @@ Widget createCameraTestApp({
   required MockPreprocessService preprocessService,
   required MockInferenceService inferenceService,
   required MockCameraCaptureService cameraService,
-  CaptureState initialState = CaptureState.idle,
+  CaptureState? initialState,
   Locale locale = const Locale('en'),
 }) {
   return ProviderScope(
@@ -320,6 +320,206 @@ void main() {
 
       expect(find.byType(ResultScreen), findsOneWidget);
       expect(find.text('Healthy'), findsWidgets);
+    });
+  });
+
+  group('T-063 / D-31 Widget Tests: Camera Permission Flow & Timing', () {
+    testWidgets(
+        'With permission not granted: rationale screen appears before any system prompt call',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'en',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      var initializeCalled = false;
+      final mockPreprocess = MockPreprocessService();
+      final mockInference = MockInferenceService();
+      final mockCamera = MockCameraCaptureService(
+        mockIsInitialized: false,
+        mockPermissionStatus: CameraPermissionStatus.notGranted,
+        onInitialize: () async {
+          initializeCalled = true;
+        },
+      );
+
+      await tester.pumpWidget(
+        createCameraTestApp(
+          prefs: prefs,
+          preprocessService: mockPreprocess,
+          inferenceService: mockInference,
+          cameraService: mockCamera,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Rationale card is displayed with title, body, and grant button
+      expect(find.byKey(const Key('camera_rationale_card')), findsOneWidget);
+      expect(find.text('Camera Access Required'), findsOneWidget);
+      expect(
+        find.textContaining('Photos are analyzed entirely on your device and are never uploaded or shared.'),
+        findsOneWidget,
+      );
+      expect(find.byKey(const Key('camera_rationale_grant_button')), findsOneWidget);
+
+      // Gallery button remains active and visible in rationale state
+      expect(find.byKey(const Key('choose_gallery_button')), findsOneWidget);
+
+      // System prompt / camera initialization has NOT been called yet
+      expect(initializeCalled, isFalse);
+      expect(find.byKey(const Key('camera_live_preview')), findsNothing);
+
+      // Tapping grant button initiates camera initialization (which triggers system prompt)
+      await tester.tap(find.byKey(const Key('camera_rationale_grant_button')));
+      await tester.pumpAndSettle();
+      expect(initializeCalled, isTrue);
+    });
+
+    testWidgets(
+        'Bangla locale: rationale card renders localized Bangla text',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'bn',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      final mockPreprocess = MockPreprocessService();
+      final mockInference = MockInferenceService();
+      final mockCamera = MockCameraCaptureService(
+        mockIsInitialized: false,
+        mockPermissionStatus: CameraPermissionStatus.notGranted,
+      );
+
+      await tester.pumpWidget(
+        createCameraTestApp(
+          prefs: prefs,
+          preprocessService: mockPreprocess,
+          inferenceService: mockInference,
+          cameraService: mockCamera,
+          locale: const Locale('bn'),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('camera_rationale_card')), findsOneWidget);
+      expect(find.text('ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন'), findsOneWidget);
+      expect(find.textContaining('কোথাও আপলোড বা শেয়ার করা হয় না'), findsOneWidget);
+      expect(find.text('অনুমতি দিন'), findsOneWidget);
+    });
+
+    testWidgets(
+        'With permission granted: Scan screen shows live preview and no rationale screen',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'en',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      final mockPreprocess = MockPreprocessService();
+      final mockInference = MockInferenceService();
+      final mockCamera = MockCameraCaptureService(
+        mockIsInitialized: true,
+        mockPermissionStatus: CameraPermissionStatus.granted,
+      );
+
+      await tester.pumpWidget(
+        createCameraTestApp(
+          prefs: prefs,
+          preprocessService: mockPreprocess,
+          inferenceService: mockInference,
+          cameraService: mockCamera,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Live preview is displayed
+      expect(find.byKey(const Key('camera_live_preview')), findsOneWidget);
+
+      // Rationale card is NOT displayed
+      expect(find.byKey(const Key('camera_rationale_card')), findsNothing);
+      expect(find.text('Camera Access Required'), findsNothing);
+    });
+
+    testWidgets(
+        'With permission permanently denied: permission-denied state shows Open Settings and gallery button',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'en',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      final mockPreprocess = MockPreprocessService();
+      final mockInference = MockInferenceService();
+      final mockCamera = MockCameraCaptureService(
+        mockIsInitialized: false,
+        mockPermissionStatus: CameraPermissionStatus.permanentlyDenied,
+      );
+
+      await tester.pumpWidget(
+        createCameraTestApp(
+          prefs: prefs,
+          preprocessService: mockPreprocess,
+          inferenceService: mockInference,
+          cameraService: mockCamera,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Shows permission denied card with Open Settings button
+      expect(find.byKey(const Key('open_settings_button')), findsOneWidget);
+      expect(find.text('Camera Access Needed'), findsOneWidget);
+
+      // Shows working gallery button
+      expect(find.byKey(const Key('choose_gallery_button')), findsOneWidget);
+
+      // Rationale card is NOT displayed
+      expect(find.byKey(const Key('camera_rationale_card')), findsNothing);
+    });
+
+    testWidgets(
+        'Resume check: permission granted in settings is picked up on resume without restarting',
+        (WidgetTester tester) async {
+      SharedPreferences.setMockInitialValues({
+        PrefKeys.onboardingDone: true,
+        PrefKeys.selectedLocale: 'en',
+      });
+      final prefs = await SharedPreferences.getInstance();
+
+      final mockPreprocess = MockPreprocessService();
+      final mockInference = MockInferenceService();
+      final mockCamera = MockCameraCaptureService(
+        mockIsInitialized: false,
+        mockPermissionStatus: CameraPermissionStatus.permanentlyDenied,
+      );
+
+      await tester.pumpWidget(
+        createCameraTestApp(
+          prefs: prefs,
+          preprocessService: mockPreprocess,
+          inferenceService: mockInference,
+          cameraService: mockCamera,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Initially in permissionDenied
+      expect(find.byKey(const Key('open_settings_button')), findsOneWidget);
+      expect(find.byKey(const Key('camera_live_preview')), findsNothing);
+
+      // User grants permission in system settings while app is paused
+      mockCamera.mockPermissionStatus = CameraPermissionStatus.granted;
+
+      // App resumes
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pumpAndSettle();
+
+      // Live preview is now displayed without restarting
+      expect(find.byKey(const Key('camera_live_preview')), findsOneWidget);
+      expect(find.byKey(const Key('open_settings_button')), findsNothing);
     });
   });
 }

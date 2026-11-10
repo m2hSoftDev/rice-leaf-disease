@@ -44,6 +44,12 @@
   "galleryLabel": "গ্যালারি",
   "helpLabel": "সাহায্য",
   "disclaimerStrip": "⚠️ জরুরি সতর্কবার্তা: এটি কেবল তথ্য ও পরামর্শের জন্য। বিস্তারিত দেখতে ট্যাপ করুন।",
+  "cameraRationaleTitle": "ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন",
+  "cameraRationaleBody": "ধানের পাতার রোগ শনাক্ত করতে ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন। ছবিগুলো সম্পূর্ণ আপনার ডিভাইসে বিশ্লেষণ করা হয় এবং কখনো কোথাও আপলোড বা শেয়ার করা হয় না।",
+  "cameraRationaleGrant": "অনুমতি দিন",
+  "@_cameraRationaleReview": {
+    "description": "NOTE: Newly added Bangla camera rationale strings (cameraRationaleTitle, cameraRationaleBody, cameraRationaleGrant) are pending formal native-speaker review prior to release."
+  },
   "permissionDeniedTitle": "ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন",
   "permissionDeniedMessage": "সরাসরি ছবি তোলার জন্য ক্যামেরা ব্যবহারের অনুমতি প্রয়োজন। আপনি এখনো গ্যালারি থেকে ছবি বাছাই করতে পারেন।",
   "openSettings": "সেটিংস খুলুন",

@@ -176,6 +176,18 @@
   "@disclaimerStrip": {
     "description": "Compact expandable disclaimer strip on capture page (F-08)"
   },
+  "cameraRationaleTitle": "Camera Access Required",
+  "@cameraRationaleTitle": {
+    "description": "Title for camera permission rationale card shown before system prompt (D-31)"
+  },
+  "cameraRationaleBody": "To scan rice leaves for disease symptoms, this app needs access to your camera. Photos are analyzed entirely on your device and are never uploaded or shared.",
+  "@cameraRationaleBody": {
+    "description": "Explanation of offline on-device leaf analysis for camera permission rationale (D-31)"
+  },
+  "cameraRationaleGrant": "Grant Permission",
+  "@cameraRationaleGrant": {
+    "description": "Button to trigger system camera permission prompt from rationale card"
+  },
   "permissionDeniedTitle": "Camera Access Needed",
   "@permissionDeniedTitle": {
     "description": "Title when camera permission is denied"
